@@ -1,0 +1,7 @@
+{
+  "name": "training-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}
