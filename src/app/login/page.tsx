@@ -1,12 +1,21 @@
 'use client'
 
-import Button from "@/src/components/re-usable/Button/Button";
-import { Database } from "../../types/types";
+//Supabase
 import { createBrowserClient } from "@supabase/ssr";
-import { useRouter } from "next/navigation";
+
+//React
 import { useState } from 'react';
-import Input from "@/src/components/re-usable/Input/Input";
+
+//Next
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+
+//Components
+import Button from "@/src/components/re-usable/Button/Button";
+import Input from "@/src/components/re-usable/Input/Input";
+
+//Types
+import { Database } from "../../types/types";
 
 export default function Login() {
 	const [email, setEmail] = useState('');
