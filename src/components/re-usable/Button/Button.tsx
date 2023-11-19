@@ -1,9 +1,13 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
-interface ButtonProps {}
+interface ButtonProps {
+	children: React.ReactNode;
+	formAction?: string;
+	onClick?: () => void;
+}
 
-const Button: FC<ButtonProps> = ({}) => {
-  return <button>Button!</button>;
+const Button: FC<ButtonProps> = ({ children, formAction, onClick }) => {
+	return <button className='btn' formAction={formAction} onClick={onClick}>{children}</button>;
 };
 
 export default Button;

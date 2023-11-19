@@ -14,41 +14,38 @@ export default function Login() {
 
 	const router = useRouter();
 	const supabase = createBrowserClient<Database>(
-	  process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-	  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
+		process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
 	);
 
-	const handleSignIn = async () => {
-		await supabase.auth
-		  .signInWithPassword({
+	const handleSignUp = async () => {
+		await supabase.auth.signUp({
 			email,
 			password,
-		  })
-		  .then((res) => {
-			console.log(res);
-		  });
-
+			options: {
+				emailRedirectTo: `${location.origin}/auth/callback`,
+			},
+		});
 		router.refresh();
-		router.push('/account');
-	  };
+	};
 
 	return (
 		<div className="h-screen flex flex-col justify-end gap-4 p-8">
-		<Link className="fixed top-4 left-4" href='/'>Back</Link>
-		<h1>Email</h1>
-		<Input
-		  name="email"
-		  onChange={(e) => setEmail(e.target.value)}
-		  value={email}
-		/>
-		<h1>Password</h1>
-		<Input
-		  type="password"
-		  name="password"
-		  onChange={(e) => setPassword(e.target.value)}
-		  value={password}
-		/>
-		<Button onClick={handleSignIn}>Sign in</Button>
-	  </div>
+			<Link className="fixed top-4 left-4" href='/'>Back</Link>
+			<h1>Email</h1>
+			<Input
+			name="email"
+			onChange={(e) => setEmail(e.target.value)}
+			value={email}
+			/>
+			<h1>Password</h1>
+			<Input
+			type="password"
+			name="password"
+			onChange={(e) => setPassword(e.target.value)}
+			value={password}
+			/>
+			<Button onClick={handleSignUp}>Sign up</Button>
+		</div>
 	)
 }
