@@ -1,3 +1,5 @@
+import Button from "@/src/components/re-usable/Button/Button";
+
 export default function Login() {
 	return (
 		<form action="/auth/login" method="post">
@@ -5,8 +7,8 @@ export default function Login() {
 			<input name="email" />
 			<label htmlFor="password">Password</label>
 			<input type="password" name="password" />
-			<button>Sign In</button>
-			<button formAction="/auth/sign-up">Sign Up</button>
+			<Button>Sign In</Button>
+			<Button formAction="/auth/sign-up">Sign Up</Button>
 		</form>
 	)
 }

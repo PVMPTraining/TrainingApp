@@ -5,14 +5,16 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { Database } from '../types/types';
+import Button from '../components/re-usable/Button/Button';
+import Input from '../components/re-usable/Input/Input';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
   const supabase = createBrowserClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
   );
 
   const handleSignUp = async () => {
@@ -46,23 +48,23 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-4">
       <h1>Email</h1>
-      <input
+      <Input
         name="email"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
       />
       <h1>Password</h1>
-      <input
+      <Input
         type="password"
         name="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
       />
-      <button onClick={handleSignUp}>Sign up</button>
-      <button onClick={handleSignIn}>Sign in</button>
-      <button onClick={handleSignOut}>Sign out</button>
+      <Button onClick={handleSignUp}>Sign up</Button>
+      <Button onClick={handleSignIn}>Sign in</Button>
+      <Button onClick={handleSignOut}>Sign out</Button>
     </div>
   );
 }
