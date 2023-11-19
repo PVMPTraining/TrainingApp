@@ -1,12 +1,11 @@
-'use client';
+'use client'
 
 import { createBrowserClient } from '@supabase/ssr';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
 import { Database } from '../types/types';
-import Button from '../components/re-usable/Button/Button';
-import Input from '../components/re-usable/Input/Input';
+
+import Link from 'next/link';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -48,23 +47,10 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <h1>Email</h1>
-      <Input
-        name="email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-      />
-      <h1>Password</h1>
-      <Input
-        type="password"
-        name="password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
-      <Button onClick={handleSignUp}>Sign up</Button>
-      <Button onClick={handleSignIn}>Sign in</Button>
-      <Button onClick={handleSignOut}>Sign out</Button>
+    <div className="h-screen flex flex-col justify-end gap-4">
+      <h1>Welcome!</h1>
+	  <Link href='/login'>Login</Link>
+	  <Link href='/signup'>Signup</Link>
     </div>
   );
 }
