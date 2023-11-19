@@ -6,6 +6,7 @@ import { createBrowserClient } from "@supabase/ssr";
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
 import Input from "@/src/components/re-usable/Input/Input";
+import Link from "next/link";
 
 export default function Login() {
 	const [email, setEmail] = useState('');
@@ -29,7 +30,8 @@ export default function Login() {
 	};
 
 	return (
-		<div className="flex flex-col gap-4">
+		<div className="h-screen flex flex-col justify-end gap-4 p-8">
+			<Link className="fixed top-4 left-4" href='/'>Back</Link>
 			<h1>Email</h1>
 			<Input
 			name="email"
