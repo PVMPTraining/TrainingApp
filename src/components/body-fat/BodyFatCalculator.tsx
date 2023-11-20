@@ -123,7 +123,7 @@ const BodyFatCalculator: FC<BodyFatCalculatorProps> = ({}) => {
   };
 
   return (
-    <>
+    <div className="bg-slate-950">
       <Formik
         initialValues={{
           gender: '',
@@ -266,7 +266,7 @@ const BodyFatCalculator: FC<BodyFatCalculatorProps> = ({}) => {
           </div>
         </div>
       ) : null}
-    </>
+    </div>
   );
 };
 
