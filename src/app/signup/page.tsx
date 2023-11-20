@@ -1,12 +1,21 @@
 'use client'
 
-import Button from "@/src/components/re-usable/Button/Button";
-import { Database } from "../../types/types";
+//Supabase
 import { createBrowserClient } from "@supabase/ssr";
-import { useRouter } from "next/navigation";
+
+//React
 import { useState } from 'react';
-import Input from "@/src/components/re-usable/Input/Input";
+
+//Next
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+
+//Components
+import Button from "@/src/components/re-usable/Button/Button";
+import Input from "@/src/components/re-usable/Input/Input";
+
+//Types
+import { Database } from "../../types/types";
 
 export default function Login() {
 	const [email, setEmail] = useState('');
@@ -34,16 +43,16 @@ export default function Login() {
 			<Link className="fixed top-4 left-4" href='/'>Back</Link>
 			<h1>Email</h1>
 			<Input
-			name="email"
-			onChange={(e) => setEmail(e.target.value)}
-			value={email}
+				name="email"
+				onChange={(e) => setEmail(e.target.value)}
+				value={email}
 			/>
 			<h1>Password</h1>
 			<Input
-			type="password"
-			name="password"
-			onChange={(e) => setPassword(e.target.value)}
-			value={password}
+				type="password"
+				name="password"
+				onChange={(e) => setPassword(e.target.value)}
+				value={password}
 			/>
 			<Button onClick={handleSignUp}>Sign up</Button>
 		</div>
