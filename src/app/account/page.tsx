@@ -9,25 +9,7 @@ import { SignOut } from '../../utils/helpers/supabase';
 import Button from '@/src/components/re-usable/Button/Button';
 
 export default function Account() {
-<<<<<<< Updated upstream
-	const { isLoading, userID } = useFetchUserID();
-
-	return (
-		<>
-			<div>
-				Account
-				<div>{userID}</div>
-				<CalorieCalculator />
-				<FoodScanner />
-				<Button onClick={() => SignOut()}>Sign out</Button>
-			</div>
-		</>
-	)
-}
-=======
-  const { isLoading, userID } = useFetchPosts();
-
-  console.log(isLoading);
+  const { isLoading, userID } = useFetchUserID();
 
   return (
     <>
@@ -40,4 +22,3 @@ export default function Account() {
     </>
   );
 }
->>>>>>> Stashed changes
