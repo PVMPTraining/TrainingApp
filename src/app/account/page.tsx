@@ -6,6 +6,7 @@ import BodyFatCalculator from '@/src/components/body-fat/BodyFatCalculator';
 import FoodScanner from '@/src/components/food-scanner/FoodScanner';
 
 export default function Account() {
+<<<<<<< Updated upstream
 	const { isLoading, userID } = useFetchUserID();
 
 	return (
@@ -19,3 +20,20 @@ export default function Account() {
 		</>
 	)
 }
+=======
+  const { isLoading, userID } = useFetchPosts();
+
+  console.log(isLoading);
+
+  return (
+    <>
+      <div>
+        Account
+        <div>{userID}</div>
+        <CalorieCalculator />
+        <FoodScanner />
+      </div>
+    </>
+  );
+}
+>>>>>>> Stashed changes
