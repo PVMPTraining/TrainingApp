@@ -7,11 +7,17 @@ import { CalorieCalculatorSchema } from '@/src/utils/yup/CalorieCalculatorSchema
 
 import { FaInfoCircle } from 'react-icons/fa';
 
+// NEED TO FIX Mifflin
+
 type FormDataTypes = {
   gender: string;
   age: number;
+  unit: string;
   weight: number;
+  weightPound: number;
   height: number;
+  heightFeet: number;
+  heightInch: number;
   activityLevel: string;
 };
 
@@ -37,6 +43,57 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
     MifflinStJeorModal: false,
   });
 
+  // const HarrisBenedictEquationHandler = (values: FormDataTypes) => {
+  //   let result: number | null = null;
+  //   const multiplier =
+  //     values.activityLevel === 'sedentary'
+  //       ? 1.2
+  //       : values.activityLevel === 'lightly'
+  //       ? 1.375
+  //       : values.activityLevel === 'moderately'
+  //       ? 1.55
+  //       : values.activityLevel === 'veryActive'
+  //       ? 1.725
+  //       : values.activityLevel === 'extremely'
+  //       ? 1.9
+  //       : 0;
+
+  //   if (values.gender === 'male') {
+  //     let BMR = 0;
+
+  //     if (values.unit === 'metric') {
+  //       BMR =
+  //         88.362 +
+  //         13.397 * values.weight +
+  //         4.799 * values.height -
+  //         5.677 * values.age;
+  //     }
+  //     const inches = values.heightFeet * 12 + values.heightInch;
+  //     BMR =
+  //       88.362 +
+  //       4.536 * values.weightPound +
+  //       15.88 * inches -
+  //       5.677 * values.age;
+
+  //     result = BMR * multiplier;
+  //   }
+
+  //   if (values.gender === 'female') {
+  //     const BMR =
+  //       9.247 * values.weight +
+  //       3.098 * values.height -
+  //       4.33 * values.age +
+  //       447.593;
+
+  //     result = BMR * multiplier;
+  //   }
+
+  //   setUserCalorieResults((prev) => ({
+  //     ...prev,
+  //     HarrisBenedict: result,
+  //   }));
+  // };
+
   const HarrisBenedictEquationHandler = (values: FormDataTypes) => {
     let result: number | null = null;
     const multiplier =
@@ -53,11 +110,23 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
         : 0;
 
     if (values.gender === 'male') {
-      const BMR =
-        88.362 +
-        13.397 * values.weight +
-        4.799 * values.height -
-        5.677 * values.age;
+      let BMR = 0;
+
+      if (values.unit === 'metric') {
+        BMR =
+          88.362 +
+          13.397 * values.weight +
+          4.799 * values.height -
+          5.677 * values.age;
+      } else {
+        // Convert height to inches
+        const inches = values.heightFeet * 12 + values.heightInch;
+        // Convert weight to pounds
+        const weightInPounds = values.weightPound;
+
+        BMR =
+          88.362 + 4.536 * weightInPounds + 15.88 * inches - 5.677 * values.age;
+      }
 
       result = BMR * multiplier;
     }
@@ -78,6 +147,40 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
     }));
   };
 
+  // const MifflinStJeorEquationHandler = (values: FormDataTypes) => {
+  //   let result: number | null = null;
+  //   const multiplier =
+  //     values.activityLevel === 'sedentary'
+  //       ? 1.2
+  //       : values.activityLevel === 'lightly'
+  //       ? 1.375
+  //       : values.activityLevel === 'moderately'
+  //       ? 1.55
+  //       : values.activityLevel === 'veryActive'
+  //       ? 1.725
+  //       : values.activityLevel === 'extremely'
+  //       ? 1.9
+  //       : 0;
+
+  //   if (values.gender === 'male') {
+  //     const BMR =
+  //       10 * values.weight + 6.25 * values.height - 5 * values.age + 5;
+
+  //     result = BMR * multiplier;
+  //   }
+
+  //   if (values.gender === 'female') {
+  //     const BMR =
+  //       10 * values.weight + 6.25 * values.height - 5 * values.age - 161;
+  //     result = BMR * multiplier;
+  //   }
+
+  //   setUserCalorieResults((prev) => ({
+  //     ...prev,
+  //     MifflinStJeor: result,
+  //   }));
+  // };
+
   const MifflinStJeorEquationHandler = (values: FormDataTypes) => {
     let result: number | null = null;
     const multiplier =
@@ -94,15 +197,44 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
         : 0;
 
     if (values.gender === 'male') {
-      const BMR =
-        10 * values.weight + 6.25 * values.height - 5 * values.age + 5;
+      let BMR = 0;
+
+      if (values.unit === 'metric') {
+        BMR = 10 * values.weight + 6.25 * values.height - 5 * values.age + 5;
+      } else {
+        // Convert height to inches
+        const inches = values.heightFeet * 12 + values.heightInch;
+        // Convert weight to pounds
+        const weightInPounds = values.weightPound;
+
+        BMR =
+          10 * (values.weight / 2.20462262) +
+          6.25 * (inches * 2.54) -
+          5 * values.age +
+          5;
+      }
 
       result = BMR * multiplier;
     }
 
     if (values.gender === 'female') {
-      const BMR =
-        10 * values.weight + 6.25 * values.height - 5 * values.age - 161;
+      let BMR = 0;
+
+      if (values.unit === 'metric') {
+        BMR = 10 * values.weight + 6.25 * values.height - 5 * values.age - 161;
+      } else {
+        // Convert height to inches
+        const inches = values.heightFeet * 12 + values.heightInch;
+        // Convert weight to pounds
+        const weightInPounds = values.weightPound;
+
+        BMR =
+          10 * (values.weight / 2.20462262) +
+          6.25 * (inches * 2.54) -
+          5 * values.age -
+          161;
+      }
+
       result = BMR * multiplier;
     }
 
@@ -132,9 +264,13 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
       <Formik
         initialValues={{
           gender: '',
+          unit: 'metric',
           age: 0,
           weight: 0,
+          weightPound: 0,
           height: 0,
+          heightFeet: 0,
+          heightInch: 0,
           activityLevel: '',
         }}
         validationSchema={CalorieCalculatorSchema}
@@ -175,6 +311,36 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
                 {errors.gender}
               </p>
             </label>
+            <label className="flex flex-col items-center w-72 gap-3 max-w-xs">
+              <p className="text-white label">Unit</p>
+              <div className="flex items-center gap-5">
+                <label className="flex items-center gap-3">
+                  <p className="text-white">Metric Units</p>
+                  <Field
+                    name="unit"
+                    type="radio"
+                    value="metric"
+                    checked={values.unit === 'metric'}
+                    onChange={handleChange}
+                    className="radio radio-md bg-white"
+                  />
+                </label>
+                <label className="flex items-center gap-3">
+                  <p className="text-white">US Units</p>
+                  <Field
+                    name="unit"
+                    type="radio"
+                    value="us"
+                    checked={values.unit === 'us'}
+                    onChange={handleChange}
+                    className="radio radio-md bg-white"
+                  />
+                </label>
+              </div>
+              {/* <p className="max-w-xs label-text-alt text-white">
+                {errors.gender}
+              </p> */}
+            </label>
             <label className="flex flex-col gap-1 w-72 max-w-ws">
               <p className="label text-white">Age</p>
               <Field
@@ -189,28 +355,85 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
             </label>
             <label className="flex flex-col gap-1 w-72 max-w-ws">
               <p className="label text-white">Weight</p>
-              <Field
-                name="weight"
-                type="number"
-                value={values.weight}
-                placeholder="Weight"
-                onChange={handleChange}
-                className="input input-bordered w-full max-w-xs caret-current"
-              />
+              {values.unit === 'us' ? (
+                <div className="relative">
+                  <Field
+                    name="weightPound"
+                    type="number"
+                    value={values.weightPound}
+                    placeholder="Pounds"
+                    onChange={handleChange}
+                    className="input input-bordered w-full max-w-xs caret-current pr-16"
+                  />
+                  <p className="absolute select-none opacity-75 top-[50%] -translate-y-[50%] right-1">
+                    pounds
+                  </p>
+                </div>
+              ) : (
+                <div className="relative">
+                  <Field
+                    name="weight"
+                    type="number"
+                    value={values.weight}
+                    placeholder="Weight"
+                    onChange={handleChange}
+                    className="input input-bordered w-full max-w-xs caret-current pr-7"
+                  />
+                  <p className="absolute select-none opacity-75 top-[50%] -translate-y-[50%] right-1">
+                    kg
+                  </p>
+                </div>
+              )}
               <p className="max-w-xs label-text-alt text-white">
                 {errors.weight}
               </p>
             </label>
-            <label className="flex flex-col gap-1 w-72 max-w-xs ">
+            <label className="flex flex-col gap-1 w-72 max-w-xs">
               <p className="label text-white">Height</p>
-              <Field
-                name="height"
-                type="number"
-                value={values.height}
-                placeholder="Height"
-                onChange={handleChange}
-                className="input input-bordered w-full max-w-xs caret-current"
-              />
+              {values.unit === 'us' ? (
+                <div className="flex items-center gap-2">
+                  <div className="relative">
+                    <Field
+                      name="heightFeet"
+                      type="number"
+                      value={values.heightFeet}
+                      placeholder="Feet"
+                      onChange={handleChange}
+                      className="input input-bordered w-full max-w-xs caret-current pr-10"
+                    />
+                    <p className="absolute select-none opacity-75 top-[50%] -translate-y-[50%] right-1">
+                      feet
+                    </p>
+                  </div>
+                  <div className="relative">
+                    <Field
+                      name="heightInch"
+                      type="number"
+                      value={values.heightInch}
+                      placeholder="Height"
+                      onChange={handleChange}
+                      className="input input-bordered w-full max-w-xs caret-current pr-14"
+                    />
+                    <p className="absolute select-none opacity-75 top-[50%] -translate-y-[50%] right-1">
+                      inches
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="relative">
+                  <Field
+                    name="height"
+                    type="number"
+                    value={values.height}
+                    placeholder="Height"
+                    onChange={handleChange}
+                    className="input input-bordered w-full max-w-xs caret-current pr-8"
+                  />
+                  <p className="absolute select-none opacity-75 top-[50%] -translate-y-[50%] right-1">
+                    cm
+                  </p>
+                </div>
+              )}
               <p className="max-w-xs label-text-alt text-white">
                 {errors.height}
               </p>
