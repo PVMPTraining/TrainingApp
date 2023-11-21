@@ -6,12 +6,7 @@ import BodyFatCalculator from '@/src/components/body-fat/BodyFatCalculator';
 import FoodScanner from '@/src/components/food-scanner/FoodScanner';
 
 export default function Account() {
-  const { isLoading, userID } = useFetchPosts();
-
-  console.log(isLoading);
-
-		fetchPosts()
-	  }, [])
+	const { isLoading, userID } = useFetchPosts();
 
 	return (
 		<>

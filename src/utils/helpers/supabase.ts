@@ -1,6 +1,6 @@
 import { createBrowserClient } from '@supabase/ssr';
 
-const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL as string, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string)
+const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
 
 export async function GetUser() {
   const { data: user } = await supabase.auth.getUser();
