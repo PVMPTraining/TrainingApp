@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from 'react';
 
-import { GetUser, GetUserID } from '../../utils/helpers/supabase';
+import { GetUser, GetUserID } from '../helpers/supabase';
 
-const useFetchPosts = () => {
+const useFetchUserID = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userID, setUserID] = useState<any>([]);
 
@@ -22,4 +22,4 @@ const useFetchPosts = () => {
   return { isLoading, userID };
 };
 
-export default useFetchPosts;
+export default useFetchUserID;

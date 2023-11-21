@@ -1,12 +1,12 @@
 'use client';
 
 import CalorieCalculator from '@/src/components/calorie-calculator/CalorieCalculator';
-import useFetchPosts from '@/src/utils/hooks/useFetchPosts';
+import useFetchUserID from '@/src/utils/hooks/useFetchUserID';
 import BodyFatCalculator from '@/src/components/body-fat/BodyFatCalculator';
 import FoodScanner from '@/src/components/food-scanner/FoodScanner';
 
 export default function Account() {
-	const { isLoading, userID } = useFetchPosts();
+	const { isLoading, userID } = useFetchUserID();
 
 	return (
 		<>
