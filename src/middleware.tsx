@@ -58,11 +58,13 @@ export async function middleware(request: NextRequest) {
 	const user = await supabase.auth.getUser();
 
 	if(!user.data.user) {
-		return NextResponse.redirect(new URL('/', request.url))
+		if (!(request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup') || request.nextUrl.pathname.startsWith('/'))) {
+			return NextResponse.redirect(new URL('/', request.url))
+		}
 	}
 
-	if (request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup')) {
-		if(user.data.user) {
+	if(user.data.user) {
+		if (request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup') || request.nextUrl.pathname.startsWith('/')) {
 			return NextResponse.redirect(new URL('/account', request.url))
 		}
 	}
