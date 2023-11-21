@@ -1,9 +1,6 @@
 import { createBrowserClient } from '@supabase/ssr';
 
-const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
-);
+const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL as string, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string)
 
 export async function GetUser() {
   const { data: user } = await supabase.auth.getUser();
@@ -17,10 +14,6 @@ export async function GetUser() {
 
 // Dev only
 export async function GetUserID(id: string) {
-  const { data: user_id } = await supabase
-    .from('users')
-    .select('id')
-    .eq('id', id)
-    .single();
-  return user_id?.id;
+  const { data: user_id } = await supabase.from('users').select('id').eq('id', id).single()
+  return user_id?.id
 }

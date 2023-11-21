@@ -2,20 +2,25 @@
 
 import CalorieCalculator from '@/src/components/calorie-calculator/CalorieCalculator';
 import useFetchPosts from '@/src/utils/hooks/useFetchPosts';
+import BodyFatCalculator from '@/src/components/body-fat/BodyFatCalculator';
+import FoodScanner from '@/src/components/food-scanner/FoodScanner';
 
 export default function Account() {
   const { isLoading, userID } = useFetchPosts();
 
   console.log(isLoading);
 
-  return (
-    <>
-      <div>
-        Account
-        <div>{isLoading}</div>
-        <div>{userID}</div>
-        <CalorieCalculator />
-      </div>
-    </>
-  );
+		fetchPosts()
+	  }, [])
+
+	return (
+		<>
+			<div>
+				Account
+				<div>{userID}</div>
+				<CalorieCalculator />
+				<FoodScanner />
+			</div>
+		</>
+	)
 }

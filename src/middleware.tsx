@@ -57,16 +57,21 @@ export async function middleware(request: NextRequest) {
 	await supabase.auth.getSession()
 	const user = await supabase.auth.getUser();
 
-	console.log(user.data.user)
 	if(!user.data.user) {
 		return NextResponse.redirect(new URL('/', request.url))
+	}
+
+	if (request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup')) {
+		if(user.data.user) {
+			return NextResponse.redirect(new URL('/account', request.url))
+		}
 	}
 
 	return response
 }
 
-export const config = {
-	matcher: [
-		'/account/:path*',
-	]
-}
+// export const config = {
+// 	matcher: [
+// 		'/account/:path*',
+// 	]
+// }
