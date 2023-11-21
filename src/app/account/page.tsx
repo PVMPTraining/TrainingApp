@@ -5,6 +5,7 @@ import { GetUser, GetUserID } from '../../utils/helpers/supabase'
 
 import CalorieCalculator from '@/src/components/calorie-calculator/CalorieCalculator';
 import BodyFatCalculator from '@/src/components/body-fat/BodyFatCalculator';
+import FoodScanner from '@/src/components/food-scanner/FoodScanner';
 
 export default function Account() {
 	const [isLoading, setIsLoading] = useState(true)
@@ -27,6 +28,7 @@ export default function Account() {
 				Account
 				<div>{userID}</div>
 				<CalorieCalculator />
+				<FoodScanner />
 			</div>
 		</>
 	)
