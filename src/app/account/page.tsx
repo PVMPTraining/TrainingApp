@@ -16,7 +16,6 @@ export default function Account() {
 
 	const handleSignOut = async () => {
 		SignOut();
-		router.refresh();
 		router.push('/');
 	}
 

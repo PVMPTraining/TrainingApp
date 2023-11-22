@@ -21,7 +21,6 @@ export async function GetUserID(id: string) {
 	return user_id?.id
 }
 
-
 export async function SignOut () {
 	await supabase.auth.signOut()
 }
