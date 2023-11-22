@@ -2,24 +2,23 @@
 
 import { useState, useEffect } from 'react';
 
-import { GetUser, GetUserID } from '../helpers/supabase';
+import { GetUserID } from '../helpers/supabase';
 
 const useFetchUserID = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [userID, setUserID] = useState<any>([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [userID, setUserID] = useState<any>([]);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const user = await GetUser();
-      const user_id = await GetUserID(user?.id as string);
-      setUserID(user_id);
-      setIsLoading(false);
-    };
+	useEffect(() => {
+		const fetchPosts = async () => {
+		const user_id = await GetUserID();
+		setUserID(user_id);
+		setIsLoading(false);
+		};
 
-    fetchPosts();
-  }, []);
+		fetchPosts();
+	}, []);
 
-  return { isLoading, userID };
+	return { isLoading, userID };
 };
 
 export default useFetchUserID;
