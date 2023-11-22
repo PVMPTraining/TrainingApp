@@ -12,13 +12,14 @@ export default function Account() {
   const { isLoading, userID } = useFetchUserID();
 
   return (
-    <>
-      <div>
-        Account
-        <div>{userID}</div>
-        <CalorieCalculator />
-        <FoodScanner />
-      </div>
-    </>
+	<>
+	  <div>
+		Account
+		<div>{userID}</div>
+		<CalorieCalculator />
+		<FoodScanner />
+		<Button onClick={() => {SignOut()}}>Sign Out</Button>
+	  </div>
+	</>
   );
 }

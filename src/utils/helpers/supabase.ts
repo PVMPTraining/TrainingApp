@@ -1,3 +1,5 @@
+'use client'
+
 // Supabase
 import { createBrowserClient } from '@supabase/ssr';
 
