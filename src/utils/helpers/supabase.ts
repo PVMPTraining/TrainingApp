@@ -3,9 +3,6 @@
 // Supabase
 import { createBrowserClient } from '@supabase/ssr';
 
-// Next
-import { useRouter } from 'next/navigation';
-
 const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
 
 export async function GetUser() {
@@ -26,8 +23,5 @@ export async function GetUserID(id: string) {
 
 
 export async function SignOut () {
-	// const router = useRouter()
-
 	await supabase.auth.signOut()
-	// router.refresh()
 }

@@ -8,8 +8,17 @@ import FoodScanner from '@/src/components/food-scanner/FoodScanner';
 import { SignOut } from '../../utils/helpers/supabase';
 import Button from '@/src/components/re-usable/Button/Button';
 
+import { useRouter } from 'next/navigation';
+
 export default function Account() {
-  const { isLoading, userID } = useFetchUserID();
+	const router = useRouter()
+	const { isLoading, userID } = useFetchUserID();
+
+	const handleSignOut = async () => {
+		SignOut();
+		router.refresh();
+		router.push('/');
+	}
 
   return (
 	<>
@@ -18,7 +27,7 @@ export default function Account() {
 		<div>{userID}</div>
 		<CalorieCalculator />
 		<FoodScanner />
-		<Button onClick={() => {SignOut()}}>Sign Out</Button>
+		<Button onClick={handleSignOut}>Sign Out</Button>
 	  </div>
 	</>
   );
