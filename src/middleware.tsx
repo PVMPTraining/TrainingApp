@@ -54,38 +54,33 @@ export async function middleware(request: NextRequest) {
     },
   );
 
-  // await supabase.auth.getSession()
-  //   const user = await supabase.auth
-  //     .getUser()
-  //     .then((data) => console.log(data.data.user?.aud));
+  const user = await supabase.auth.getUser();
 
-	if(!user.data.user) {
-		switch (request.nextUrl.pathname) {
-			case '/login':
-			case '/signup':
-			case '/':
-				break;
-			default:
-				return NextResponse.redirect(new URL('/', request.url));
-		}
-	}
+  if (!user.data.user) {
+    switch (request.nextUrl.pathname) {
+      case '/login':
+      case '/signup':
+      case '/':
+        break;
+      default:
+        return NextResponse.redirect(new URL('/', request.url));
+    }
+  }
 
-	if(user.data.user) {
-		switch (request.nextUrl.pathname) {
-			case '/login':
-			case '/signup':
-			case '/':
-				return NextResponse.redirect(new URL('/account', request.url))
-			default:
-				break;
-		}
-	}
+  if (user.data.user) {
+    switch (request.nextUrl.pathname) {
+      case '/login':
+      case '/signup':
+      case '/':
+        return NextResponse.redirect(new URL('/account', request.url));
+      default:
+        break;
+    }
+  }
 
   return response;
 }
 
 export const config = {
-	matcher: [
-		'/((?!_next|api/auth).*)(.+)'
-	],
-}
+  matcher: ['/((?!_next|api/auth).*)(.+)'],
+};
