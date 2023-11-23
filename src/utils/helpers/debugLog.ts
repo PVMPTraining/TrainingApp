@@ -1,3 +1,8 @@
+/**
+ * Represents the log levels for debugging and logging purposes.
+ *
+ * @enum {number}
+ */
 export enum LogLevel {
 	DEBUG,	// Only for development
 	TRACE, 	// Only for development
@@ -6,6 +11,11 @@ export enum LogLevel {
 	ERROR
 }
 
+/**
+ * Logs a message with the specified log level.
+ * @param logLevel - The log level [DEBUG, TRACE; INFO; WARN, ERROR].
+ * @param message - The message to be logged.
+ */
 export const Log = (logLevel: LogLevel, message: string) => {
 	switch (logLevel) {
 		case LogLevel.DEBUG: {

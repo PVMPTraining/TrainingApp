@@ -7,7 +7,6 @@ import { Json } from '@/src/types/types';
 
 const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
 
-
 /**
  * If succesful, returns the user.
  * @returns {Promise<object>} A promise that resolves to the user object.
@@ -22,7 +21,7 @@ export const GetUser = async () => {
  * Retrieves the user ID from Supabase authentaication.
  * @returns The user ID.
  */
-export async function GetUserID() {
+export const GetUserID = async () => {
 	const { data: user } = await supabase.auth.getUser()
 	Log(LogLevel.DEBUG, `GetUserID: ${user?.user?.id}`)
 	return user?.user?.id
@@ -53,7 +52,7 @@ export const GetUserWorkoutsRow = async (id: string) => {
  */
 export const GetUserWorkouts = async (id: string) => {
 	const { data: user_workouts } = await supabase.from('user_workouts').select('workouts').eq('id', id)
-	Log(LogLevel.DEBUG, `GetUserWorkouts: ${user_workouts}`)
+	Log(LogLevel.DEBUG, `GetUserWorkouts: ${JSON.stringify(user_workouts)}`)
 	return user_workouts?.[0]?.workouts || [];
 }
 

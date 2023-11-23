@@ -5,6 +5,10 @@ import { useState, useEffect } from 'react';
 import { GetUserID, GetUserWorkouts } from '../helpers/supabase';
 import { Log, LogLevel } from '../helpers/debugLog';
 
+/**
+ * Custom hook to fetch user workouts.
+ * @returns An object containing isLoading flag and userWorkouts array.
+ */
 const useFetchUserWorkouts = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userWorkouts, setUserWorkouts] = useState<any>([]);
