@@ -20,7 +20,7 @@ import { useFormik } from 'formik';
 
 import { LoginFormValidationSchema } from '@/src/utils/yup/LoginFormValidationSchema';
 
-const Login: FC = () => {
+const LoginPage: FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
@@ -29,32 +29,31 @@ const Login: FC = () => {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
   );
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validationSchema: LoginFormValidationSchema,
-    onSubmit: async (values) => {
-      try {
-        const { data: response, error: err } =
-          await supabase.auth.signInWithPassword({
-            email: values.email,
-            password: values.password,
-          });
+	const formik = useFormik({
+		initialValues: {
+			email: '',
+			password: '',
+		},
+		validationSchema: LoginFormValidationSchema,
+		onSubmit: async (values) => {
+			try {
+				const {data: response, error: err } = await supabase.auth.signInWithPassword({
+					email: values.email,
+					password: values.password,
+				});
 
-        if (err) {
-          setError(err.message);
-          throw err;
-        }
+				if (err) {
+					setError(err.message);
+					throw err;
+				}
 
-        router.refresh();
-        router.push('/account');
-      } catch (error) {
-        console.error('Sign-in error:', error);
-      }
-    },
-  });
+				router.refresh();
+				router.push('/account');
+			} catch (error) {
+				console.error('Sign-in error:', error);
+			}
+		},
+	});
 
   return (
     <div className="h-screen flex flex-col justify-end gap-4 p-8">
@@ -97,4 +96,4 @@ const Login: FC = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

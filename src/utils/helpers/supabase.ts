@@ -24,10 +24,10 @@ export const GetUser = async () => {
  * Retrieves the user ID from Supabase authentaication.
  * @returns The user ID.
  */
-export async function GetUserID() {
-  const { data: user } = await supabase.auth.getUser();
-  Log(LogLevel.DEBUG, `GetUserID: ${user?.user?.id}`);
-  return user?.user?.id;
+export const GetUserID = async () => {
+	const { data: user } = await supabase.auth.getUser()
+	Log(LogLevel.DEBUG, `GetUserID: ${user?.user?.id}`)
+	return user?.user?.id
 }
 
 /**
@@ -58,13 +58,10 @@ export const GetUserWorkoutsRow = async (id: string) => {
  * @returns The workouts associated with the user.
  */
 export const GetUserWorkouts = async (id: string) => {
-  const { data: user_workouts } = await supabase
-    .from('user_workouts')
-    .select('workouts')
-    .eq('id', id);
-  Log(LogLevel.DEBUG, `GetUserWorkouts: ${user_workouts}`);
-  return user_workouts?.[0]?.workouts || [];
-};
+	const { data: user_workouts } = await supabase.from('user_workouts').select('workouts').eq('id', id)
+	Log(LogLevel.DEBUG, `GetUserWorkouts: ${JSON.stringify(user_workouts)}`)
+	return user_workouts?.[0]?.workouts || [];
+}
 
 /**
  * Adds a workout to the user's workout list.

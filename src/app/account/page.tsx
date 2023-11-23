@@ -11,26 +11,26 @@ import Button from '@/src/components/re-usable/Button/Button';
 
 import { useRouter } from 'next/navigation';
 
-const Account: FC = () => {
+const AccountPage: FC = () => {
   const router = useRouter();
   const { isLoading, userID } = useFetchUserID();
 
   const handleSignOut = async () => {
-    SignOut();
-    router.push('/');
+	SignOut();
+	router.push('/');
   };
 
   return (
-    <>
-      <div>
-        Account
-        <div>{userID}</div>
-        <CalorieCalculator />
-        <FoodScanner />
-        <Button onClick={handleSignOut}>Sign Out</Button>
-      </div>
-    </>
+	<>
+	  <div>
+		Account
+		<div>{userID}</div>
+		<CalorieCalculator />
+		<FoodScanner />
+		<Button onClick={handleSignOut}>Sign Out</Button>
+	  </div>
+	</>
   );
 };
 
-export default Account;
+export default AccountPage;
