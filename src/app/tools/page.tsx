@@ -2,6 +2,9 @@
 import { FC, useState } from 'react';
 import BodyFatCalculator from '@/src/components/body-fat/BodyFatCalculator';
 import CalorieCalculator from '@/src/components/calorie-calculator/CalorieCalculator';
+import Link from 'next/link';
+
+// CHANGE TO PAGE EVERY TOOL
 
 const CalculatorsPage: FC = ({}) => {
   const [selectedCalculator, setSelectedCalculator] = useState<null | string>(
@@ -11,6 +14,12 @@ const CalculatorsPage: FC = ({}) => {
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="flex flex-col gap-10 pb-10">
+        <Link
+          href="/tools/favorites"
+          className="btn"
+        >
+          Favorites
+        </Link>
         <button
           className="btn"
           onClick={() => setSelectedCalculator('bodyFat')}
