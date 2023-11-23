@@ -13,9 +13,7 @@ const useFetchUserWorkouts = () => {
 		const fetchPosts = async () => {
 			const user_workouts = await GetUserWorkouts(await GetUserID() as string);
 			Log(LogLevel.DEBUG, `useFetchUserWorkouts: ${user_workouts}`);
-			if(userWorkouts) {
-				setUserWorkouts(user_workouts);
-			}
+			if(userWorkouts) { setUserWorkouts(user_workouts); }
 			setIsLoading(false);
 		};
 
