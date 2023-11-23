@@ -3,6 +3,7 @@ import useFetchUserWorkouts from "@/src/utils/hooks/useFetchUserWorkouts";
 import Button from "../re-usable/Button/Button";
 import { AddUserWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 import { Json } from "@/src/types/types";
+import { CreateWorkout } from "../create-workout/CreateWorkout";
 
 /**
  * Props for the UserWorkouts component.
@@ -23,14 +24,15 @@ const UserWorkouts: FC<UserWorkoutsProps> = ({}) => {
 
 	return (
 		<div className="flex flex-col">
-			{userWorkouts && <div>{userWorkouts}</div>}
-			<Button
+			{/* {userWorkouts && <div>{userWorkouts}</div>} */}
+			<CreateWorkout></CreateWorkout>
+			{/* <Button
 				onClick={async () => {
 					AddUserWorkout((await GetUserID()) as string, dummyWorkout);
 				}}
 			>
 				Add Workout
-			</Button>
+			</Button> */}
 		</div>
 	);
 };

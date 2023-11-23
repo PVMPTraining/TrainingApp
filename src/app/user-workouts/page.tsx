@@ -8,7 +8,7 @@ const UserWorkoutsPage: FC = () => {
 	return (
 		<>
 			<div>
-				User Workouts
+				{/* User Workouts */}
 				<div className="flex flex-col flex-wrap">
 					<UserWorkouts></UserWorkouts>
 				</div>

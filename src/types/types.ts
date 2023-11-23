@@ -1,3 +1,5 @@
+import exp from "constants";
+
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export interface Database {
@@ -22,4 +24,21 @@ export interface Database {
 			};
 		};
 	};
+}
+
+export interface Workout {
+	name: string;
+	exercises: Exercise[];
+}
+
+export interface Exercise {
+	name: string;
+	sets: Set[];
+	rest: number;
+}
+
+export interface Set {
+	reps: number;
+	weight: number;
+	rest: number;
 }
