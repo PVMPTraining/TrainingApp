@@ -5,6 +5,10 @@ import { useState, useEffect } from 'react';
 import { GetUserID } from '../helpers/supabase';
 import { Log, LogLevel } from '../helpers/debugLog';
 
+/**
+ * Custom hook to fetch the user ID.
+ * @returns An object containing the loading state and the user ID.
+ */
 const useFetchUserID = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userID, setUserID] = useState<any>([]);
