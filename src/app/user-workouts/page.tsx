@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import UserWorkouts from "@/src/components/user-workouts/UserWorkouts"
-import exp from "constants"
-import { FC } from "react"
+import UserWorkouts from "@/src/components/user-workouts/UserWorkouts";
+import exp from "constants";
+import { FC } from "react";
 
 const UserWorkoutsPage: FC = () => {
 	return (
@@ -14,7 +14,7 @@ const UserWorkoutsPage: FC = () => {
 				</div>
 			</div>
 		</>
-	)
-}
+	);
+};
 
 export default UserWorkoutsPage;

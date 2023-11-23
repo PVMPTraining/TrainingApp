@@ -1,33 +1,33 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import { GetUserID } from '../helpers/supabase';
-import { Log, LogLevel } from '../helpers/debugLog';
+import { GetUserID } from "../helpers/supabase";
+import { Log, LogLevel } from "../helpers/debugLog";
 
 /**
  * Custom hook to fetch the user ID.
  * @returns An object containing the loading state and the user ID.
  */
 const useFetchUserID = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [userID, setUserID] = useState<any>([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [userID, setUserID] = useState<any>([]);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const user_id = await GetUserID();
-        setUserID(user_id);
-        setIsLoading(false);
-      } catch (error: any) {
-        Log(LogLevel.ERROR, error.message);
-      }
-    };
+	useEffect(() => {
+		const fetchPosts = async () => {
+			try {
+				const user_id = await GetUserID();
+				setUserID(user_id);
+				setIsLoading(false);
+			} catch (error: any) {
+				Log(LogLevel.ERROR, error.message);
+			}
+		};
 
-    fetchPosts();
-  }, []);
+		fetchPosts();
+	}, []);
 
-  return { isLoading, userID };
+	return { isLoading, userID };
 };
 
 export default useFetchUserID;

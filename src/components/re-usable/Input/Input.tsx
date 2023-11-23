@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from "react";
 
 interface InputProps {
 	className?: string;
@@ -9,7 +9,7 @@ interface InputProps {
 }
 
 const Input: FC<InputProps> = ({ className, type, name, onChange, value }) => {
-	return <input className={'input ' + className} type={type} name={name} onChange={onChange} value={value} />;
+	return <input className={"input " + className} type={type} name={name} onChange={onChange} value={value} />;
 };
 
 export default Input;
