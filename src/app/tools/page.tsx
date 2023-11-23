@@ -1,7 +1,7 @@
 'use client';
+import { FC, useState } from 'react';
 import BodyFatCalculator from '@/src/components/body-fat/BodyFatCalculator';
 import CalorieCalculator from '@/src/components/calorie-calculator/CalorieCalculator';
-import { FC, useState } from 'react';
 
 const CalculatorsPage: FC = ({}) => {
   const [selectedCalculator, setSelectedCalculator] = useState<null | string>(

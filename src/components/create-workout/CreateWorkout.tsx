@@ -1,17 +1,15 @@
-import Button from "../re-usable/Button/Button";
+import { FC } from 'react';
+import Button from '../re-usable/Button/Button';
 
-export default function CreateWorkout() {
+const CreateWorkout: FC = () => {
+  const excercise = <></>;
 
-	const excercise = (
-		<>
+  return (
+    <>
+      <div></div>
+      <Button>Add new excercise</Button>
+    </>
+  );
+};
 
-		</>
-	);
-
-	return (
-		<>
-			<div></div>
-			<Button>Add new excercise</Button>
-		</>
-	);
-}
+export default CreateWorkout;
