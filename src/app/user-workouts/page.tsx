@@ -1,8 +1,10 @@
 'use client'
 
 import UserWorkouts from "@/src/components/user-workouts/UserWorkouts"
+import exp from "constants"
+import { FC } from "react"
 
-export default function Login() {
+const UserWorkoutsPage: FC = () => {
 	return (
 		<>
 			<div>
@@ -14,3 +16,5 @@ export default function Login() {
 		</>
 	)
 }
+
+export default UserWorkoutsPage;

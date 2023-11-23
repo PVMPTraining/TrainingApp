@@ -20,7 +20,7 @@ import { useFormik } from 'formik';
 
 import { LoginFormValidationSchema } from '@/src/utils/yup/LoginFormValidationSchema';
 
-const Login: FC = () => {
+const LoginPage: FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
@@ -96,4 +96,4 @@ const Login: FC = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

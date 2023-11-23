@@ -4,7 +4,7 @@ import { FC } from 'react';
 // Next
 import Link from 'next/link';
 
-const Login: FC = () => {
+const AppPage: FC = () => {
   return (
     <>
       <div className="min-h-screen flex flex-col justify-end gap-4 p-8">
@@ -32,4 +32,4 @@ const Login: FC = () => {
   );
 };
 
-export default Login;
+export default AppPage;

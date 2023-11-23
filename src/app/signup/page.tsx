@@ -20,7 +20,7 @@ import { useFormik } from 'formik';
 
 import { LoginFormValidationSchema } from '@/src/utils/yup/LoginFormValidationSchema';
 
-const Login: FC = () => {
+const SignupPage: FC = () => {
   const router = useRouter();
   const supabase = createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL as string,
@@ -91,4 +91,4 @@ const Login: FC = () => {
   );
 };
 
-export default Login;
+export default SignupPage;
