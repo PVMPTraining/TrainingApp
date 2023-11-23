@@ -52,9 +52,9 @@ export const GetUserWorkoutsRow = async (id: string) => {
  * @returns The workouts associated with the user.
  */
 export const GetUserWorkouts = async (id: string) => {
-	const { data: user_workouts } = await supabase.from('user_workouts').select('workouts').eq('id', id).single()
-	Log(LogLevel.DEBUG, `GetUserWorkouts: ${user_workouts?.workouts}`)
-	return user_workouts?.workouts
+	const { data: user_workouts } = await supabase.from('user_workouts').select('workouts').eq('id', id)
+	Log(LogLevel.DEBUG, `GetUserWorkouts: ${user_workouts}`)
+	return user_workouts?.[0]?.workouts || [];
 }
 
 /**
@@ -64,19 +64,12 @@ export const GetUserWorkouts = async (id: string) => {
  */
 export const AddUserWorkout = async (id: string, workout : Json) => {
 	const workoutToBeAdded: string = JSON.stringify(workout);
-	const userWorkouts = await GetUserWorkouts(id) || [];
-	Log(LogLevel.DEBUG, `AddUserWorkout, id: ${id}, workout: ${workoutToBeAdded}`);
+	const userWorkouts = await GetUserWorkouts(id)
 
 	userWorkouts.push(workoutToBeAdded);
 
-	const { data, error } = await supabase
-		.from('user_workouts')
-		.update({ workouts: userWorkouts })
-		.eq('id', id)
-		.select();
+	const { data, error } = await supabase.from('user_workouts').update({ workouts: userWorkouts }).eq('id', id).select();
 
-	Log(LogLevel.DEBUG, `AddUserWorkout, data: ${data}`);
-	if(error) {
-		Log(LogLevel.ERROR, `AddUserWorkout, error: ${error}`);
-	}
+	Log(LogLevel.DEBUG, `AddUserWorkout, data: ${JSON.stringify(data)}`);
+	if(error) { Log(LogLevel.ERROR, `AddUserWorkout, error: ${error}`); }
 }
