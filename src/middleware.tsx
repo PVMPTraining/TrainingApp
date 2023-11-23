@@ -1,19 +1,42 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
+/**
+ * Middleware function that handles requests and responses.
+ * @param {NextRequest} request - The incoming request object.
+ * @returns {Promise<NextResponse>} The response object.
+ */
+export async function middleware(request: NextRequest): Promise<NextResponse> {
+	/**
+	 * Represents the response object returned by the NextResponse.next() function.
+	 */
 	let response = NextResponse.next({
 		request: {
 			headers: request.headers
 		}
 	});
 
+	/**
+	 * The Supabase client instance.
+	 * @type {SupabaseClient}
+	 */
 	const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
 		cookies: {
-			get(name: string) {
+			/**
+			 * Get the value of a cookie by name.
+			 * @param {string} name - The name of the cookie.
+			 * @returns {string | undefined} The value of the cookie, or undefined if not found.
+			 */
+			get(name: string): string | undefined {
 				return request.cookies.get(name)?.value;
 			},
-			set(name: string, value: string, options: CookieOptions) {
+			/**
+			 * Set a cookie with the given name, value, and options.
+			 * @param {string} name - The name of the cookie.
+			 * @param {string} value - The value of the cookie.
+			 * @param {CookieOptions} options - The options for the cookie.
+			 */
+			set(name: string, value: string, options: CookieOptions): void {
 				request.cookies.set({
 					name,
 					value,
@@ -30,7 +53,12 @@ export async function middleware(request: NextRequest) {
 					...options
 				});
 			},
-			remove(name: string, options: CookieOptions) {
+			/**
+			 * Remove a cookie with the given name and options.
+			 * @param {string} name - The name of the cookie.
+			 * @param {CookieOptions} options - The options for the cookie.
+			 */
+			remove(name: string, options: CookieOptions): void {
 				request.cookies.set({
 					name,
 					value: "",
@@ -50,6 +78,9 @@ export async function middleware(request: NextRequest) {
 		}
 	});
 
+	/**
+	 * Represents the currently authenticated user.
+	 */
 	const user = await supabase.auth.getUser();
 
 	if (!user.data.user) {

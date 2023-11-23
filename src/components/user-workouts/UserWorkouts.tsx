@@ -4,8 +4,15 @@ import Button from "../re-usable/Button/Button";
 import { AddUserWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 import { Json } from "@/src/types/types";
 
+/**
+ * Props for the UserWorkouts component.
+ */
 interface UserWorkoutsProps {}
 
+/**
+ * Renders the UserWorkouts component.
+ * @component
+ */
 const UserWorkouts: FC<UserWorkoutsProps> = ({}) => {
 	const { isLoading, userWorkouts } = useFetchUserWorkouts();
 

@@ -1,14 +1,23 @@
 "use client";
 import { createSlice } from "@reduxjs/toolkit";
 
+/**
+ * Represents the state of the counter.
+ */
 interface CounterState {
 	value: number;
 }
 
+/**
+ * Initial state for the counter slice.
+ */
 const initialState: CounterState = {
 	value: 0
 };
 
+/**
+ * Redux slice for managing the counter state.
+ */
 const counterSlice = createSlice({
 	name: "counter",
 	initialState,
