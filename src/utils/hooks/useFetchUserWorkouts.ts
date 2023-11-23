@@ -9,12 +9,13 @@ const useFetchUserWorkouts = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [userWorkouts, setUserWorkouts] = useState<any>([]);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const user_workouts = await GetUserWorkouts(
-          (await GetUserID()) as string,
-        );
+	useEffect(() => {
+		const fetchPosts = async () => {
+			const user_workouts = await GetUserWorkouts(await GetUserID() as string);
+			Log(LogLevel.DEBUG, `useFetchUserWorkouts: ${user_workouts}`);
+			if(userWorkouts) { setUserWorkouts(user_workouts); }
+			setIsLoading(false);
+		};
 
         setUserWorkouts(user_workouts);
         setIsLoading(false);
