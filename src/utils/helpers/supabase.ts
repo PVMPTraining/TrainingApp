@@ -25,10 +25,10 @@ export const GetUser = async () => {
  * @returns The user ID.
  */
 export const GetUserID = async () => {
-	const { data: user } = await supabase.auth.getUser()
-	Log(LogLevel.DEBUG, `GetUserID: ${user?.user?.id}`)
-	return user?.user?.id
-}
+  const { data: user } = await supabase.auth.getUser();
+  Log(LogLevel.DEBUG, `GetUserID: ${user?.user?.id}`);
+  return user?.user?.id;
+};
 
 /**
  * Signs out the user from the Supabase authentication.
@@ -58,10 +58,13 @@ export const GetUserWorkoutsRow = async (id: string) => {
  * @returns The workouts associated with the user.
  */
 export const GetUserWorkouts = async (id: string) => {
-	const { data: user_workouts } = await supabase.from('user_workouts').select('workouts').eq('id', id)
-	Log(LogLevel.DEBUG, `GetUserWorkouts: ${JSON.stringify(user_workouts)}`)
-	return user_workouts?.[0]?.workouts || [];
-}
+  const { data: user_workouts } = await supabase
+    .from('user_workouts')
+    .select('workouts')
+    .eq('id', id);
+  Log(LogLevel.DEBUG, `GetUserWorkouts: ${JSON.stringify(user_workouts)}`);
+  return user_workouts?.[0]?.workouts || [];
+};
 
 /**
  * Adds a workout to the user's workout list.
@@ -96,7 +99,11 @@ export const GetUserFavoriteExercises = async (id: string) => {
     .from('user_favorite_exercises')
     .select('exercises')
     .eq('id', id);
-  Log(LogLevel.DEBUG, `GetUserFavoriteExercises: ${user_favorite_exercises}`);
+
+  Log(
+    LogLevel.DEBUG,
+    `GetUserFavoriteExercises: ${JSON.stringify(user_favorite_exercises)}`,
+  );
   return user_favorite_exercises?.[0]?.exercises || [];
 };
 
