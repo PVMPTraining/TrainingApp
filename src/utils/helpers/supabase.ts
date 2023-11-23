@@ -107,7 +107,7 @@ export const GetUserFavoriteExercises = async (id: string) => {
   return user_favorite_exercises?.[0]?.exercises || [];
 };
 
-/*
+/**
  * Adds a favorite to the user's favorite list.
  * @param id - The ID of the user.
  * @param favorite exercise - The favorite exercise to be added.
