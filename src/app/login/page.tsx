@@ -10,8 +10,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 //Components
-import Button from "@/src/components/re-usable/Button/Button";
-import Input from "@/src/components/re-usable/Input/Input";
+import { Button } from "@/src/components/re-usable/Button/Button";
+import { Input } from "@/src/components/re-usable/Input/Input";
 
 //Types
 import { Database } from "../../types/types";

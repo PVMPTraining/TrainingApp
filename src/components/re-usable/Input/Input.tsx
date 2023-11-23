@@ -2,14 +2,13 @@ import { FC } from "react";
 
 interface InputProps {
 	className?: string;
+	placeholder?: string;
 	type?: string;
 	name?: string;
 	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	value?: string;
+	value?: any;
 }
 
-const Input: FC<InputProps> = ({ className, type, name, onChange, value }) => {
-	return <input className={"input " + className} type={type} name={name} onChange={onChange} value={value} />;
+export const Input: FC<InputProps> = ({ className, placeholder, type, name, onChange, value }) => {
+	return <input className={"input w-full " + className} placeholder={placeholder} type={type} name={name} onChange={onChange} value={value} />;
 };
-
-export default Input;
