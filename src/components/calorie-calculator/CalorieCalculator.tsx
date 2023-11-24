@@ -44,20 +44,21 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 			values.activityLevel === "sedentary"
 				? 1.2
 				: values.activityLevel === "lightly"
-				  ? 1.375
-				  : values.activityLevel === "moderately"
-				    ? 1.55
-				    : values.activityLevel === "veryActive"
-				      ? 1.725
-				      : values.activityLevel === "extremely"
-				        ? 1.9
-				        : 0;
+				? 1.375
+				: values.activityLevel === "moderately"
+				? 1.46522655426765
+				: values.activityLevel === "veryActive"
+				? 1.725
+				: values.activityLevel === "extremely"
+				? 1.9
+				: 0;
 
 		if (values.gender === "male") {
 			let BMR = 0;
 
 			if (values.unit === "metric") {
-				BMR = 66.5 + 13.75 * values.weight + 5.003 * values.height - 6.75 * values.age;
+				BMR = 88.362 + 13.397 * values.weight + 4.799 * values.height - 5.677 * values.age;
+				console.log(BMR);
 			} else {
 				const inches = values.heightFeet * 12 + values.heightInch;
 
@@ -125,91 +126,91 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 		}));
 	};
 
-	const MifflinStJeorEquationHandler = (values: FormDataTypes) => {
-		let result: number | null = null;
-		const multiplier =
-			values.activityLevel === "sedentary"
-				? 1.2
-				: values.activityLevel === "lightly"
-				  ? 1.375
-				  : values.activityLevel === "moderately"
-				    ? 1.465
-				    : values.activityLevel === "veryActive"
-				      ? 1.725
-				      : values.activityLevel === "extremely"
-				        ? 1.9
-				        : 0;
+	// const MifflinStJeorEquationHandler = (values: FormDataTypes) => {
+	// 	let result: number | null = null;
+	// 	const multiplier =
+	// 		values.activityLevel === "sedentary"
+	// 			? 1.2
+	// 			: values.activityLevel === "lightly"
+	// 			? 1.375
+	// 			: values.activityLevel === "moderately"
+	// 			? 1.465
+	// 			: values.activityLevel === "veryActive"
+	// 			? 1.725
+	// 			: values.activityLevel === "extremely"
+	// 			? 1.9
+	// 			: 0;
 
-		if (values.gender === "male") {
-			let BMR = 0;
+	// 	if (values.gender === "male") {
+	// 		let BMR = 0;
 
-			if (values.unit === "metric") {
-				BMR = 10 * values.weight + 6.25 * values.height - 5 * values.age + 5;
-				console.log(BMR);
-			} else {
-				const inches = values.heightFeet * 12 + values.heightInch;
+	// 		if (values.unit === "metric") {
+	// 			BMR = 10 * values.weight + 6.25 * values.height - 5 * values.age + 5;
+	// 			console.log(BMR);
+	// 		} else {
+	// 			const inches = values.heightFeet * 12 + values.heightInch;
 
-				BMR = 10 * values.weightPound * 0.45359237 + 6.25 * inches * 2.54 - 5 * values.age + 5;
-			}
+	// 			BMR = 10 * values.weightPound * 0.45359237 + 6.25 * inches * 2.54 - 5 * values.age + 5;
+	// 		}
 
-			result = BMR * multiplier;
-		}
+	// 		result = BMR * multiplier;
+	// 	}
 
-		if (values.gender === "female") {
-			let BMR = 0;
+	// 	if (values.gender === "female") {
+	// 		let BMR = 0;
 
-			if (values.unit === "metric") {
-				BMR = 10 * values.weight + 6.25 * values.height - 5 * values.age - 161;
-			} else {
-				const inches = values.heightFeet * 12 + values.heightInch;
+	// 		if (values.unit === "metric") {
+	// 			BMR = 10 * values.weight + 6.25 * values.height - 5 * values.age - 161;
+	// 		} else {
+	// 			const inches = values.heightFeet * 12 + values.heightInch;
 
-				BMR = 10 * values.weightPound * 0.45359237 + 6.25 * inches * 2.54 - 5 * values.age - 161;
-			}
+	// 			BMR = 10 * values.weightPound * 0.45359237 + 6.25 * inches * 2.54 - 5 * values.age - 161;
+	// 		}
 
-			result = BMR * multiplier;
-		}
+	// 		result = BMR * multiplier;
+	// 	}
 
-		// Refactor later
+	// 	// Refactor later
 
-		const goalKeyword =
-			values.goal === "maintain"
-				? "maintain"
-				: values.goal === "mildLoss"
-				  ? "mild loss"
-				  : values.goal === "moderateLoss"
-				    ? "moderate loss"
-				    : values.goal === "extremeLoss"
-				      ? "extreme loss"
-				      : values.goal === "mildGain"
-				        ? "mild gain"
-				        : values.goal === "moderateGain"
-				          ? "moderate gain"
-				          : values.goal === "extremeGain"
-				            ? "extreme gain"
-				            : "";
+	// 	const goalKeyword =
+	// 		values.goal === "maintain"
+	// 			? "maintain"
+	// 			: values.goal === "mildLoss"
+	// 			? "mild loss"
+	// 			: values.goal === "moderateLoss"
+	// 			? "moderate loss"
+	// 			: values.goal === "extremeLoss"
+	// 			? "extreme loss"
+	// 			: values.goal === "mildGain"
+	// 			? "mild gain"
+	// 			: values.goal === "moderateGain"
+	// 			? "moderate gain"
+	// 			: values.goal === "extremeGain"
+	// 			? "extreme gain"
+	// 			: "";
 
-		const additionalCalorie =
-			values.goal === "maintain"
-				? 0
-				: values.goal === "mildLoss"
-				  ? -250
-				  : values.goal === "moderateLoss"
-				    ? -500
-				    : values.goal === "extremeLoss"
-				      ? -1000
-				      : values.goal === "mildGain"
-				        ? +250
-				        : values.goal === "moderateGain"
-				          ? +500
-				          : values.goal === "extremeGain"
-				            ? +1000
-				            : 0;
+	// 	const additionalCalorie =
+	// 		values.goal === "maintain"
+	// 			? 0
+	// 			: values.goal === "mildLoss"
+	// 			? -250
+	// 			: values.goal === "moderateLoss"
+	// 			? -500
+	// 			: values.goal === "extremeLoss"
+	// 			? -1000
+	// 			: values.goal === "mildGain"
+	// 			? +250
+	// 			: values.goal === "moderateGain"
+	// 			? +500
+	// 			: values.goal === "extremeGain"
+	// 			? +1000
+	// 			: 0;
 
-		setUserCalorieResults((prev) => ({
-			...prev,
-			MifflinStJeor: `For ${goalKeyword} your weight:` + " " + (result! + additionalCalorie).toFixed()
-		}));
-	};
+	// 	setUserCalorieResults((prev) => ({
+	// 		...prev,
+	// 		MifflinStJeor: `For ${goalKeyword} your weight:` + " " + (result! + additionalCalorie).toFixed()
+	// 	}));
+	// };
 
 	const methodInfoModalsToggleHandler = (modal: string) => {
 		setOpenedCalorieCalculateMethodInfoModal((prev) => ({
@@ -249,7 +250,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 				validationSchema={CalorieCalculatorSchema}
 				onSubmit={(values, actions) => {
 					HarrisBenedictEquationHandler(values);
-					MifflinStJeorEquationHandler(values);
+					// MifflinStJeorEquationHandler(values);
 				}}
 			>
 				{({ values, errors, handleChange }) => (
@@ -391,13 +392,18 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 								<option disabled value="">
 									Select one
 								</option>
-								<option value="sedentary">Sedentary: little or no exercise</option>
-								<option value="lightly">Lightly Active: light exercise/sports 1-3 days/week</option>
-								<option value="moderately">Moderately Active: moderate exercise/sports 4-5 days/week</option>
-								<option value="veryActive">Very Active: hard exercise/sports 6-7 days a week</option>
-								<option value="extremely">Extremely Active: very hard exercise and physical job or 2x training</option>
+								<option value="sedentary">Sedentary: Little or no exercise</option>
+								<option value="lightly">Lightly Active: Exercise/sports 1-3 days/week</option>
+								<option value="moderately">Moderately Active: Exercise/sports 4-5 days/week</option>
+								<option value="veryActive">Very Active: Intense exercise/sports 5-7 days a week</option>
+								<option value="extremely">Extremely Active: Intense exercise and physical job or 2x training</option>
 							</Field>
 							<p className="max-w-xs label-text-alt text-white">{errors.activityLevel}</p>
+							<div className="flex flex-col gap-1 text-xs">
+								<p>Exercise: 15-30 minutes of elevated heart rate activity.</p>
+								<p>Intense exercise: 45-120 minutes of elevated heart rate activity.</p>
+								<p>Very intense exercise: 2+ hours of elevated heart rate activity.</p>
+							</div>
 						</label>
 						<label className="flex flex-col items-center w-72 gap-3 max-w-xs">
 							<p className="text-white label">Optional choices</p>
@@ -448,7 +454,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 					</Form>
 				)}
 			</Formik>
-			{userCalorieResults.HarrisBenedict && userCalorieResults.MifflinStJeor ? (
+			{userCalorieResults.HarrisBenedict ? (
 				<div className="text-white flex gap-10 items-center caret-transparent">
 					<div className="flex flex-col items-center">
 						<p className="flex items-center gap-2">
@@ -459,7 +465,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 						</p>
 						<span>{userCalorieResults.HarrisBenedict}</span>
 					</div>
-					<div className="flex flex-col items-center">
+					{/* <div className="flex flex-col items-center">
 						<p className="flex items-center gap-2">
 							Mifflin and St Jeor Method{" "}
 							<button onClick={() => methodInfoModalsToggleHandler("MifflinStJeorModal")}>
@@ -467,7 +473,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 							</button>
 						</p>
 						<span>{userCalorieResults.MifflinStJeor}</span>
-					</div>
+					</div> */}
 				</div>
 			) : null}
 			{openedCalorieCalculateMethodInfoModal.HarrisBenedictModal ? (
