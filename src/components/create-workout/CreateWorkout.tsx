@@ -9,10 +9,18 @@ export const CreateWorkout: FC = () => {
 		name: "",
 		exercises: []
 	});
+	const [exerciseIds, setExerciseIds] = useState<number[]>([]); // State to store exercise IDs
 
 	useEffect(() => {
 		Log(LogLevel.DEBUG, `Workout updated: ${JSON.stringify(workout)}`);
 	}, [workout]);
+
+	const generateRandomNumber = () => {
+		const min = 1000000000; // Minimum 10-digit number
+		const max = 9999999999; // Maximum 10-digit number
+		const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+		return randomNumber;
+	};
 
 	const addNewExerciseToWorkout = () => {
 		const newExercise: Exercise = {
@@ -21,16 +29,24 @@ export const CreateWorkout: FC = () => {
 			rest: 0
 		};
 
+		const newId = generateRandomNumber(); // Generate a unique ID
+		setExerciseIds([...exerciseIds, newId]);
+
 		setWorkout((prevWorkout) => ({
 			...prevWorkout,
 			exercises: [...prevWorkout.exercises, newExercise]
 		}));
 	};
 
-	const updateExercise = (index: number, updatedExercise: Exercise) => {
+	const updateExercise = (id: number, updatedExercise: Exercise) => {
 		setWorkout((prevWorkout) => {
 			const newExercises = [...prevWorkout.exercises];
-			newExercises[index] = updatedExercise;
+			const index = exerciseIds.indexOf(id);
+
+			if (index !== -1) {
+				newExercises[index] = updatedExercise;
+			}
+
 			return {
 				...prevWorkout,
 				exercises: newExercises
@@ -38,32 +54,44 @@ export const CreateWorkout: FC = () => {
 		});
 	};
 
-	const removeExercise = (index: number) => {
+	const removeExercise = (id: number) => {
 		setWorkout((prevWorkout) => {
-			const newExercises = [...prevWorkout.exercises];
-			newExercises.splice(index, 1);
-			return {
-				...prevWorkout,
-				exercises: newExercises
-			};
+			const index = exerciseIds.indexOf(id);
+			if (index !== -1) {
+				const newExercises = [...prevWorkout.exercises];
+				newExercises.splice(index, 1);
+				setExerciseIds((prevIds) => prevIds.filter((exerciseId) => exerciseId !== id)); // Remove the exercise ID
+				Log(LogLevel.INFO, `Removing exercise with ID ${id}`);
+				return {
+					...prevWorkout,
+					exercises: newExercises
+				};
+			} else {
+				return prevWorkout;
+			}
 		});
 	};
 
 	return (
 		<>
 			<div className="flex flex-col gap-4">
-				{workout.exercises.map((exercise, index) => (
-					<div key={index}>
-						<Button
-							onClick={() => {
-								removeExercise(index);
-							}}
-						>
-							Remove exercise
-						</Button>
-						<CreateExercise key={index} exerciseCallback={(updatedExercise) => updateExercise(index, updatedExercise)} />
-					</div>
-				))}
+				{workout.exercises.map((exercise, index) => {
+					const exerciseId = exerciseIds[index];
+					return (
+						<div key={exerciseId}>
+							<p>Exercise with ID {exerciseId}:</p>
+							<pre>{JSON.stringify(exercise, null, 2)}</pre>
+							<Button
+								onClick={() => {
+									removeExercise(exerciseId);
+								}}
+							>
+								Remove exercise
+							</Button>
+							<CreateExercise key={exerciseId} exerciseCallback={(updatedExercise) => updateExercise(exerciseId, updatedExercise)} />
+						</div>
+					);
+				})}
 				<Button onClick={addNewExerciseToWorkout}>Add new exercise</Button>
 			</div>
 		</>
