@@ -44,14 +44,14 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 			values.activityLevel === "sedentary"
 				? 1.2
 				: values.activityLevel === "lightly"
-				? 1.375
-				: values.activityLevel === "moderately"
-				? 1.55
-				: values.activityLevel === "veryActive"
-				? 1.725
-				: values.activityLevel === "extremely"
-				? 1.9
-				: 0;
+				  ? 1.375
+				  : values.activityLevel === "moderately"
+				    ? 1.55
+				    : values.activityLevel === "veryActive"
+				      ? 1.725
+				      : values.activityLevel === "extremely"
+				        ? 1.9
+				        : 0;
 
 		if (values.gender === "male") {
 			let BMR = 0;
@@ -89,35 +89,35 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 			values.goal === "maintain"
 				? "maintain"
 				: values.goal === "mildLoss"
-				? "mild loss"
-				: values.goal === "moderateLoss"
-				? "moderate loss"
-				: values.goal === "extremeLoss"
-				? "extreme loss"
-				: values.goal === "mildGain"
-				? "mild gain"
-				: values.goal === "moderateGain"
-				? "moderate gain"
-				: values.goal === "extremeGain"
-				? "extreme gain"
-				: "";
+				  ? "mild loss"
+				  : values.goal === "moderateLoss"
+				    ? "moderate loss"
+				    : values.goal === "extremeLoss"
+				      ? "extreme loss"
+				      : values.goal === "mildGain"
+				        ? "mild gain"
+				        : values.goal === "moderateGain"
+				          ? "moderate gain"
+				          : values.goal === "extremeGain"
+				            ? "extreme gain"
+				            : "";
 
 		const additionalCalorie =
 			values.goal === "maintain"
 				? 0
 				: values.goal === "mildLoss"
-				? -250
-				: values.goal === "moderateLoss"
-				? -500
-				: values.goal === "extremeLoss"
-				? -1000
-				: values.goal === "mildGain"
-				? +250
-				: values.goal === "moderateGain"
-				? +500
-				: values.goal === "extremeGain"
-				? +1000
-				: 0;
+				  ? -250
+				  : values.goal === "moderateLoss"
+				    ? -500
+				    : values.goal === "extremeLoss"
+				      ? -1000
+				      : values.goal === "mildGain"
+				        ? +250
+				        : values.goal === "moderateGain"
+				          ? +500
+				          : values.goal === "extremeGain"
+				            ? +1000
+				            : 0;
 
 		setUserCalorieResults((prev) => ({
 			...prev,
@@ -131,14 +131,14 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 			values.activityLevel === "sedentary"
 				? 1.2
 				: values.activityLevel === "lightly"
-				? 1.375
-				: values.activityLevel === "moderately"
-				? 1.465
-				: values.activityLevel === "veryActive"
-				? 1.725
-				: values.activityLevel === "extremely"
-				? 1.9
-				: 0;
+				  ? 1.375
+				  : values.activityLevel === "moderately"
+				    ? 1.465
+				    : values.activityLevel === "veryActive"
+				      ? 1.725
+				      : values.activityLevel === "extremely"
+				        ? 1.9
+				        : 0;
 
 		if (values.gender === "male") {
 			let BMR = 0;
@@ -175,35 +175,35 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 			values.goal === "maintain"
 				? "maintain"
 				: values.goal === "mildLoss"
-				? "mild loss"
-				: values.goal === "moderateLoss"
-				? "moderate loss"
-				: values.goal === "extremeLoss"
-				? "extreme loss"
-				: values.goal === "mildGain"
-				? "mild gain"
-				: values.goal === "moderateGain"
-				? "moderate gain"
-				: values.goal === "extremeGain"
-				? "extreme gain"
-				: "";
+				  ? "mild loss"
+				  : values.goal === "moderateLoss"
+				    ? "moderate loss"
+				    : values.goal === "extremeLoss"
+				      ? "extreme loss"
+				      : values.goal === "mildGain"
+				        ? "mild gain"
+				        : values.goal === "moderateGain"
+				          ? "moderate gain"
+				          : values.goal === "extremeGain"
+				            ? "extreme gain"
+				            : "";
 
 		const additionalCalorie =
 			values.goal === "maintain"
 				? 0
 				: values.goal === "mildLoss"
-				? -250
-				: values.goal === "moderateLoss"
-				? -500
-				: values.goal === "extremeLoss"
-				? -1000
-				: values.goal === "mildGain"
-				? +250
-				: values.goal === "moderateGain"
-				? +500
-				: values.goal === "extremeGain"
-				? +1000
-				: 0;
+				  ? -250
+				  : values.goal === "moderateLoss"
+				    ? -500
+				    : values.goal === "extremeLoss"
+				      ? -1000
+				      : values.goal === "mildGain"
+				        ? +250
+				        : values.goal === "moderateGain"
+				          ? +500
+				          : values.goal === "extremeGain"
+				            ? +1000
+				            : 0;
 
 		setUserCalorieResults((prev) => ({
 			...prev,
