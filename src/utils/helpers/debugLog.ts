@@ -13,33 +13,43 @@ export enum LogLevel {
 
 /**
  * Logs a message with the specified log level.
- * @param logLevel - The log level [DEBUG, TRACE; INFO; WARN, ERROR].
+ * @param logLevel - The log level.
  * @param message - The message to be logged.
+ * @param options - Additional options for the log message.
  */
-export const Log = (logLevel: LogLevel, message: string, ...optionalParams: any[]) => {
+export const Log = (logLevel: LogLevel, message: string, options?: { [key: string]: any }) => {
 	switch (logLevel) {
-		case LogLevel.DEBUG:
-			{
-				if (process.env.NODE_ENV === "development") {
-					console.debug(`[DEBUG]: ${message}\n`, optionalParams);
-				}
+		case LogLevel.DEBUG: {
+			if (process.env.NODE_ENV === "development") {
+				const logMessage = `[DEBUG]: ${message}`;
+				options ? console.debug(logMessage, options) : console.debug(logMessage);
 			}
 			break;
-		case LogLevel.TRACE:
-			{
-				if (process.env.NODE_ENV === "development") {
-					console.trace(`[TRACE]: ${message}\n`, optionalParams);
-				}
+		}
+		case LogLevel.TRACE: {
+			if (process.env.NODE_ENV === "development") {
+				const logMessage = `[TRACE]: ${message}`;
+				options ? console.trace(logMessage, options) : console.debug(logMessage);
 			}
 			break;
+		}
 		case LogLevel.INFO:
-			console.log(`[INFO]: ${message}\n`, optionalParams);
+			{
+				const logMessage = `[INFO]: ${message}`;
+				options ? console.trace(logMessage, options) : console.debug(logMessage);
+			}
 			break;
 		case LogLevel.WARN:
-			console.warn(`[WARN]: ${message}\n`, optionalParams);
+			{
+				const logMessage = `[WARN]: ${message}`;
+				options ? console.trace(logMessage, options) : console.debug(logMessage);
+			}
 			break;
 		case LogLevel.ERROR:
-			console.error(`[ERROR]: ${message}\n`, optionalParams);
+			{
+				const logMessage = `[ERROR]: ${message}`;
+				options ? console.trace(logMessage, options) : console.debug(logMessage);
+			}
 			break;
 	}
 };
