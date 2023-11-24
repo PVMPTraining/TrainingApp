@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import useFetchUserWorkouts from "@/src/utils/hooks/useFetchUserWorkouts";
-import Button from "../re-usable/Button/Button";
+import { Button } from "../re-usable/Button/Button";
 import { AddUserWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 import { Json } from "@/src/types/types";
 import { CreateWorkout } from "../create-workout/CreateWorkout";
