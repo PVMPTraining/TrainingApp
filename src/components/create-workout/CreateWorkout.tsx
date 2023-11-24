@@ -3,6 +3,7 @@ import { Button } from "../re-usable/Button/Button";
 import { CreateExercise } from "../create-exercise/CreateExercise";
 import { Exercise, Workout } from "@/src/types/types";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
+import { Input } from "../re-usable/Input/Input";
 
 export const CreateWorkout: FC = () => {
 	const [workout, setWorkout] = useState<Workout>({
@@ -73,27 +74,31 @@ export const CreateWorkout: FC = () => {
 	};
 
 	return (
-		<>
-			<div className="flex flex-col gap-4">
-				{workout.exercises.map((exercise, index) => {
-					const exerciseId = exerciseIds[index];
-					return (
-						<div key={exerciseId}>
-							<p>Exercise with ID {exerciseId}:</p>
-							<pre>{JSON.stringify(exercise, null, 2)}</pre>
-							<Button
-								onClick={() => {
-									removeExercise(exerciseId);
-								}}
-							>
-								Remove exercise
-							</Button>
-							<CreateExercise key={exerciseId} exerciseCallback={(updatedExercise) => updateExercise(exerciseId, updatedExercise)} />
-						</div>
-					);
-				})}
-				<Button onClick={addNewExerciseToWorkout}>Add new exercise</Button>
-			</div>
-		</>
+		<div className="flex flex-col gap-4">
+			<Input
+				className="bg-base-200"
+				placeholder="Workout name"
+				value={workout.name}
+				onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkout({ ...workout, name: e.target.value })}
+			/>
+			{workout.exercises.map((exercise, index) => {
+				const exerciseId = exerciseIds[index];
+				return (
+					<div key={exerciseId}>
+						<p>Exercise with ID {exerciseId}:</p>
+						<pre>{JSON.stringify(exercise, null, 2)}</pre>
+						<Button
+							onClick={() => {
+								removeExercise(exerciseId);
+							}}
+						>
+							Remove exercise
+						</Button>
+						<CreateExercise key={exerciseId} exerciseCallback={(updatedExercise) => updateExercise(exerciseId, updatedExercise)} />
+					</div>
+				);
+			})}
+			<Button onClick={addNewExerciseToWorkout}>Add new exercise</Button>
+		</div>
 	);
 };

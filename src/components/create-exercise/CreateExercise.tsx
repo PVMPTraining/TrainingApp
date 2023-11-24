@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { FC, InputHTMLAttributes, useEffect, useState } from "react";
 import { Input } from "../re-usable/Input/Input";
 import { Button } from "../re-usable/Button/Button";
 import { Exercise, Set } from "@/src/types/types"; // Assuming ExerciseSet is a type you want to use
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
 
-interface CreateExerciseProps {
+interface CreateExerciseProps extends InputHTMLAttributes<HTMLInputElement> {
 	exerciseCallback: (exercise: Exercise) => void;
 }
 

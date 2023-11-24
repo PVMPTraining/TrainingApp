@@ -1,30 +1,24 @@
-import { FC, ReactNode } from "react";
+import { FC, ButtonHTMLAttributes, ReactNode } from "react";
 
 /**
  * Props for the Button component.
  */
-interface ButtonProps {
-	className?: string;
-	children: React.ReactNode;
-	formAction?: string;
-	type?: "button" | "submit" | "reset";
-	onClick?: () => void;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+	children: ReactNode;
 }
 
 /**
- * A reusable button component.
+ * Button component.
  *
  * @component
- * @param {ButtonProps} props - The button props.
+ * @param {Object} props - The component props.
+ * @param {string} props.className - The class name for the button.
  * @param {ReactNode} props.children - The content of the button.
- * @param {string} props.formAction - The form action for the button.
- * @param {string} props.type - The type of the button.
- * @param {() => void} props.onClick - The click event handler for the button.
- * @returns {JSX.Element} The rendered button element.
+ * @returns {JSX.Element} The rendered Button component.
  */
-export const Button: FC<ButtonProps> = ({ className, children, formAction, type, onClick }) => {
+export const Button: FC<ButtonProps> = ({ className, children, ...props }) => {
 	return (
-		<button className={"btn " + className} formAction={formAction} onClick={onClick} type={type}>
+		<button className={["btn", className].join(" ")} {...props}>
 			{children}
 		</button>
 	);

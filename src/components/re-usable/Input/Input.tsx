@@ -1,14 +1,16 @@
-import { FC } from "react";
+import React, { FC, InputHTMLAttributes } from "react";
 
-interface InputProps {
-	className?: string;
-	placeholder?: string;
-	type?: string;
-	name?: string;
-	onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	value?: any;
-}
+/**
+ * Props for the Input component.
+ */
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {}
 
-export const Input: FC<InputProps> = ({ className, placeholder, type, name, onChange, value }) => {
-	return <input className={"input w-full " + className} placeholder={placeholder} type={type} name={name} onChange={onChange} value={value} />;
+/**
+ * A reusable input component.
+ * @param className - Additional CSS class names for the input element.
+ * @param props - Additional props to be spread onto the input element.
+ * @returns The input element.
+ */
+export const Input: FC<InputProps> = ({ className, ...props }) => {
+	return <input className={["input w-full", className].join(" ")} {...props} />;
 };
