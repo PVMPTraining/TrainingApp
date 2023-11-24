@@ -4,6 +4,8 @@ export const CalorieCalculatorSchema = yup.object({
   gender: yup.string().required('Gender is required'),
   activityLevel: yup.string().required('Activity level is required'),
   unit: yup.string(),
+  goal: yup.string().optional(),
+  showMacroValues: yup.boolean().optional(),
   age: yup
     .number()
     .min(1, 'Please enter a number greater than 0')
