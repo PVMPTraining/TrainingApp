@@ -1,11 +1,11 @@
-'use client';
-import { FC, useState } from 'react';
+"use client";
+import { FC, useState } from "react";
 
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field } from "formik";
 
-import { CalorieCalculatorSchema } from '@/src/utils/yup/CalorieCalculatorSchema';
+import { CalorieCalculatorSchema } from "@/src/utils/yup/CalorieCalculatorSchema";
 
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle } from "react-icons/fa";
 
 type FormDataTypes = {
   gender: string;
@@ -28,76 +28,62 @@ type UserCalorieResultsTypes = {
 interface CalorieCalculatorProps {}
 
 const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
-  const [userCalorieResults, setUserCalorieResults] =
-    useState<UserCalorieResultsTypes>({
-      HarrisBenedict: null,
-      MifflinStJeor: null,
-    });
+	const [userCalorieResults, setUserCalorieResults] = useState<UserCalorieResultsTypes>({
+		HarrisBenedict: null,
+		MifflinStJeor: null
+	});
 
-  const [
-    openedCalorieCalculateMethodInfoModal,
-    setOpenedCalorieCalculateMethodInfoModal,
-  ] = useState({
-    HarrisBenedictModal: false,
-    MifflinStJeorModal: false,
-  });
+	const [openedCalorieCalculateMethodInfoModal, setOpenedCalorieCalculateMethodInfoModal] = useState({
+		HarrisBenedictModal: false,
+		MifflinStJeorModal: false
+	});
 
-  const HarrisBenedictEquationHandler = (values: FormDataTypes) => {
-    let result: number | null = null;
-    const multiplier =
-      values.activityLevel === 'sedentary'
-        ? 1.2
-        : values.activityLevel === 'lightly'
-        ? 1.375
-        : values.activityLevel === 'moderately'
-        ? 1.55
-        : values.activityLevel === 'veryActive'
-        ? 1.725
-        : values.activityLevel === 'extremely'
-        ? 1.9
-        : 0;
+	const HarrisBenedictEquationHandler = (values: FormDataTypes) => {
+		let result: number | null = null;
+		const multiplier =
+			values.activityLevel === "sedentary"
+				? 1.2
+				: values.activityLevel === "lightly"
+				  ? 1.375
+				  : values.activityLevel === "moderately"
+				    ? 1.55
+				    : values.activityLevel === "veryActive"
+				      ? 1.725
+				      : values.activityLevel === "extremely"
+				        ? 1.9
+				        : 0;
 
-    if (values.gender === 'male') {
-      let BMR = 0;
+		if (values.gender === "male") {
+			let BMR = 0;
 
-      if (values.unit === 'metric') {
-        BMR =
-          66.5 +
-          13.75 * values.weight +
-          5.003 * values.height -
-          6.75 * values.age;
-      } else {
-        const inches = values.heightFeet * 12 + values.heightInch;
+			if (values.unit === "metric") {
+				BMR = 66.5 + 13.75 * values.weight + 5.003 * values.height - 6.75 * values.age;
+			} else {
+				const inches = values.heightFeet * 12 + values.heightInch;
 
-        const weightInPounds = values.weightPound;
+				const weightInPounds = values.weightPound;
 
-        BMR =
-          66.47 + 6.24 * values.weightPound + 12.7 * inches - 6.75 * values.age;
-      }
+				BMR = 66.47 + 6.24 * values.weightPound + 12.7 * inches - 6.75 * values.age;
+			}
 
-      result = BMR * multiplier;
-    }
+			result = BMR * multiplier;
+		}
 
-    if (values.gender === 'female') {
-      let BMR = 0;
+		if (values.gender === "female") {
+			let BMR = 0;
 
-      if (values.unit === 'metric') {
-        BMR =
-          9.563 * values.weight +
-          1.85 * values.height -
-          4.676 * values.age +
-          655.1;
-      } else {
-        const inches = values.heightFeet * 12 + values.heightInch;
+			if (values.unit === "metric") {
+				BMR = 9.563 * values.weight + 1.85 * values.height - 4.676 * values.age + 655.1;
+			} else {
+				const inches = values.heightFeet * 12 + values.heightInch;
 
-        const weightInPounds = values.weightPound;
+				const weightInPounds = values.weightPound;
 
-        BMR =
-          655.1 + 4.35 * values.weightPound + 4.7 * inches - 4.7 * values.age;
-      }
+				BMR = 655.1 + 4.35 * values.weightPound + 4.7 * inches - 4.7 * values.age;
+			}
 
-      result = BMR * multiplier;
-    }
+			result = BMR * multiplier;
+		}
 
     const goalKeyword =
       values.goal === 'maintain'
@@ -157,8 +143,8 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
         ? 1.9
         : 0;
 
-    if (values.gender === 'male') {
-      let BMR = 0;
+		if (values.gender === "male") {
+			let BMR = 0;
 
       if (values.unit === 'metric') {
         BMR = 10 * values.weight + 6.25 * values.height - 5 * values.age + 5;
@@ -166,33 +152,25 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
       } else {
         const inches = values.heightFeet * 12 + values.heightInch;
 
-        BMR =
-          10 * values.weightPound * 0.45359237 +
-          6.25 * inches * 2.54 -
-          5 * values.age +
-          5;
-      }
+				BMR = 10 * values.weightPound * 0.45359237 + 6.25 * inches * 2.54 - 5 * values.age + 5;
+			}
 
-      result = BMR * multiplier;
-    }
+			result = BMR * multiplier;
+		}
 
-    if (values.gender === 'female') {
-      let BMR = 0;
+		if (values.gender === "female") {
+			let BMR = 0;
 
-      if (values.unit === 'metric') {
-        BMR = 10 * values.weight + 6.25 * values.height - 5 * values.age - 161;
-      } else {
-        const inches = values.heightFeet * 12 + values.heightInch;
+			if (values.unit === "metric") {
+				BMR = 10 * values.weight + 6.25 * values.height - 5 * values.age - 161;
+			} else {
+				const inches = values.heightFeet * 12 + values.heightInch;
 
-        BMR =
-          10 * values.weightPound * 0.45359237 +
-          6.25 * inches * 2.54 -
-          5 * values.age -
-          161;
-      }
+				BMR = 10 * values.weightPound * 0.45359237 + 6.25 * inches * 2.54 - 5 * values.age - 161;
+			}
 
-      result = BMR * multiplier;
-    }
+			result = BMR * multiplier;
+		}
 
     // Refactor later
 
@@ -239,20 +217,20 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
     }));
   };
 
-  const methodInfoModalsToggleHandler = (modal: string) => {
-    setOpenedCalorieCalculateMethodInfoModal((prev) => ({
-      ...prev,
-      HarrisBenedictModal: modal === 'HarrisBenedictModal',
-      MifflinStJeorModal: modal === 'MifflinStJeorModal',
-    }));
-  };
+	const methodInfoModalsToggleHandler = (modal: string) => {
+		setOpenedCalorieCalculateMethodInfoModal((prev) => ({
+			...prev,
+			HarrisBenedictModal: modal === "HarrisBenedictModal",
+			MifflinStJeorModal: modal === "MifflinStJeorModal"
+		}));
+	};
 
-  const methodInfoModalsCloseModal = (modal: string) => {
-    setOpenedCalorieCalculateMethodInfoModal((prev) => ({
-      ...prev,
-      [modal]: false,
-    }));
-  };
+	const methodInfoModalsCloseModal = (modal: string) => {
+		setOpenedCalorieCalculateMethodInfoModal((prev) => ({
+			...prev,
+			[modal]: false
+		}));
+	};
 
   //
 
@@ -309,36 +287,6 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
                 </label>
               </div>
               <p className="max-w-xs label-text-alt text-white">
-                {errors.gender}
-              </p>
-            </label>
-            <label className="flex flex-col items-center w-72 gap-3 max-w-xs">
-              <p className="text-white label">Unit</p>
-              <div className="flex items-center gap-5">
-                <label className="flex items-center gap-3">
-                  <p className="text-white">Metric Units</p>
-                  <Field
-                    name="unit"
-                    type="radio"
-                    value="metric"
-                    checked={values.unit === 'metric'}
-                    onChange={handleChange}
-                    className="radio radio-md bg-white"
-                  />
-                </label>
-                <label className="flex items-center gap-3">
-                  <p className="text-white">US Units</p>
-                  <Field
-                    name="unit"
-                    type="radio"
-                    value="us"
-                    checked={values.unit === 'us'}
-                    onChange={handleChange}
-                    className="radio radio-md bg-white"
-                  />
-                </label>
-              </div>
-              {/* <p className="max-w-xs label-text-alt text-white">
                 {errors.gender}
               </p> */}
             </label>

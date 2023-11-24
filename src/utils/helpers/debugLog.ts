@@ -4,8 +4,8 @@
  * @enum {number}
  */
 export enum LogLevel {
-	DEBUG,	// Only for development
-	TRACE, 	// Only for development
+	DEBUG, // Only for development
+	TRACE, // Only for development
 	INFO,
 	WARN,
 	ERROR
@@ -18,13 +18,16 @@ export enum LogLevel {
  */
 export const Log = (logLevel: LogLevel, message: string) => {
 	switch (logLevel) {
-		case LogLevel.DEBUG: {
-				if (process.env.NODE_ENV === 'development') {
+		case LogLevel.DEBUG:
+			{
+				if (process.env.NODE_ENV === "development") {
 					console.debug(`[DEBUG]: ${message}`);
 				}
-			} break;
-		case LogLevel.TRACE: {
-				if (process.env.NODE_ENV === 'development') {
+			}
+			break;
+		case LogLevel.TRACE:
+			{
+				if (process.env.NODE_ENV === "development") {
 					console.trace(`[TRACE]: ${message}`);
 				}
 			}
@@ -39,4 +42,4 @@ export const Log = (logLevel: LogLevel, message: string) => {
 			console.error(`[ERROR]: ${message}`);
 			break;
 	}
-}
+};

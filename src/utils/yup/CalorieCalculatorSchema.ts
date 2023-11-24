@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import * as yup from "yup";
 
 export const CalorieCalculatorSchema = yup.object({
   gender: yup.string().required('Gender is required'),

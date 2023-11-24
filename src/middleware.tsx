@@ -1,86 +1,113 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { NextResponse, type NextRequest } from 'next/server';
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { NextResponse, type NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  });
+/**
+ * Middleware function that handles requests and responses.
+ * @param {NextRequest} request - The incoming request object.
+ * @returns {Promise<NextResponse>} The response object.
+ */
+export async function middleware(request: NextRequest): Promise<NextResponse> {
+	/**
+	 * Represents the response object returned by the NextResponse.next() function.
+	 */
+	let response = NextResponse.next({
+		request: {
+			headers: request.headers
+		}
+	});
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return request.cookies.get(name)?.value;
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value,
-            ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
-          response.cookies.set({
-            name,
-            value,
-            ...options,
-          });
-        },
-        remove(name: string, options: CookieOptions) {
-          request.cookies.set({
-            name,
-            value: '',
-            ...options,
-          });
-          response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
-          });
-          response.cookies.set({
-            name,
-            value: '',
-            ...options,
-          });
-        },
-      },
-    },
-  );
+	/**
+	 * The Supabase client instance.
+	 * @type {SupabaseClient}
+	 */
+	const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+		cookies: {
+			/**
+			 * Get the value of a cookie by name.
+			 * @param {string} name - The name of the cookie.
+			 * @returns {string | undefined} The value of the cookie, or undefined if not found.
+			 */
+			get(name: string): string | undefined {
+				return request.cookies.get(name)?.value;
+			},
+			/**
+			 * Set a cookie with the given name, value, and options.
+			 * @param {string} name - The name of the cookie.
+			 * @param {string} value - The value of the cookie.
+			 * @param {CookieOptions} options - The options for the cookie.
+			 */
+			set(name: string, value: string, options: CookieOptions): void {
+				request.cookies.set({
+					name,
+					value,
+					...options
+				});
+				response = NextResponse.next({
+					request: {
+						headers: request.headers
+					}
+				});
+				response.cookies.set({
+					name,
+					value,
+					...options
+				});
+			},
+			/**
+			 * Remove a cookie with the given name and options.
+			 * @param {string} name - The name of the cookie.
+			 * @param {CookieOptions} options - The options for the cookie.
+			 */
+			remove(name: string, options: CookieOptions): void {
+				request.cookies.set({
+					name,
+					value: "",
+					...options
+				});
+				response = NextResponse.next({
+					request: {
+						headers: request.headers
+					}
+				});
+				response.cookies.set({
+					name,
+					value: "",
+					...options
+				});
+			}
+		}
+	});
 
-  const user = await supabase.auth.getUser();
+	/**
+	 * Represents the currently authenticated user.
+	 */
+	const user = await supabase.auth.getUser();
 
-  if (!user.data.user) {
-    switch (request.nextUrl.pathname) {
-      case '/login':
-      case '/signup':
-      case '/':
-        break;
-      default:
-        return NextResponse.redirect(new URL('/', request.url));
-    }
-  }
+	if (!user.data.user) {
+		switch (request.nextUrl.pathname) {
+			case "/login":
+			case "/signup":
+			case "/":
+				break;
+			default:
+				return NextResponse.redirect(new URL("/", request.url));
+		}
+	}
 
-  if (user.data.user) {
-    switch (request.nextUrl.pathname) {
-      case '/login':
-      case '/signup':
-      case '/':
-        return NextResponse.redirect(new URL('/account', request.url));
-      default:
-        break;
-    }
-  }
+	if (user.data.user) {
+		switch (request.nextUrl.pathname) {
+			case "/login":
+			case "/signup":
+			case "/":
+				return NextResponse.redirect(new URL("/account", request.url));
+			default:
+				break;
+		}
+	}
 
-  return response;
+	return response;
 }
 
 export const config = {
-  matcher: ['/((?!_next|api/auth).*)(.+)'],
+	matcher: ["/((?!_next|api/auth).*)(.+)"]
 };
