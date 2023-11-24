@@ -11,6 +11,7 @@ type FormDataTypes = {
 	gender: string;
 	age: number;
 	unit: string;
+	goal: string;
 	activityLevel: string;
 	weight: number;
 	weightPound: number;
@@ -20,8 +21,8 @@ type FormDataTypes = {
 };
 
 type UserCalorieResultsTypes = {
-	HarrisBenedict: null | number;
-	MifflinStJeor: null | number;
+	HarrisBenedict: null | string;
+	MifflinStJeor: null | string;
 };
 
 interface CalorieCalculatorProps {}
@@ -84,9 +85,43 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 			result = BMR * multiplier;
 		}
 
+		const goalKeyword =
+			values.goal === "maintain"
+				? "maintain"
+				: values.goal === "mildLoss"
+				  ? "mild loss"
+				  : values.goal === "moderateLoss"
+				    ? "moderate loss"
+				    : values.goal === "extremeLoss"
+				      ? "extreme loss"
+				      : values.goal === "mildGain"
+				        ? "mild gain"
+				        : values.goal === "moderateGain"
+				          ? "moderate gain"
+				          : values.goal === "extremeGain"
+				            ? "extreme gain"
+				            : "";
+
+		const additionalCalorie =
+			values.goal === "maintain"
+				? 0
+				: values.goal === "mildLoss"
+				  ? -250
+				  : values.goal === "moderateLoss"
+				    ? -500
+				    : values.goal === "extremeLoss"
+				      ? -1000
+				      : values.goal === "mildGain"
+				        ? +250
+				        : values.goal === "moderateGain"
+				          ? +500
+				          : values.goal === "extremeGain"
+				            ? +1000
+				            : 0;
+
 		setUserCalorieResults((prev) => ({
 			...prev,
-			HarrisBenedict: result
+			HarrisBenedict: `For ${goalKeyword} your weight:` + " " + (result! + additionalCalorie).toFixed()
 		}));
 	};
 
@@ -98,7 +133,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 				: values.activityLevel === "lightly"
 				  ? 1.375
 				  : values.activityLevel === "moderately"
-				    ? 1.55
+				    ? 1.465
 				    : values.activityLevel === "veryActive"
 				      ? 1.725
 				      : values.activityLevel === "extremely"
@@ -110,6 +145,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 
 			if (values.unit === "metric") {
 				BMR = 10 * values.weight + 6.25 * values.height - 5 * values.age + 5;
+				console.log(BMR);
 			} else {
 				const inches = values.heightFeet * 12 + values.heightInch;
 
@@ -133,9 +169,45 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 			result = BMR * multiplier;
 		}
 
+		// Refactor later
+
+		const goalKeyword =
+			values.goal === "maintain"
+				? "maintain"
+				: values.goal === "mildLoss"
+				  ? "mild loss"
+				  : values.goal === "moderateLoss"
+				    ? "moderate loss"
+				    : values.goal === "extremeLoss"
+				      ? "extreme loss"
+				      : values.goal === "mildGain"
+				        ? "mild gain"
+				        : values.goal === "moderateGain"
+				          ? "moderate gain"
+				          : values.goal === "extremeGain"
+				            ? "extreme gain"
+				            : "";
+
+		const additionalCalorie =
+			values.goal === "maintain"
+				? 0
+				: values.goal === "mildLoss"
+				  ? -250
+				  : values.goal === "moderateLoss"
+				    ? -500
+				    : values.goal === "extremeLoss"
+				      ? -1000
+				      : values.goal === "mildGain"
+				        ? +250
+				        : values.goal === "moderateGain"
+				          ? +500
+				          : values.goal === "extremeGain"
+				            ? +1000
+				            : 0;
+
 		setUserCalorieResults((prev) => ({
 			...prev,
-			MifflinStJeor: result
+			MifflinStJeor: `For ${goalKeyword} your weight:` + " " + (result! + additionalCalorie).toFixed()
 		}));
 	};
 
@@ -154,12 +226,18 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 		}));
 	};
 
+	//
+
+	const macroValues = "";
+
 	return (
-		<div className="bg-slate-950 py-5 flex flex-col gap-5 items-center relative">
+		<div className="bg-slate-950 py-5 px-5 flex flex-col gap-5 items-center relative">
 			<Formik
 				initialValues={{
 					gender: "",
 					unit: "metric",
+					goal: "maintain",
+					showMacroValues: false,
 					age: 0,
 					activityLevel: "",
 					weight: 0,
@@ -177,10 +255,10 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 				{({ values, errors, handleChange }) => (
 					<Form className="flex flex-col gap-5 items-center caret-transparent">
 						<label className="flex flex-col items-center w-72 gap-3 max-w-xs">
-							<p className="text-white label">Gender</p>
+							<p className="label">Gender</p>
 							<div className="flex items-center gap-5">
 								<label className="flex items-center gap-3">
-									<p className="text-white">Male</p>
+									<p className="">Male</p>
 									<Field
 										name="gender"
 										type="radio"
@@ -204,45 +282,15 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 							</div>
 							<p className="max-w-xs label-text-alt text-white">{errors.gender}</p>
 						</label>
-						<label className="flex flex-col items-center w-72 gap-3 max-w-xs">
-							<p className="text-white label">Unit</p>
-							<div className="flex items-center gap-5">
-								<label className="flex items-center gap-3">
-									<p className="text-white">Metric Units</p>
-									<Field
-										name="unit"
-										type="radio"
-										value="metric"
-										checked={values.unit === "metric"}
-										onChange={handleChange}
-										className="radio radio-md bg-white"
-									/>
-								</label>
-								<label className="flex items-center gap-3">
-									<p className="text-white">US Units</p>
-									<Field
-										name="unit"
-										type="radio"
-										value="us"
-										checked={values.unit === "us"}
-										onChange={handleChange}
-										className="radio radio-md bg-white"
-									/>
-								</label>
-							</div>
-							{/* <p className="max-w-xs label-text-alt text-white">
-                {errors.gender}
-              </p> */}
-						</label>
 						<label className="flex flex-col gap-1 w-72 max-w-ws">
-							<p className="label text-white">Age</p>
+							<p className="label">Age</p>
 							<Field
 								name="age"
 								type="number"
 								value={values.age}
 								placeholder="Age"
 								onChange={handleChange}
-								className="input input-bordered w-full max-w-xs caret-current"
+								className="input input-bordered w-full max-w-xs text-yellow-900 bg-slate-900 caret-current"
 							/>
 							<p className="max-w-xs label-text-alt text-white">{errors.age}</p>
 						</label>
@@ -257,7 +305,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 											value={values.weightPound}
 											placeholder="Pounds"
 											onChange={handleChange}
-											className="input input-bordered w-full max-w-xs caret-current pr-16"
+											className="input input-bordered w-full max-w-xs text-yellow-900 bg-slate-900 caret-current pr-16"
 										/>
 										<p className="absolute select-none opacity-75 top-[50%] -translate-y-[50%] right-1">pounds</p>
 									</div>
@@ -271,7 +319,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 										value={values.weight}
 										placeholder="Weight"
 										onChange={handleChange}
-										className="input input-bordered w-full max-w-xs caret-current pr-7"
+										className="input input-bordered w-full max-w-xs text-yellow-900 bg-slate-900 caret-current pr-7"
 									/>
 									<p className="absolute select-none opacity-75 top-[50%] -translate-y-[50%] right-1">kg</p>
 								</div>
@@ -291,7 +339,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 													value={values.heightFeet}
 													placeholder="Feet"
 													onChange={handleChange}
-													className="input input-bordered w-full max-w-xs caret-current pr-10"
+													className="input input-bordered w-full max-w-xs text-yellow-900 bg-slate-900 caret-current pr-10"
 												/>
 												<p className="absolute select-none opacity-75 top-[50%] -translate-y-[50%] right-1">feet</p>
 											</div>
@@ -305,7 +353,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 													value={values.heightInch}
 													placeholder="Height"
 													onChange={handleChange}
-													className="input input-bordered w-full max-w-xs caret-current pr-14"
+													className="input input-bordered w-full max-w-xs text-yellow-900 bg-slate-900 caret-current pr-14"
 												/>
 												<p className="absolute select-none opacity-75 top-[50%] -translate-y-[50%] right-1">inches</p>
 											</div>
@@ -321,7 +369,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 										value={values.height}
 										placeholder="Height"
 										onChange={handleChange}
-										className="input input-bordered w-full max-w-xs caret-current pr-8"
+										className="input input-bordered w-full max-w-xs text-yellow-900 bg-slate-900 caret-current pr-8"
 									/>
 									<p className="absolute select-none opacity-75 top-[50%] -translate-y-[50%] right-1">cm</p>
 								</div>
@@ -333,18 +381,66 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 								<span className="text-white">Select activity level</span>
 								{/* <span className="label-text-alt">Alt label</span> */}
 							</label>
-							<Field id="activityLevel" name="activityLevel" as="select" onChange={handleChange} className="select select-md w-72 max-w-xs">
+							<Field
+								id="activityLevel"
+								name="activityLevel"
+								as="select"
+								onChange={handleChange}
+								className="select select-md text-yellow-900 bg-slate-900 w-72 max-w-xs"
+							>
 								<option disabled value="">
 									Select one
 								</option>
 								<option value="sedentary">Sedentary: little or no exercise</option>
-								<option value="lightly">Lightly Active: 1-3 times/week</option>
-								<option value="moderately">Moderately Active: 4-5 times/week</option>
-
-								<option value="veryActive">Very Active: intense exercise 6-7 times/week</option>
-								<option value="extremely">Extremely Active: very intense exercise daily, or physical job</option>
+								<option value="lightly">Lightly Active: light exercise/sports 1-3 days/week</option>
+								<option value="moderately">Moderately Active: moderate exercise/sports 4-5 days/week</option>
+								<option value="veryActive">Very Active: hard exercise/sports 6-7 days a week</option>
+								<option value="extremely">Extremely Active: very hard exercise and physical job or 2x training</option>
 							</Field>
 							<p className="max-w-xs label-text-alt text-white">{errors.activityLevel}</p>
+						</label>
+						<label className="flex flex-col items-center w-72 gap-3 max-w-xs">
+							<p className="text-white label">Optional choices</p>
+							<label className="flex flex-col gap-1 w-72">
+								<label className="label flex-col gap-2">
+									<span className="text-white self-start">Select your goal</span>
+									<span className="text-white self-start text-xs">
+										It's selected <strong>maintain</strong> as default
+									</span>
+									{/* <span className="label-text-alt">Alt label</span> */}
+								</label>
+								<Field
+									id="goal"
+									name="goal"
+									as="select"
+									onChange={handleChange}
+									className="select select-md text-yellow-900 bg-slate-900 w-72 max-w-xs"
+								>
+									<option value="maintain" selected>
+										Maintain weight
+									</option>
+									<option value="mildLoss">Mild weight loss of 0.25kg (0.5 lb) per week</option>
+									<option value="moderateLoss">Moderate weight loss of 0.5kg (1 lb) per week</option>
+									<option value="extremeLoss">Extreme weight loss of 1kg (2 lb) per week</option>
+									<option value="mildGain">Mild weight gain of 0.25kg (0.5 lb) per week</option>
+									<option value="moderateGain">Moderate weight gain of 0.5kg (1 lb) per week</option>
+									<option value="extremeGain">Extreme weight gain of 1kg (2 lb) per week</option>
+								</Field>
+								<p className="max-w-xs label-text-alt text-white">{errors.goal}</p>
+							</label>
+							<div className="flex items-center gap-5">
+								<label className="flex items-center gap-3">
+									<Field
+										name="showMacroValues"
+										type="checkbox"
+										value="showMacroValues"
+										checked={values.showMacroValues}
+										onChange={handleChange}
+										className="radio radio-md bg-white"
+									/>
+									<p className="text-white">Give me estimated macro values</p>
+								</label>
+							</div>
 						</label>
 						<button type="submit" className="bg-slate-900 px-4 py-3 text-white hover:text-black btn btn-active">
 							Calculate
@@ -361,7 +457,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 								<FaInfoCircle className="text-lg" />
 							</button>
 						</p>
-						<span>{userCalorieResults.HarrisBenedict.toFixed()}</span>
+						<span>{userCalorieResults.HarrisBenedict}</span>
 					</div>
 					<div className="flex flex-col items-center">
 						<p className="flex items-center gap-2">
@@ -370,7 +466,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 								<FaInfoCircle className="text-lg" />
 							</button>
 						</p>
-						<span>{userCalorieResults.MifflinStJeor.toFixed()}</span>
+						<span>{userCalorieResults.MifflinStJeor}</span>
 					</div>
 				</div>
 			) : null}

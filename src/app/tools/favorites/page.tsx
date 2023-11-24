@@ -1,5 +1,5 @@
 "use client";
-import Button from "@/src/components/re-usable/Button/Button";
+import { Button } from "@/src/components/re-usable/Button/Button";
 import { Json } from "@/src/types/types";
 import { AddFavoriteExercise, GetUserID } from "@/src/utils/helpers/supabase";
 import useFetchUserFavoriteExercises from "@/src/utils/hooks/useFetchUserFavoriteExercises";
