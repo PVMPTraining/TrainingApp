@@ -1,9 +1,14 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Input } from "../re-usable/Input/Input";
 import { Button } from "../re-usable/Button/Button";
 import { Exercise, Set } from "@/src/types/types"; // Assuming ExerciseSet is a type you want to use
+import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
 
-export const CreateExercise: FC = () => {
+interface CreateExerciseProps {
+	exerciseCallback: (exercise: Exercise) => void;
+}
+
+export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback }) => {
 	const [exercise, setExercise] = useState<Exercise>({
 		name: "",
 		sets: [],
@@ -42,8 +47,14 @@ export const CreateExercise: FC = () => {
 
 	const saveExercise = () => {
 		// You can perform further actions here, like saving the exercise to your database or state
-		console.log("Exercise Saved:", exercise);
+		// console.log("Exercise Saved:", exercise);
+		Log(LogLevel.DEBUG, `Exercise Saved: ${JSON.stringify(exercise)}`);
 	};
+
+	useEffect(() => {
+		// Pass the exercise back to the parent component
+		exerciseCallback(exercise);
+	}, [exercise]); // This will trigger every time `exercise` changes
 
 	return (
 		<div className="flex flex-col gap-4 mx-4">
