@@ -7,7 +7,7 @@ import BodyFatCalculator from "@/src/components/body-fat/BodyFatCalculator";
 import FoodScanner from "@/src/components/food-scanner/FoodScanner";
 
 import { SignOut } from "../../utils/helpers/supabase";
-import Button from "@/src/components/re-usable/Button/Button";
+import { Button } from "@/src/components/re-usable/Button/Button";
 
 import { useRouter } from "next/navigation";
 
