@@ -1,9 +1,9 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import useFetchUserWorkouts from "@/src/utils/hooks/useFetchUserWorkouts";
-import { Button } from "../re-usable/Button/Button";
+import { Button } from "../UI/Button/Button";
 import { AddUserWorkout, GetUserID } from "@/src/utils/helpers/supabase";
-import { Json } from "@/src/types/types";
-import { CreateWorkout } from "../create-workout/CreateWorkout";
+import { Json, Workout } from "@/src/types/types";
+import { CreateWorkout } from "../user-workout-creator/create-workout/CreateWorkout";
 
 /**
  * Props for the UserWorkouts component.
@@ -15,24 +15,23 @@ interface UserWorkoutsProps {}
  * @component
  */
 const UserWorkouts: FC<UserWorkoutsProps> = ({}) => {
+	const [workout, setWorkout] = useState<Workout>({
+		name: "",
+		exercises: []
+	});
+
 	const { isLoading, userWorkouts } = useFetchUserWorkouts();
 
-	const dummyWorkout: Json = {
-		Name: "Test Workout",
-		Description: "This is a test workout"
-	};
-
 	return (
-		<div className="flex flex-col">
-			{/* {userWorkouts && <div>{userWorkouts}</div>} */}
-			<CreateWorkout></CreateWorkout>
-			{/* <Button
+		<div className="flex flex-col gap-4 m-4">
+			<CreateWorkout workoutCallback={setWorkout}></CreateWorkout>
+			<Button
 				onClick={async () => {
-					AddUserWorkout((await GetUserID()) as string, dummyWorkout);
+					AddUserWorkout((await GetUserID()) as string, workout);
 				}}
 			>
-				Add Workout
-			</Button> */}
+				Log Workout
+			</Button>
 		</div>
 	);
 };

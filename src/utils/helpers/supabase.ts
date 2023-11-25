@@ -3,7 +3,7 @@
 // Supabase
 import { createBrowserClient } from "@supabase/ssr";
 import { LogLevel, Log } from "./debugLog";
-import { Json } from "@/src/types/types";
+import { Json, Workout } from "@/src/types/types";
 
 const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
@@ -51,9 +51,18 @@ export const GetUserWorkoutsRow = async (id: string) => {
  * @returns The workouts associated with the user.
  */
 export const GetUserWorkouts = async (id: string) => {
-	const { data: user_workouts } = await supabase.from("user_workouts").select("workouts").eq("id", id);
-	Log(LogLevel.DEBUG, `GetUserWorkouts: ${JSON.stringify(user_workouts)}`);
-	return user_workouts?.[0]?.workouts || [];
+	const { data: user_workouts, error } = await supabase.from("user_workouts").select("workouts").eq("id", id);
+
+	if (user_workouts) {
+		Log(LogLevel.DEBUG, `GetUserWorkouts, user_workouts:`, user_workouts[0].workouts);
+	}
+
+	if (error) {
+		Log(LogLevel.ERROR, `GetUserWorkouts, error:`, error);
+		throw error;
+	}
+
+	return (user_workouts[0].workouts as Workout[]) || [];
 };
 
 /**
@@ -61,15 +70,17 @@ export const GetUserWorkouts = async (id: string) => {
  * @param id - The ID of the user.
  * @param workout - The workout to be added.
  */
-export const AddUserWorkout = async (id: string, workout: Json) => {
-	const workoutToBeAdded: string = JSON.stringify(workout);
+export const AddUserWorkout = async (id: string, workout: Workout) => {
+	Log(LogLevel.DEBUG, `AddUserWorkout, id, workout:`, { id, workout });
 	const userWorkouts = await GetUserWorkouts(id);
-
-	userWorkouts.push(workoutToBeAdded);
+	userWorkouts.push(workout);
 
 	const { data, error } = await supabase.from("user_workouts").update({ workouts: userWorkouts }).eq("id", id).select();
 
-	Log(LogLevel.DEBUG, `AddUserWorkout, data: ${JSON.stringify(data)}`);
+	if (data) {
+		Log(LogLevel.DEBUG, `AddUserWorkout, return data:`, data);
+	}
+
 	if (error) {
 		Log(LogLevel.ERROR, `AddUserWorkout, error: ${error}`);
 	}

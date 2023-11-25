@@ -1,11 +1,15 @@
-import { FC, useEffect, useState } from "react";
-import { Button } from "../re-usable/Button/Button";
+import { FC, InputHTMLAttributes, useEffect, useState } from "react";
+import { Button } from "../../UI/Button/Button";
 import { CreateExercise } from "../create-exercise/CreateExercise";
 import { Exercise, Workout } from "@/src/types/types";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
-import { Input } from "../re-usable/Input/Input";
+import { Input } from "../../UI/Input/Input";
 
-export const CreateWorkout: FC = () => {
+interface CreateWorkoutProps extends InputHTMLAttributes<HTMLInputElement> {
+	workoutCallback: (exercise: Workout) => void;
+}
+
+export const CreateWorkout: FC<CreateWorkoutProps> = ({ workoutCallback }) => {
 	const [workout, setWorkout] = useState<Workout>({
 		name: "",
 		exercises: []
@@ -13,7 +17,8 @@ export const CreateWorkout: FC = () => {
 	const [exerciseIds, setExerciseIds] = useState<number[]>([]); // State to store exercise IDs
 
 	useEffect(() => {
-		Log(LogLevel.DEBUG, `Workout updated: ${JSON.stringify(workout)}`);
+		Log(LogLevel.DEBUG, `Workout updated:`, workout);
+		workoutCallback(workout);
 	}, [workout]);
 
 	const generateRandomNumber = () => {
@@ -62,7 +67,7 @@ export const CreateWorkout: FC = () => {
 				const newExercises = [...prevWorkout.exercises];
 				newExercises.splice(index, 1);
 				setExerciseIds((prevIds) => prevIds.filter((exerciseId) => exerciseId !== id)); // Remove the exercise ID
-				Log(LogLevel.INFO, `Removing exercise with ID ${id}`);
+				Log(LogLevel.INFO, `Removing exercise with ID:`, { id });
 				return {
 					...prevWorkout,
 					exercises: newExercises
@@ -84,9 +89,7 @@ export const CreateWorkout: FC = () => {
 			{workout.exercises.map((exercise, index) => {
 				const exerciseId = exerciseIds[index];
 				return (
-					<div key={exerciseId}>
-						<p>Exercise with ID {exerciseId}:</p>
-						<pre>{JSON.stringify(exercise, null, 2)}</pre>
+					<div className="flex flex-col gap-4" key={exerciseId}>
 						<Button
 							onClick={() => {
 								removeExercise(exerciseId);
