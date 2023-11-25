@@ -93,7 +93,8 @@ export const GetUserFavoriteExercises = async (id: string) => {
  * @param favorite exercise - The favorite exercise to be added.
  */
 export const AddFavoriteExercise = async (id: string, exercise: Json) => {
-	const favoriteExercisesToAdd: string = JSON.stringify(exercise);
+	// const favoriteExercisesToAdd: string = JSON.stringify(exercise);
+	const favoriteExercisesToAdd = exercise;
 	const userExercises = await GetUserFavoriteExercises(id);
 
 	userExercises.push(favoriteExercisesToAdd);
