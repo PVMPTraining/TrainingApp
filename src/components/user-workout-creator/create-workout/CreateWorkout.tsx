@@ -1,9 +1,9 @@
 import { FC, InputHTMLAttributes, useEffect, useState } from "react";
-import { Button } from "../re-usable/Button/Button";
+import { Button } from "../../UI/Button/Button";
 import { CreateExercise } from "../create-exercise/CreateExercise";
 import { Exercise, Workout } from "@/src/types/types";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
-import { Input } from "../re-usable/Input/Input";
+import { Input } from "../../UI/Input/Input";
 
 interface CreateWorkoutProps extends InputHTMLAttributes<HTMLInputElement> {
 	workoutCallback: (exercise: Workout) => void;

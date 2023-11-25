@@ -23,3 +23,15 @@ export const Card: FC<CardProps> = ({ className, children, ...props }) => {
 		</div>
 	);
 };
+
+interface CardBodyProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+	children: ReactNode;
+}
+
+export const CardBody: FC<CardBodyProps> = ({ className, children, ...props }) => {
+	return (
+		<div className={["card-body", className].join(" ")} {...(props as HTMLAttributes<HTMLDivElement>)}>
+			{children}
+		</div>
+	);
+};

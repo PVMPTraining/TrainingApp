@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from "react";
 import useFetchUserWorkouts from "@/src/utils/hooks/useFetchUserWorkouts";
-import { Button } from "../re-usable/Button/Button";
+import { Button } from "../UI/Button/Button";
 import { AddUserWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 import { Json, Workout } from "@/src/types/types";
-import { CreateWorkout } from "../create-workout/CreateWorkout";
+import { CreateWorkout } from "../user-workout-creator/create-workout/CreateWorkout";
 
 /**
  * Props for the UserWorkouts component.
@@ -21,10 +21,6 @@ const UserWorkouts: FC<UserWorkoutsProps> = ({}) => {
 	});
 
 	const { isLoading, userWorkouts } = useFetchUserWorkouts();
-
-	useEffect(() => {
-		console.log("User Workouts:", userWorkouts);
-	}, [userWorkouts]);
 
 	return (
 		<div className="flex flex-col gap-4 m-4">
