@@ -1,25 +1,21 @@
-import { FC, useEffect, useState } from "react";
+import { FC, InputHTMLAttributes, useEffect, useState } from "react";
 import useFetchUserWorkouts from "@/src/utils/hooks/useFetchUserWorkouts";
 import { Button } from "../re-usable/Button/Button";
 import { AddUserWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 import { Json, Workout } from "@/src/types/types";
 import { CreateWorkout } from "../create-workout/CreateWorkout";
+import { Card } from "../re-usable/Card/Card";
 
 /**
  * Props for the UserWorkouts component.
  */
-interface UserWorkoutsProps {}
+interface UserWorkoutsListProps extends InputHTMLAttributes<HTMLInputElement> {}
 
 /**
  * Renders the UserWorkouts component.
  * @component
  */
-const UserWorkouts: FC<UserWorkoutsProps> = ({}) => {
-	const [workout, setWorkout] = useState<Workout>({
-		name: "",
-		exercises: []
-	});
-
+const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
 	const { isLoading, userWorkouts } = useFetchUserWorkouts();
 
 	useEffect(() => {
@@ -27,17 +23,12 @@ const UserWorkouts: FC<UserWorkoutsProps> = ({}) => {
 	}, [userWorkouts]);
 
 	return (
-		<div className="flex flex-col gap-4 m-4">
-			<CreateWorkout workoutCallback={setWorkout}></CreateWorkout>
-			<Button
-				onClick={async () => {
-					AddUserWorkout((await GetUserID()) as string, workout);
-				}}
-			>
-				Log Workout
-			</Button>
+		<div className="flex flex-col m-4">
+			{userWorkouts.map((workout: Workout) => {
+				return <Card>Test</Card>;
+			})}
 		</div>
 	);
 };
 
-export default UserWorkouts;
+export default UserWorkoutsList;

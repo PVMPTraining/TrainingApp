@@ -15,30 +15,38 @@ export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback }) =>
 		rest: 0
 	});
 
-	const [newSet, setNewSet] = useState<Set>({
-		reps: 0,
-		weight: 0,
-		rest: 0
-	});
+	useEffect(() => {
+		// Pass the exercise back to the parent component
+		exerciseCallback(exercise);
+	}, [exercise]); // This will trigger every time `exercise` changes
 
 	const handleExerciseNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setExercise({ ...exercise, name: event.target.value });
 	};
 
-	const handleSetChange = (field: string, value: string) => {
-		setNewSet({ ...newSet, [field]: value });
+	const handleSetChange = (field: string, value: string, index: number) => {
+		const updatedSets = [...exercise.sets];
+		const updatedSet = { ...updatedSets[index], [field]: value };
+		updatedSets[index] = updatedSet;
+		setExercise({ ...exercise, sets: updatedSets });
 	};
 
 	const addSet = () => {
+		const newSet: Set = {
+			reps: 0,
+			weight: 0,
+			rest: 0
+		};
 		setExercise({
 			...exercise,
 			sets: [...exercise.sets, newSet]
 		});
-		setNewSet({
-			reps: 0,
-			weight: 0,
-			rest: 0
-		});
+	};
+
+	const removeSet = (index: number) => {
+		const updatedSets = [...exercise.sets];
+		updatedSets.splice(index, 1); // Remove the set at the specified index
+		setExercise({ ...exercise, sets: updatedSets });
 	};
 
 	const handleRestAfterExerciseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,45 +56,53 @@ export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback }) =>
 	const saveExercise = () => {
 		// You can perform further actions here, like saving the exercise to your database or state
 		// console.log("Exercise Saved:", exercise);
-		Log(LogLevel.DEBUG, `Exercise Saved: ${JSON.stringify(exercise)}`);
+		Log(LogLevel.DEBUG, `Exercise Saved:`, exercise);
 	};
 
-	useEffect(() => {
-		// Pass the exercise back to the parent component
-		exerciseCallback(exercise);
-	}, [exercise]); // This will trigger every time `exercise` changes
-
 	return (
-		<div className="flex flex-col gap-4 mx-4">
-			<Input placeholder="Exercise name" value={exercise.name} onChange={handleExerciseNameChange} />
+		<div className="flex flex-col gap-4 p-4 rounded bg-base-300">
+			<Input className="bg-base-200" placeholder="Exercise name" value={exercise.name} onChange={handleExerciseNameChange} />
 			{exercise.sets.map((set, index) => (
-				<div key={index} className="flex gap-4 max-w-screen justify-center">
+				<div key={index} className="flex gap-4 items-center max-w-screen justify-center">
 					<div className="flex gap-1 items-center max-w-[30%]">
-						<Input className="bg-base-200" placeholder="Reps" value={set.reps} onChange={(e) => handleSetChange("reps", e.target.value)} />
-						Reps
+						<Input
+							className="bg-base-200 input-sm"
+							placeholder="Reps"
+							value={set.reps}
+							type="number"
+							onChange={(e) => handleSetChange("reps", e.target.value, index)}
+						/>
+						<span className="text-xs">Reps</span>
 					</div>
 					<div className="flex gap-1 items-center max-w-[30%]">
 						<Input
-							className="bg-base-200"
+							className="bg-base-200 input-sm"
 							placeholder="Weights (kg)"
 							value={set.weight}
-							onChange={(e) => handleSetChange("weight", e.target.value)}
+							type="number"
+							onChange={(e) => handleSetChange("weight", e.target.value, index)}
 						/>
-						Weights (kg)
+						<span className="text-xs">Weights (kg)</span>
 					</div>
 					<div className="flex gap-1 items-center max-w-[30%]">
-						<Input className="bg-base-200" placeholder="Rest (s)" value={set.rest} onChange={(e) => handleSetChange("rest", e.target.value)} />
-						Rest (s)
+						<Input
+							className="bg-base-200 input-sm"
+							placeholder="Rest (s)"
+							value={set.rest}
+							type="number"
+							onChange={(e) => handleSetChange("rest", e.target.value, index)}
+						/>
+						<span className="text-xs">Rest (s)</span>
 					</div>
+					<Button className="btn-circle btn-sm" onClick={() => removeSet(index)}>
+						X
+					</Button>
 				</div>
 			))}
-			<Button className="w-full" onClick={addSet}>
-				New set
+			<Button className="btn-circle btn-sm self-center" onClick={addSet}>
+				+
 			</Button>
 			<Input type="number" placeholder="Rest After Exercise" value={exercise.rest.toString()} onChange={handleRestAfterExerciseChange} />
-			<Button className="w-full" onClick={saveExercise}>
-				Save Exercise
-			</Button>
 		</div>
 	);
 };
