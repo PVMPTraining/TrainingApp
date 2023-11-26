@@ -33,7 +33,7 @@ const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
 				</div>
 				<Button
 					onClick={() => {
-						router.push("/user-workouts/new-workout");
+						router.push("/fitness/user-workouts/new-workout");
 					}}
 				>
 					Add New Workout
