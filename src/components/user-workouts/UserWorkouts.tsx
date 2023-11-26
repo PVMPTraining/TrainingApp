@@ -1,9 +1,9 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import useFetchUserWorkouts from "@/src/utils/hooks/useFetchUserWorkouts";
 import { Button } from "../UI/Button/Button";
 import { AddUserWorkout, GetUserID } from "@/src/utils/helpers/supabase";
-import { Json, Workout } from "@/src/types/types";
-import { CreateWorkout } from "../user-workout-creator/create-workout/CreateWorkout";
+import { Workout } from "@/src/types/types";
+import { CreateWorkout } from "../user-workouts/user-workout-creator/create-workout/CreateWorkout";
 
 /**
  * Props for the UserWorkouts component.
