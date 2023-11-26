@@ -42,3 +42,25 @@ export interface Set {
 	weight: number;
 	rest: number;
 }
+
+export interface ExerciseData {
+	id: string;
+	created_at: string;
+	name: string;
+	alternate_name: string[];
+	primary_muscles: string[];
+	secondary_muscles: string[];
+	description: string;
+	proper_form: string;
+	modifications: string[];
+	load: string;
+	volume: string;
+	progression: string;
+	rest_period: string;
+	precautions: string[];
+	common_mistakes: string[];
+	risks: string[];
+	mandatory_equipment: string[];
+	optional_equipment: string[];
+	alternative_exercises: string[];
+}
