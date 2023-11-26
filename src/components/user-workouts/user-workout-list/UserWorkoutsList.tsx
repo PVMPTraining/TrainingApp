@@ -21,6 +21,13 @@ const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
 	return (
 		<div className="flex flex-col gap-4 m-4">
 			<div className="flex gap-4 items-center bg-base-300 rounded p-2">
+				<Button
+					onClick={() => {
+						router.back();
+					}}
+				>
+					BACK
+				</Button>
 				<div className="w-full text-center">
 					<h1 className="uppercase">User Workouts</h1>
 				</div>

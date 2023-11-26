@@ -4,12 +4,21 @@ import { FC } from "react";
 // Next
 import Link from "next/link";
 import { Button } from "@/src/components/UI/Button/Button";
+import { useRouter } from "next/navigation";
 
 const HomePage: FC = () => {
+	const router = useRouter();
+
 	return (
 		<>
 			<div className="min-h-screen flex flex-col justify-end gap-4 p-8">
-				<Button>FITNESS</Button>
+				<Button
+					onClick={() => {
+						router.push("/fitness");
+					}}
+				>
+					FITNESS
+				</Button>
 			</div>
 		</>
 	);

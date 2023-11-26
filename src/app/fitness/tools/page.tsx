@@ -139,9 +139,9 @@ const FitnessToolsPage: FC = () => {
 				<Formik
 					initialValues={{
 						unit: "metric",
-						weightLiftedMetric: "",
-						weightLiftedImperial: "",
-						reps: ""
+						weightLiftedMetric: 0,
+						weightLiftedImperial: 0,
+						reps: 0
 					}}
 					validationSchema={repCalculateFormSchema}
 					onSubmit={(values, actions) => {
