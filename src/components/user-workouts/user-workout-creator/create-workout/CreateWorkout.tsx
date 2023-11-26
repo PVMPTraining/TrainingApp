@@ -1,9 +1,10 @@
 import { FC, InputHTMLAttributes, useEffect, useState } from "react";
-import { Button } from "../../UI/Button/Button";
+import { Button } from "@/src/components/UI/Button/Button";
 import { CreateExercise } from "../create-exercise/CreateExercise";
 import { Exercise, Workout } from "@/src/types/types";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
-import { Input } from "../../UI/Input/Input";
+import { Input } from "@/src/components/UI/Input/Input";
+import { useRouter } from "next/navigation";
 
 interface CreateWorkoutProps extends InputHTMLAttributes<HTMLInputElement> {
 	workoutCallback: (exercise: Workout) => void;
@@ -15,6 +16,7 @@ export const CreateWorkout: FC<CreateWorkoutProps> = ({ workoutCallback }) => {
 		exercises: []
 	});
 	const [exerciseIds, setExerciseIds] = useState<number[]>([]); // State to store exercise IDs
+	const router = useRouter();
 
 	useEffect(() => {
 		Log(LogLevel.DEBUG, `Workout updated:`, workout);
@@ -22,8 +24,8 @@ export const CreateWorkout: FC<CreateWorkoutProps> = ({ workoutCallback }) => {
 	}, [workout]);
 
 	const generateRandomNumber = () => {
-		const min = 1000000000; // Minimum 10-digit number
-		const max = 9999999999; // Maximum 10-digit number
+		const min = 1000000000;
+		const max = 9999999999;
 		const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 		return randomNumber;
 	};
@@ -35,7 +37,7 @@ export const CreateWorkout: FC<CreateWorkoutProps> = ({ workoutCallback }) => {
 			rest: 0
 		};
 
-		const newId = generateRandomNumber(); // Generate a unique ID
+		const newId = generateRandomNumber();
 		setExerciseIds([...exerciseIds, newId]);
 
 		setWorkout((prevWorkout) => ({
@@ -66,7 +68,7 @@ export const CreateWorkout: FC<CreateWorkoutProps> = ({ workoutCallback }) => {
 			if (index !== -1) {
 				const newExercises = [...prevWorkout.exercises];
 				newExercises.splice(index, 1);
-				setExerciseIds((prevIds) => prevIds.filter((exerciseId) => exerciseId !== id)); // Remove the exercise ID
+				setExerciseIds((prevIds) => prevIds.filter((exerciseId) => exerciseId !== id));
 				Log(LogLevel.INFO, `Removing exercise with ID:`, { id });
 				return {
 					...prevWorkout,
@@ -80,24 +82,32 @@ export const CreateWorkout: FC<CreateWorkoutProps> = ({ workoutCallback }) => {
 
 	return (
 		<div className="flex flex-col gap-4">
-			<Input
-				className="bg-base-200"
-				placeholder="Workout name"
-				value={workout.name}
-				onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkout({ ...workout, name: e.target.value })}
-			/>
+			<div className="flex gap-4">
+				<Button
+					onClick={() => {
+						router.back();
+					}}
+				>
+					Back
+				</Button>
+				<Input
+					className="bg-base-200"
+					placeholder="Workout name"
+					value={workout.name}
+					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkout({ ...workout, name: e.target.value })}
+				/>
+			</div>
 			{workout.exercises.map((exercise, index) => {
 				const exerciseId = exerciseIds[index];
 				return (
 					<div className="flex flex-col gap-4" key={exerciseId}>
-						<Button
-							onClick={() => {
+						<CreateExercise
+							key={exerciseId}
+							deleteCallback={() => {
 								removeExercise(exerciseId);
 							}}
-						>
-							Remove exercise
-						</Button>
-						<CreateExercise key={exerciseId} exerciseCallback={(updatedExercise) => updateExercise(exerciseId, updatedExercise)} />
+							exerciseCallback={(updatedExercise) => updateExercise(exerciseId, updatedExercise)}
+						/>
 					</div>
 				);
 			})}

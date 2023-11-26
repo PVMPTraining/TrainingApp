@@ -1,26 +1,31 @@
 import { FC, InputHTMLAttributes, useEffect, useState } from "react";
-import { Input } from "../../UI/Input/Input";
-import { Button } from "../../UI/Button/Button";
-import { Exercise, Set } from "@/src/types/types"; // Assuming ExerciseSet is a type you want to use
+import { Input } from "@/src/components/UI/Input/Input";
+import { Button } from "@/src/components/UI/Button/Button";
+import { Exercise, ExerciseData, Set } from "@/src/types/types"; // Assuming ExerciseSet is a type you want to use
+import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
+import { ComboBox } from "@/src/components/UI/combobox/combobox";
 
 interface CreateExerciseProps extends InputHTMLAttributes<HTMLInputElement> {
 	exerciseCallback: (exercise: Exercise) => void;
+	deleteCallback: () => void;
 }
 
-export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback }) => {
+export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback, deleteCallback }) => {
 	const [exercise, setExercise] = useState<Exercise>({
 		name: "",
 		sets: [],
 		rest: 0
 	});
 
+	const { isLoading, exercises } = useFetchUserExercsiseDatabase();
+
 	useEffect(() => {
 		// Pass the exercise back to the parent component
 		exerciseCallback(exercise);
 	}, [exercise]); // This will trigger every time `exercise` changes
 
-	const handleExerciseNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setExercise({ ...exercise, name: event.target.value });
+	const handleExerciseNameChange = (newName: string) => {
+		setExercise({ ...exercise, name: newName });
 	};
 
 	const handleSetChange = (field: string, value: string, index: number) => {
@@ -54,7 +59,10 @@ export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback }) =>
 
 	return (
 		<div className="flex flex-col gap-4 p-4 rounded bg-base-300">
-			<Input className="bg-base-200 input-md" placeholder="Exercise name" value={exercise.name} onChange={handleExerciseNameChange} />
+			<div className="flex gap-2">
+				<ComboBox className="w-full" options={exercises.map((exercise: ExerciseData) => exercise.name)} selectedCallback={handleExerciseNameChange} />
+				<Button onClick={deleteCallback}>X</Button>
+			</div>
 			{exercise.sets.map((set, index) => (
 				<div key={index} className="flex gap-4 items-center max-w-screen justify-center">
 					<div className="flex gap-1 items-center max-w-[37%]">
@@ -87,12 +95,12 @@ export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback }) =>
 						/>
 						<span className="text-xs">Rest (s)</span>
 					</div>
-					<Button className="btn-circle btn-sm" onClick={() => removeSet(index)}>
+					<Button className="btn-square btn-sm" onClick={() => removeSet(index)}>
 						X
 					</Button>
 				</div>
 			))}
-			<Button className="btn-circle btn-sm self-center" onClick={addSet}>
+			<Button className="btn-sm w-full self-center" onClick={addSet}>
 				<span className="text-xs">+Set</span>
 			</Button>
 			<div className="flex items-center gap-1">

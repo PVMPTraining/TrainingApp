@@ -3,7 +3,7 @@
 // Supabase
 import { createBrowserClient } from "@supabase/ssr";
 import { LogLevel, Log } from "./debugLog";
-import { Json, Workout } from "@/src/types/types";
+import { ExerciseData, Json, Workout } from "@/src/types/types";
 
 const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
@@ -63,6 +63,25 @@ export const GetUserWorkouts = async (id: string) => {
 	}
 
 	return (user_workouts[0].workouts as Workout[]) || [];
+};
+
+/**
+ * Retrieves exercises from the exercise_database table.
+ * @returns An array of exercises.
+ */
+export const GetExercises = async () => {
+	const { data: exercises, error } = await supabase.from("exercise_database").select("*");
+
+	if (exercises) {
+		Log(LogLevel.DEBUG, `GetExercises, exercises:`, exercises);
+	}
+
+	if (error) {
+		Log(LogLevel.ERROR, `GetExercises, error:`, error);
+		throw error;
+	}
+
+	return (exercises as ExerciseData[]) || [];
 };
 
 /**
