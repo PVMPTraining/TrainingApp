@@ -3,7 +3,7 @@ import { FC } from "react";
 
 // Next
 import Link from "next/link";
-import { Button } from "@/src/components/re-usable/Button/Button";
+import { Button } from "@/src/components/UI/Button/Button";
 
 const FitnessPage: FC = () => {
 	return (
