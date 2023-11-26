@@ -1,15 +1,20 @@
 import { Input } from "@/src/components/UI/Input/Input";
-import React, { ButtonHTMLAttributes, FC, useState } from "react";
+import React, { ButtonHTMLAttributes, FC, useEffect, useState } from "react";
 
 interface ComboBoxProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	options: string[];
+	selectedCallback: (selected: string) => void;
 }
 
-const ComboBox: FC<ComboBoxProps> = ({ options }) => {
+const ComboBox: FC<ComboBoxProps> = ({ options, selectedCallback }) => {
 	// Define an initial state for the input value and the selected option
 	const [inputValue, setInputValue] = useState("");
 	const [selectedOption, setSelectedOption] = useState("");
 	const [inputFocused, setInputFocused] = useState(false);
+
+	useEffect(() => {
+		selectedCallback(selectedOption);
+	}, [selectedOption]);
 
 	// Event handler to handle changes in the input field
 	const handleInputChange = (event: { target: { value: any } }) => {
