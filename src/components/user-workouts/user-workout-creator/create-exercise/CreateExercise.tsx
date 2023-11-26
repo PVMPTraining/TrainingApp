@@ -3,7 +3,7 @@ import { Input } from "@/src/components/UI/Input/Input";
 import { Button } from "@/src/components/UI/Button/Button";
 import { Exercise, ExerciseData, Set } from "@/src/types/types"; // Assuming ExerciseSet is a type you want to use
 import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
-import ComboBox from "@/src/components/UI/combobox/combobox";
+import { ComboBox } from "@/src/components/UI/combobox/combobox";
 
 interface CreateExerciseProps extends InputHTMLAttributes<HTMLInputElement> {
 	exerciseCallback: (exercise: Exercise) => void;

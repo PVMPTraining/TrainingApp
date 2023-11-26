@@ -6,7 +6,7 @@ interface ComboBoxProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	selectedCallback: (selected: string) => void;
 }
 
-const ComboBox: FC<ComboBoxProps> = ({ options, selectedCallback }) => {
+export const ComboBox: FC<ComboBoxProps> = ({ options, selectedCallback }) => {
 	// Define an initial state for the input value and the selected option
 	const [inputValue, setInputValue] = useState("");
 	const [selectedOption, setSelectedOption] = useState("");
@@ -67,5 +67,3 @@ const ComboBox: FC<ComboBoxProps> = ({ options, selectedCallback }) => {
 		</div>
 	);
 };
-
-export default ComboBox;
