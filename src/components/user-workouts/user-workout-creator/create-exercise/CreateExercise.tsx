@@ -7,9 +7,10 @@ import { ComboBox } from "@/src/components/UI/combobox/combobox";
 
 interface CreateExerciseProps extends InputHTMLAttributes<HTMLInputElement> {
 	exerciseCallback: (exercise: Exercise) => void;
+	deleteCallback: () => void;
 }
 
-export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback }) => {
+export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback, deleteCallback }) => {
 	const [exercise, setExercise] = useState<Exercise>({
 		name: "",
 		sets: [],
@@ -58,7 +59,10 @@ export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback }) =>
 
 	return (
 		<div className="flex flex-col gap-4 p-4 rounded bg-base-300">
-			<ComboBox options={exercises.map((exercise: ExerciseData) => exercise.name)} selectedCallback={handleExerciseNameChange} />
+			<div className="flex gap-2">
+				<ComboBox className="w-full" options={exercises.map((exercise: ExerciseData) => exercise.name)} selectedCallback={handleExerciseNameChange} />
+				<Button onClick={deleteCallback}>X</Button>
+			</div>
 			{exercise.sets.map((set, index) => (
 				<div key={index} className="flex gap-4 items-center max-w-screen justify-center">
 					<div className="flex gap-1 items-center max-w-[37%]">
@@ -91,12 +95,12 @@ export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback }) =>
 						/>
 						<span className="text-xs">Rest (s)</span>
 					</div>
-					<Button className="btn-circle btn-sm" onClick={() => removeSet(index)}>
+					<Button className="btn-square btn-sm" onClick={() => removeSet(index)}>
 						X
 					</Button>
 				</div>
 			))}
-			<Button className="btn-circle btn-sm self-center" onClick={addSet}>
+			<Button className="btn-sm w-full self-center" onClick={addSet}>
 				<span className="text-xs">+Set</span>
 			</Button>
 			<div className="flex items-center gap-1">

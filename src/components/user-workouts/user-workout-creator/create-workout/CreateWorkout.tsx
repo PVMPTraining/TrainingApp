@@ -101,14 +101,13 @@ export const CreateWorkout: FC<CreateWorkoutProps> = ({ workoutCallback }) => {
 				const exerciseId = exerciseIds[index];
 				return (
 					<div className="flex flex-col gap-4" key={exerciseId}>
-						<Button
-							onClick={() => {
+						<CreateExercise
+							key={exerciseId}
+							deleteCallback={() => {
 								removeExercise(exerciseId);
 							}}
-						>
-							Remove exercise
-						</Button>
-						<CreateExercise key={exerciseId} exerciseCallback={(updatedExercise) => updateExercise(exerciseId, updatedExercise)} />
+							exerciseCallback={(updatedExercise) => updateExercise(exerciseId, updatedExercise)}
+						/>
 					</div>
 				);
 			})}

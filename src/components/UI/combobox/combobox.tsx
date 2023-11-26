@@ -6,7 +6,7 @@ interface ComboBoxProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	selectedCallback: (selected: string) => void;
 }
 
-export const ComboBox: FC<ComboBoxProps> = ({ options, selectedCallback }) => {
+export const ComboBox: FC<ComboBoxProps> = ({ className, options, selectedCallback }) => {
 	// Define an initial state for the input value and the selected option
 	const [inputValue, setInputValue] = useState("");
 	const [selectedOption, setSelectedOption] = useState("");
@@ -44,10 +44,11 @@ export const ComboBox: FC<ComboBoxProps> = ({ options, selectedCallback }) => {
 	};
 
 	return (
-		<div className="dropdown">
+		<div className={["dropdown", className].join(" ")}>
 			<Input
 				tabIndex={0}
 				className="focus:rounded-b-none"
+				placeholder="Search..."
 				type="text"
 				value={inputValue}
 				onChange={handleInputChange}
@@ -63,7 +64,7 @@ export const ComboBox: FC<ComboBoxProps> = ({ options, selectedCallback }) => {
 						</li>
 					))}
 			</ul>
-			{selectedOption && <p>You selected: {selectedOption}</p>}
+			{/* {selectedOption && <p>You selected: {selectedOption}</p>} */}
 		</div>
 	);
 };
