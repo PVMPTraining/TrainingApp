@@ -44,6 +44,8 @@ export const CreateWorkout: FC<CreateWorkoutProps> = ({ workoutCallback }) => {
 			...prevWorkout,
 			exercises: [...prevWorkout.exercises, newExercise]
 		}));
+
+		router.push("/fitness/user-workouts/new-workout");
 	};
 
 	const updateExercise = (id: number, updatedExercise: Exercise) => {
