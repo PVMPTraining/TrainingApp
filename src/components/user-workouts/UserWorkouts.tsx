@@ -15,23 +15,9 @@ interface UserWorkoutsProps {}
  * @component
  */
 const UserWorkouts: FC<UserWorkoutsProps> = ({}) => {
-	const [workout, setWorkout] = useState<Workout>({
-		name: "",
-		exercises: []
-	});
-
-	const { isLoading, userWorkouts } = useFetchUserWorkouts();
-
 	return (
 		<div className="flex flex-col gap-4 m-4">
-			<CreateWorkout workoutCallback={setWorkout}></CreateWorkout>
-			<Button
-				onClick={async () => {
-					AddUserWorkout((await GetUserID()) as string, workout);
-				}}
-			>
-				Log Workout
-			</Button>
+			<CreateWorkout></CreateWorkout>
 		</div>
 	);
 };

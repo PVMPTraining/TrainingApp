@@ -5,115 +5,91 @@ import { Exercise, Workout } from "@/src/types/types";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
 import { Input } from "@/src/components/UI/Input/Input";
 import { useRouter } from "next/navigation";
+import { Formik, Form, FieldArray, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { AddUserWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 
 interface CreateWorkoutProps extends InputHTMLAttributes<HTMLInputElement> {
-	workoutCallback: (exercise: Workout) => void;
 }
 
-export const CreateWorkout: FC<CreateWorkoutProps> = ({ workoutCallback }) => {
-	const [workout, setWorkout] = useState<Workout>({
-		name: "",
-		exercises: []
-	});
-	const [exerciseIds, setExerciseIds] = useState<number[]>([]); // State to store exercise IDs
+const workoutSchema = Yup.object().shape({
+	name: Yup.string().required("Workout name is required"),
+	exercises: Yup.array().of(
+	  Yup.object().shape({
+		name: Yup.string().required("Exercise name is required"),
+		sets: Yup.array()
+		  .of(
+			Yup.object().shape({
+			  // Define validation rules for sets if needed
+			})
+		  )
+		  .required("At least one set is required"),
+		rest: Yup.number().min(0, "Rest time must be a positive number").required("Rest time is required"),
+	  })
+	),
+  });
+
+
+  const CreateWorkoutForm: FC<CreateWorkoutProps> = () => {
 	const router = useRouter();
 
-	useEffect(() => {
-		Log(LogLevel.DEBUG, `Workout updated:`, workout);
-		workoutCallback(workout);
-	}, [workout]);
-
-	const generateRandomNumber = () => {
-		const min = 1000000000;
-		const max = 9999999999;
-		const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
-		return randomNumber;
-	};
-
-	const addNewExerciseToWorkout = () => {
-		const newExercise: Exercise = {
-			name: "",
-			sets: [],
-			rest: 0
-		};
-
-		const newId = generateRandomNumber();
-		setExerciseIds([...exerciseIds, newId]);
-
-		setWorkout((prevWorkout) => ({
-			...prevWorkout,
-			exercises: [...prevWorkout.exercises, newExercise]
-		}));
-
-		router.push("/fitness/user-workouts/new-workout");
-	};
-
-	const updateExercise = (id: number, updatedExercise: Exercise) => {
-		setWorkout((prevWorkout) => {
-			const newExercises = [...prevWorkout.exercises];
-			const index = exerciseIds.indexOf(id);
-
-			if (index !== -1) {
-				newExercises[index] = updatedExercise;
-			}
-
-			return {
-				...prevWorkout,
-				exercises: newExercises
-			};
-		});
-	};
-
-	const removeExercise = (id: number) => {
-		setWorkout((prevWorkout) => {
-			const index = exerciseIds.indexOf(id);
-			if (index !== -1) {
-				const newExercises = [...prevWorkout.exercises];
-				newExercises.splice(index, 1);
-				setExerciseIds((prevIds) => prevIds.filter((exerciseId) => exerciseId !== id));
-				Log(LogLevel.INFO, `Removing exercise with ID:`, { id });
-				return {
-					...prevWorkout,
-					exercises: newExercises
-				};
-			} else {
-				return prevWorkout;
-			}
-		});
+	const handleSubmit = async (values: Workout) => {
+	  Log(LogLevel.DEBUG, `Workout updated:`, values);
+	  await AddUserWorkout((await GetUserID()) as string, values);
+	  router.back();
 	};
 
 	return (
-		<div className="flex flex-col gap-4">
-			<div className="flex gap-4">
-				<Button
-					onClick={() => {
-						router.back();
-					}}
-				>
-					Back
-				</Button>
-				<Input
-					className="bg-base-200"
-					placeholder="Workout name"
-					value={workout.name}
-					onChange={(e: React.ChangeEvent<HTMLInputElement>) => setWorkout({ ...workout, name: e.target.value })}
+	  <Formik
+		initialValues={{
+		  name: "",
+		  exercises: [],
+		}}
+		validationSchema={workoutSchema}
+		onSubmit={handleSubmit}
+	  >
+		{({ values, errors, touched, setFieldValue }) => (
+		  <Form>
+			<div className="flex flex-col gap-4">
+			  <div className="flex gap-4">
+				<Button onClick={() => router.back()}>Back</Button>
+				<Field
+				  type="text"
+				  name="name"
+				  className="bg-base-200"
+				  placeholder="Workout name"
+				  as={Input}
 				/>
-			</div>
-			{workout.exercises.map((exercise, index) => {
-				const exerciseId = exerciseIds[index];
-				return (
-					<div className="flex flex-col gap-4" key={exerciseId}>
+				<ErrorMessage name="name" component="div" className="text-red-600" />
+			  </div>
+
+			  <FieldArray name="exercises">
+				{({ push, remove }) => (
+				  <>
+					{values.exercises.map((_, index) => (
+					  <div className="flex flex-col gap-4" key={index}>
 						<CreateExercise
-							key={exerciseId}
-							deleteCallback={() => {
-								removeExercise(exerciseId);
-							}}
-							exerciseCallback={(updatedExercise) => updateExercise(exerciseId, updatedExercise)}
+						  deleteCallback={() => remove(index)}
+						  exerciseCallback={(updatedExercise) =>
+							setFieldValue(`exercises.${index}`, updatedExercise)
+						  }
 						/>
-					</div>
-				);
-			})}
-			<Button onClick={addNewExerciseToWorkout}>Add new exercise</Button>
-		</div>
+						<ErrorMessage name={`exercises.${index}.name`} component="div" className="text-red-600" />
+						{/* Add error messages for other exercise fields if needed */}
+					  </div>
+					))}
+					<Button type="button" onClick={() => push({ name: "", sets: [], rest: 0 })}>
+					  Add new exercise
+					</Button>
+				  </>
+				)}
+			  </FieldArray>
+			  <Button type="submit">Log Workout</Button>
+			</div>
+		  </Form>
+		)}
+	  </Formik>
 	);
-};
+  };
+
+  export const CreateWorkout = CreateWorkoutForm;
