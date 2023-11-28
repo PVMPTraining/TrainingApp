@@ -24,6 +24,7 @@
 		"@supabase/ssr": "^0.0.10",
 		"@supabase/supabase-js": "^2.38.4",
 		"formik": "^2.4.5",
+		"fuse.js": "^7.0.0",
 		"next": "14.0.3",
 		"quagga": "^0.12.1",
 		"react": "^18",
