@@ -23,6 +23,6 @@ export const repCalculateFormSchema = yup.object({
 	reps: yup
 		.number()
 		.min(2, "Please enter a number equal or higher than 2")
-		.max(10, "Please enter a number equal or lesser than 10")
+		.max(12, "Please enter a number equal or lesser than 12")
 		.required("Please fill reps area")
 });
