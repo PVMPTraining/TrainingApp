@@ -106,6 +106,39 @@ export const AddUserWorkout = async (id: string, workout: Workout) => {
 };
 
 /**
+ * Updates a user's workout in the database.
+ * @param id - The ID of the user.
+ * @param updatedWorkout - The updated workout object.
+ */
+export const UpdateUserWorkout = async (id: string, updatedWorkout: Workout) => {
+	Log(LogLevel.DEBUG, `UpdateUserWorkout, id, updatedWorkout:`, { id, updatedWorkout });
+
+	// Fetch existing user workouts
+	const userWorkouts = await GetUserWorkouts(id);
+
+	// Find the index of the workout with the same name in user workouts
+	const existingWorkoutIndex = userWorkouts.findIndex((workout) => workout.name === updatedWorkout.name);
+
+	if (existingWorkoutIndex !== -1) {
+		// Update the existing workout with the new data
+		userWorkouts[existingWorkoutIndex] = updatedWorkout;
+
+		// Update the user workouts in the database
+		const { data, error } = await supabase.from("user_workouts").update({ workouts: userWorkouts }).eq("id", id).select();
+
+		if (data) {
+			Log(LogLevel.DEBUG, `UpdateUserWorkout, return data:`, data);
+		}
+
+		if (error) {
+			Log(LogLevel.ERROR, `UpdateUserWorkout, error: ${error}`);
+		}
+	} else {
+		Log(LogLevel.ERROR, `UpdateUserWorkout, workout not found with name: ${updatedWorkout.name}`);
+	}
+};
+
+/**
  * Retrieves the favorite exercises associated with a user.
  * @param id - The ID of the user.
  * @returns The favorite exercises associated with the user.

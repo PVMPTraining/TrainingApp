@@ -1,6 +1,4 @@
 import { FC, InputHTMLAttributes } from "react";
-import { Formik, Form, FieldArray, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { Button } from "@/src/components/UI/Button/Button";
 import { CreateExercise } from "../create-exercise/CreateExercise";
 import { Exercise, Workout } from "@/src/types/types";
@@ -11,7 +9,9 @@ import { Formik, Form, FieldArray, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { AddUserWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 
-interface CreateWorkoutProps extends InputHTMLAttributes<HTMLInputElement> {}
+interface CreateWorkoutProps extends InputHTMLAttributes<HTMLInputElement> {
+	supabaseCallback: (id: string, workout: Workout) => void;
+}
 
 const workoutSchema = Yup.object().shape({
 	name: Yup.string().required("Workout name is required"),
@@ -30,12 +30,12 @@ const workoutSchema = Yup.object().shape({
 	)
 });
 
-const CreateWorkoutForm: FC<CreateWorkoutProps> = () => {
+const CreateWorkoutForm: FC<CreateWorkoutProps> = ({ supabaseCallback }) => {
 	const router = useRouter();
 
 	const handleSubmit = async (values: Workout) => {
 		Log(LogLevel.DEBUG, `Workout updated:`, values);
-		await AddUserWorkout((await GetUserID()) as string, values);
+		supabaseCallback((await GetUserID()) as string, values);
 		router.back();
 	};
 
@@ -52,9 +52,14 @@ const CreateWorkoutForm: FC<CreateWorkoutProps> = () => {
 				<Form>
 					<div className="flex flex-col gap-4">
 						<div className="flex gap-4">
-							<Button onClick={() => router.back()}>Back</Button>
-							<Field type="text" name="name" className="bg-base-200" placeholder="Workout name" as={Input} />
-							<ErrorMessage name="name" component="div" className="text-red-600" />
+							<Button type="button" onClick={() => router.back()}>
+								Back
+							</Button>
+							<div className="w-full">
+								<Field type="text" name="name" className="bg-base-200" placeholder="Workout name" as={Input} />
+								{touched.name && errors.name && <div className="text-red-600">{errors.name}</div>}
+							</div>
+							{/* <ErrorMessage name="name" component="div" className="text-red-600" /> */}
 						</div>
 
 						<FieldArray name="exercises">
@@ -66,8 +71,10 @@ const CreateWorkoutForm: FC<CreateWorkoutProps> = () => {
 												deleteCallback={() => remove(index)}
 												exerciseCallback={(updatedExercise) => setFieldValue(`exercises.${index}`, updatedExercise)}
 											/>
-											<ErrorMessage name={`exercises.${index}.name`} component="div" className="text-red-600" />
-											{/* Add error messages for other exercise fields if needed */}
+											{touched.exercises && errors.exercises && touched.exercises[index] && errors.exercises[index] && (
+												<div className="text-red-600">{errors.name}</div>
+											)}
+											{/* <ErrorMessage name={`exercises.${index}.name`} component="div" className="text-red-600" /> */}
 										</div>
 									))}
 									<Button type="button" onClick={() => push({ name: "", sets: [], rest: 0 })}>

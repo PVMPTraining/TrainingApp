@@ -95,12 +95,12 @@ export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback, dele
 						/>
 						<span className="text-xs">Rest (s)</span>
 					</div>
-					<Button className="btn-square btn-sm" onClick={() => removeSet(index)}>
+					<Button type="button" className="btn-square btn-sm" onClick={() => removeSet(index)}>
 						X
 					</Button>
 				</div>
 			))}
-			<Button className="btn-sm w-full self-center" onClick={addSet}>
+			<Button type="button" className="btn-sm w-full self-center" onClick={addSet}>
 				<span className="text-xs">+Set</span>
 			</Button>
 			<div className="flex items-center gap-1">

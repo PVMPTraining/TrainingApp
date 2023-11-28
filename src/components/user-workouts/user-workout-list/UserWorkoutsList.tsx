@@ -72,6 +72,13 @@ const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
 				<dialog id="my_modal_1" className="modal" open>
 					<div className="modal-box">
 						<Card>
+							<Button
+								onClick={() => {
+									router.push("/fitness/user-workouts/update-workout");
+								}}
+							>
+								Edit
+							</Button>
 							{workoutSelected.name}
 							{workoutSelected.exercises.map((exercise: any, index: number) => {
 								return (
