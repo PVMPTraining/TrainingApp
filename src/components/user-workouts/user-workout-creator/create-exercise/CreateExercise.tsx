@@ -5,13 +5,12 @@ import { Field, FieldArray } from "formik"; // Import Field and FieldArray from 
 import { Exercise, Workout } from "@/src/types/types";
 
 interface CreateExerciseProps extends InputHTMLAttributes<HTMLInputElement> {
-	exerciseCallback: (exercise: Exercise) => void;
 	deleteCallback: () => void;
 	exercise: Exercise; // Add this prop
 	index: number;
 }
 
-export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback, deleteCallback, exercise, index }) => {
+export const CreateExercise: FC<CreateExerciseProps> = ({ deleteCallback, exercise, index }) => {
 	return (
 		<div className="flex flex-col gap-4 p-4 rounded bg-base-300">
 			<div className="flex gap-2">

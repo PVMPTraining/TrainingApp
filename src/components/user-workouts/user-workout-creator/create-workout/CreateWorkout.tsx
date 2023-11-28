@@ -61,16 +61,7 @@ const CreateWorkoutForm: FC<CreateWorkoutProps> = ({ supabaseCallback, initialVa
 								<>
 									{values.exercises.map((exercise, index) => (
 										<div className="flex flex-col gap-4" key={index}>
-											<CreateExercise
-												exercise={exercise}
-												deleteCallback={() => remove(index)}
-												exerciseCallback={(updatedExercise) => {
-													const updatedExercises = [...values.exercises];
-													updatedExercises[index] = updatedExercise;
-													setFieldValue(`exercises`, updatedExercises);
-												}}
-												index={index}
-											/>
+											<CreateExercise exercise={exercise} deleteCallback={() => remove(index)} index={index} />
 											{touched.exercises && errors.exercises && touched.exercises[index] && errors.exercises[index] && (
 												<div className="text-red-600">{errors.name}</div>
 											)}
