@@ -55,10 +55,10 @@ const SignupPage: FC = () => {
 			</Link>
 			<form className="flex flex-col gap-2" onSubmit={formik.handleSubmit}>
 				<h1>Email</h1>
-				<Input className="bg-base-200" type="text" name="email" onChange={formik.handleChange} value={formik.values.email} />
+				<Input className={`bg-base-200 ${formik.touched.email && formik.errors.email ? 'input-error' : ''}`} type="text" name="email" onChange={formik.handleChange} value={formik.values.email} />
 				{formik.touched.email && formik.errors.email && <div className="text-red-600">{formik.errors.email}</div>}
 				<h1>Password</h1>
-				<Input className="bg-base-200" type="password" name="password" onChange={formik.handleChange} value={formik.values.password} />
+				<Input className={`bg-base-200 ${formik.touched.password && formik.errors.password ? 'input-error' : ''}`} type="password" name="password" onChange={formik.handleChange} value={formik.values.password} />
 				{formik.touched.password && formik.errors.password && <div className="text-red-600">{formik.errors.password}</div>}
 				<Button type="submit">Sign up</Button>
 			</form>
