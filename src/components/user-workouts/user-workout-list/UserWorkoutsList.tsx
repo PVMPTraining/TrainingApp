@@ -74,7 +74,7 @@ const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
 						<Card>
 							<Button
 								onClick={() => {
-									router.push("/fitness/user-workouts/update-workout");
+									router.push("/fitness/user-workouts/update-workout?workout=" + JSON.stringify(workoutSelected));
 								}}
 							>
 								Edit

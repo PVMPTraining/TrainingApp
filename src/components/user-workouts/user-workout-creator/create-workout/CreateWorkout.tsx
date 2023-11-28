@@ -11,6 +11,7 @@ import { AddUserWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 
 interface CreateWorkoutProps extends InputHTMLAttributes<HTMLInputElement> {
 	supabaseCallback: (id: string, workout: Workout) => void;
+	initialValues: Workout; // Add this prop
 }
 
 const workoutSchema = Yup.object().shape({
@@ -30,7 +31,7 @@ const workoutSchema = Yup.object().shape({
 	)
 });
 
-const CreateWorkoutForm: FC<CreateWorkoutProps> = ({ supabaseCallback }) => {
+const CreateWorkoutForm: FC<CreateWorkoutProps> = ({ supabaseCallback, initialValues }) => {
 	const router = useRouter();
 
 	const handleSubmit = async (values: Workout) => {
@@ -40,14 +41,7 @@ const CreateWorkoutForm: FC<CreateWorkoutProps> = ({ supabaseCallback }) => {
 	};
 
 	return (
-		<Formik
-			initialValues={{
-				name: "",
-				exercises: []
-			}}
-			validationSchema={workoutSchema}
-			onSubmit={handleSubmit}
-		>
+		<Formik initialValues={initialValues} validationSchema={workoutSchema} onSubmit={handleSubmit}>
 			{({ values, errors, touched, setFieldValue }) => (
 				<Form>
 					<div className="flex flex-col gap-4">
@@ -65,16 +59,21 @@ const CreateWorkoutForm: FC<CreateWorkoutProps> = ({ supabaseCallback }) => {
 						<FieldArray name="exercises">
 							{({ push, remove }) => (
 								<>
-									{values.exercises.map((_, index) => (
+									{values.exercises.map((exercise, index) => (
 										<div className="flex flex-col gap-4" key={index}>
 											<CreateExercise
+												exercise={exercise}
 												deleteCallback={() => remove(index)}
-												exerciseCallback={(updatedExercise) => setFieldValue(`exercises.${index}`, updatedExercise)}
+												exerciseCallback={(updatedExercise) => {
+													const updatedExercises = [...values.exercises];
+													updatedExercises[index] = updatedExercise;
+													setFieldValue(`exercises`, updatedExercises);
+												}}
+												index={index}
 											/>
 											{touched.exercises && errors.exercises && touched.exercises[index] && errors.exercises[index] && (
 												<div className="text-red-600">{errors.name}</div>
 											)}
-											{/* <ErrorMessage name={`exercises.${index}.name`} component="div" className="text-red-600" /> */}
 										</div>
 									))}
 									<Button type="button" onClick={() => push({ name: "", sets: [], rest: 0 })}>

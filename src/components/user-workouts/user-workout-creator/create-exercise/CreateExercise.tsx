@@ -1,116 +1,73 @@
-import { FC, InputHTMLAttributes, useEffect, useState } from "react";
+import { FC, InputHTMLAttributes } from "react";
 import { Input } from "@/src/components/UI/Input/Input";
 import { Button } from "@/src/components/UI/Button/Button";
-import { Exercise, ExerciseData, Set } from "@/src/types/types"; // Assuming ExerciseSet is a type you want to use
-import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
-import { ComboBox } from "@/src/components/UI/combobox/combobox";
+import { Field, FieldArray } from "formik"; // Import Field and FieldArray from Formik
+import { Exercise, Workout } from "@/src/types/types";
 
 interface CreateExerciseProps extends InputHTMLAttributes<HTMLInputElement> {
 	exerciseCallback: (exercise: Exercise) => void;
 	deleteCallback: () => void;
+	exercise: Exercise; // Add this prop
+	index: number;
 }
 
-export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback, deleteCallback }) => {
-	const [exercise, setExercise] = useState<Exercise>({
-		name: "",
-		sets: [],
-		rest: 0
-	});
-
-	const { isLoading, exercises } = useFetchUserExercsiseDatabase();
-
-	useEffect(() => {
-		// Pass the exercise back to the parent component
-		exerciseCallback(exercise);
-	}, [exercise]); // This will trigger every time `exercise` changes
-
-	const handleExerciseNameChange = (newName: string) => {
-		setExercise({ ...exercise, name: newName });
-	};
-
-	const handleSetChange = (field: string, value: string, index: number) => {
-		const updatedSets = [...exercise.sets];
-		const updatedSet = { ...updatedSets[index], [field]: value };
-		updatedSets[index] = updatedSet;
-		setExercise({ ...exercise, sets: updatedSets });
-	};
-
-	const addSet = () => {
-		const newSet: Set = {
-			reps: 0,
-			weight: 0,
-			rest: 0
-		};
-		setExercise({
-			...exercise,
-			sets: [...exercise.sets, newSet]
-		});
-	};
-
-	const removeSet = (index: number) => {
-		const updatedSets = [...exercise.sets];
-		updatedSets.splice(index, 1); // Remove the set at the specified index
-		setExercise({ ...exercise, sets: updatedSets });
-	};
-
-	const handleRestAfterExerciseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setExercise({ ...exercise, rest: parseInt(event.target.value) || 0 });
-	};
-
+export const CreateExercise: FC<CreateExerciseProps> = ({ exerciseCallback, deleteCallback, exercise, index }) => {
 	return (
 		<div className="flex flex-col gap-4 p-4 rounded bg-base-300">
 			<div className="flex gap-2">
-				<ComboBox className="w-full" options={exercises.map((exercise: ExerciseData) => exercise.name)} selectedCallback={handleExerciseNameChange} />
+				<Field type="text" name={`exercises[${index}].name`} className="w-full bg-base-200" placeholder="Exercise name" as={Input} />
 				<Button onClick={deleteCallback}>X</Button>
 			</div>
-			{exercise.sets.map((set, index) => (
-				<div key={index} className="flex gap-4 items-center max-w-screen justify-center">
-					<div className="flex gap-1 items-center max-w-[37%]">
-						<Input
-							className="bg-base-200 input-sm text-end"
-							placeholder="Reps"
-							value={set.reps === 0 ? "" : set.reps}
-							type="number"
-							onChange={(e) => handleSetChange("reps", e.target.value, index)}
-						/>
-						<span className="text-xs">Reps</span>
-					</div>
-					<div className="flex gap-1 items-center max-w-[30%]">
-						<Input
-							className="bg-base-200 input-sm text-end"
-							placeholder="kg"
-							value={set.weight === 0 ? "" : set.weight}
-							type="number"
-							onChange={(e) => handleSetChange("weight", e.target.value, index)}
-						/>
-						<span className="text-xs">Weights (kg)</span>
-					</div>
-					<div className="flex gap-1 items-center max-w-[23%]">
-						<Input
-							className="bg-base-200 input-sm text-end"
-							placeholder="s"
-							value={set.rest === 0 ? "" : set.rest}
-							type="number"
-							onChange={(e) => handleSetChange("rest", e.target.value, index)}
-						/>
-						<span className="text-xs">Rest (s)</span>
-					</div>
-					<Button type="button" className="btn-square btn-sm" onClick={() => removeSet(index)}>
-						X
-					</Button>
-				</div>
-			))}
-			<Button type="button" className="btn-sm w-full self-center" onClick={addSet}>
-				<span className="text-xs">+Set</span>
-			</Button>
+			<FieldArray name={`exercises[${index}].sets`}>
+				{({ push, remove }) => (
+					<>
+						<div className="flex flex-col gap-4">
+							{exercise.sets.map((set, setIndex) => (
+								<div key={setIndex} className="flex gap-4 items-center max-w-screen justify-center">
+									<div className="flex gap-1 items-center max-w-[37%]">
+										<Field
+											type="number"
+											name={`exercises[${index}].sets[${setIndex}].reps`}
+											className="bg-base-200 input-sm text-end"
+											placeholder="Reps"
+											as={Input}
+										/>
+										<span className="text-xs">Reps</span>
+									</div>
+									<div className="flex gap-1 items-center max-w-[30%]">
+										<Field
+											type="number"
+											name={`exercises[${index}].sets[${setIndex}].weight`}
+											className="bg-base-200 input-sm text-end"
+											placeholder="kg"
+											as={Input}
+										/>
+										<span className="text-xs">Weights (kg)</span>
+									</div>
+									<div className="flex gap-1 items-center max-w-[23%]">
+										<Field
+											type="number"
+											name={`exercises[${index}].sets[${setIndex}].rest`}
+											className="bg-base-200 input-sm text-end"
+											placeholder="s"
+											as={Input}
+										/>
+										<span className="text-xs">Rest (s)</span>
+									</div>
+									<Button type="button" className="btn-square btn-sm" onClick={() => remove(setIndex)}>
+										X
+									</Button>
+								</div>
+							))}
+						</div>
+						<Button type="button" onClick={() => push({ reps: 0, weight: 0, rest: 0 })}>
+							+Set
+						</Button>
+					</>
+				)}
+			</FieldArray>
 			<div className="flex items-center gap-1">
-				<Input
-					className="input-sm text-end"
-					type="number"
-					placeholder="Rest After Exercies (s)"
-					value={exercise.rest === 0 ? "" : exercise.rest}
-					onChange={handleRestAfterExerciseChange}
-				/>
+				<Field type="number" name={`exercises[${index}].rest`} className="input-sm text-end" placeholder="Rest After Exercise (s)" as={Input} />
 				<span>Rest</span>
 			</div>
 		</div>
