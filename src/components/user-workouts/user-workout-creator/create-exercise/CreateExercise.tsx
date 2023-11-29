@@ -1,22 +1,41 @@
 import { FC, InputHTMLAttributes } from "react";
 import { Input } from "@/src/components/UI/Input/Input";
 import { Button } from "@/src/components/UI/Button/Button";
-import { Field, FieldArray } from "formik"; // Import Field and FieldArray from Formik
-import { Exercise, Workout } from "@/src/types/types";
+import { Field, FieldArray, FormikErrors, FormikTouched } from "formik"; // Import Field and FieldArray from Formik
+import { Exercise, ExerciseData, Workout } from "@/src/types/types";
+import { ComboBox } from "@/src/components/UI/combobox/combobox";
+import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 
 interface CreateExerciseProps extends InputHTMLAttributes<HTMLInputElement> {
 	deleteCallback: () => void;
 	exercise: Exercise; // Add this prop
 	index: number;
+	touched?: FormikTouched<Workout>;
+	errors?: FormikErrors<Workout>;
 }
 
-export const CreateExercise: FC<CreateExerciseProps> = ({ deleteCallback, exercise, index }) => {
+export const CreateExercise: FC<CreateExerciseProps> = ({ deleteCallback, exercise, index, touched, errors }) => {
+	const { isLoading, exercises } = useFetchUserExercsiseDatabase();
+
 	return (
 		<div className="flex flex-col gap-4 p-4 rounded bg-base-300">
 			<div className="flex gap-2">
-				<Field type="text" name={`exercises[${index}].name`} className="w-full bg-base-200" placeholder="Exercise name" as={Input} />
+				{(exercises[index] && (
+					<ComboBox
+						className="w-full"
+						options={exercises.map((exercise: ExerciseData) => exercise.name)}
+						selectedCallback={(s) => {
+							exercise.name = s;
+						}}
+						value={exercise.name}
+						touched={touched}
+						errors={errors}
+						index={index}
+					/>
+				)) || <Input disabled></Input>}
 				<Button onClick={deleteCallback}>X</Button>
 			</div>
+			<div></div>
 			<FieldArray name={`exercises[${index}].sets`}>
 				{({ push, remove }) => (
 					<>
@@ -24,32 +43,38 @@ export const CreateExercise: FC<CreateExerciseProps> = ({ deleteCallback, exerci
 							{exercise.sets.map((set, setIndex) => (
 								<div key={setIndex} className="flex gap-4 items-center max-w-screen justify-center">
 									<div className="flex gap-1 items-center max-w-[37%]">
-										<Field
+										<Input
 											type="number"
-											name={`exercises[${index}].sets[${setIndex}].reps`}
 											className="bg-base-200 input-sm text-end"
 											placeholder="Reps"
-											as={Input}
+											defaultValue={exercise.sets[setIndex].reps === 0 ? "" : exercise.sets[setIndex].reps}
+											onChange={(e) => {
+												exercise.sets[setIndex].reps = parseInt(e.target.value);
+											}}
 										/>
 										<span className="text-xs">Reps</span>
 									</div>
 									<div className="flex gap-1 items-center max-w-[30%]">
-										<Field
+										<Input
 											type="number"
-											name={`exercises[${index}].sets[${setIndex}].weight`}
 											className="bg-base-200 input-sm text-end"
 											placeholder="kg"
-											as={Input}
+											defaultValue={exercise.sets[setIndex].weight === 0 ? "" : exercise.sets[setIndex].weight}
+											onChange={(e) => {
+												exercise.sets[setIndex].weight = parseInt(e.target.value);
+											}}
 										/>
 										<span className="text-xs">Weights (kg)</span>
 									</div>
 									<div className="flex gap-1 items-center max-w-[23%]">
-										<Field
+										<Input
 											type="number"
-											name={`exercises[${index}].sets[${setIndex}].rest`}
 											className="bg-base-200 input-sm text-end"
 											placeholder="s"
-											as={Input}
+											defaultValue={exercise.sets[setIndex].rest === 0 ? "" : exercise.sets[setIndex].rest}
+											onChange={(e) => {
+												exercise.sets[setIndex].rest = parseInt(e.target.value);
+											}}
 										/>
 										<span className="text-xs">Rest (s)</span>
 									</div>

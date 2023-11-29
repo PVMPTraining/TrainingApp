@@ -49,11 +49,18 @@ const CreateWorkoutForm: FC<CreateWorkoutProps> = ({ supabaseCallback, initialVa
 							<Button type="button" onClick={() => router.back()}>
 								Back
 							</Button>
-							<div className="w-full">
-								<Field type="text" name="name" className="bg-base-200" placeholder="Workout name" as={Input} />
-								{touched.name && errors.name && <div className="text-red-600">{errors.name}</div>}
+							<div className="form-control w-full">
+								<Field
+									type="text"
+									name="name"
+									className={`bg-base-200 ${touched.name && errors.name ? "input-error" : ""}`}
+									placeholder="Workout name"
+									as={Input}
+								/>
+								<div className="label">
+									<span className="label-text-alt">{touched.name && errors.name && <div className="text-red-600">{errors.name}</div>}</span>
+								</div>
 							</div>
-							{/* <ErrorMessage name="name" component="div" className="text-red-600" /> */}
 						</div>
 
 						<FieldArray name="exercises">
@@ -61,10 +68,13 @@ const CreateWorkoutForm: FC<CreateWorkoutProps> = ({ supabaseCallback, initialVa
 								<>
 									{values.exercises.map((exercise, index) => (
 										<div className="flex flex-col gap-4" key={index}>
-											<CreateExercise exercise={exercise} deleteCallback={() => remove(index)} index={index} />
-											{touched.exercises && errors.exercises && touched.exercises[index] && errors.exercises[index] && (
-												<div className="text-red-600">{errors.name}</div>
-											)}
+											<CreateExercise
+												exercise={exercise}
+												deleteCallback={() => remove(index)}
+												index={index}
+												touched={touched}
+												errors={errors}
+											/>
 										</div>
 									))}
 									<Button type="button" onClick={() => push({ name: "", sets: [], rest: 0 })}>
