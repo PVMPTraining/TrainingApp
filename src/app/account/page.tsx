@@ -25,7 +25,6 @@ const AccountPage: FC = () => {
 			<div>
 				Account
 				<div>{userID}</div>
-				<CalorieCalculator />
 				<FoodScanner />
 				<Button onClick={handleSignOut}>Sign Out</Button>
 			</div>
