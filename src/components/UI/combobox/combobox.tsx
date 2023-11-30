@@ -1,4 +1,6 @@
 import { Input } from "@/src/components/UI/Input/Input";
+import { Exercise } from "@/src/types/types";
+import { error } from "console";
 import { FormikErrors, FormikTouched } from "formik";
 import React, { ButtonHTMLAttributes, FC, useEffect, useState } from "react";
 
@@ -65,7 +67,15 @@ export const ComboBox: FC<ComboBoxProps> = ({ className, options, selectedCallba
 				<Input
 					tabIndex={0}
 					className={`focus:rounded-b-none ${
-						index !== null && touched?.exercises && touched?.exercises[index] && errors?.exercises && errors?.exercises[index] ? "input-error" : ""
+						index !== undefined &&
+						touched?.exercises &&
+						errors?.exercises &&
+						Array.isArray(touched?.exercises) &&
+						Array.isArray(errors?.exercises) &&
+						touched.exercises[index] &&
+						errors.exercises[index]
+							? "input-error"
+							: ""
 					}`}
 					placeholder="Search..."
 					type="text"
@@ -76,13 +86,17 @@ export const ComboBox: FC<ComboBoxProps> = ({ className, options, selectedCallba
 				/>
 				<div className="label">
 					<span className="label-text-alt">
-						{index !== null && touched?.exercises && touched?.exercises[index] && errors?.exercises && errors?.exercises[index] && (
-							<div className="text-red-600">{errors.name}</div>
-						)}
+						{index !== undefined &&
+							touched?.exercises &&
+							errors?.exercises &&
+							Array.isArray(touched?.exercises) &&
+							Array.isArray(errors?.exercises) &&
+							touched.exercises[index] &&
+							errors.exercises[index] && <div className="text-red-600">{String((errors.exercises[index] as FormikErrors<any>).name)}</div>}
 					</span>
 				</div>
 			</div>
-			<ul tabIndex={0} className="shadow menu dropdown-content bg-base-100 p-2 w-full rounded-b-md">
+			<ul tabIndex={0} className="shadow menu dropdown-content bg-base-300 z-10 p-2 w-full rounded-b-md">
 				{options
 					.filter((option) => option.includes(inputValue))
 					.map((option) => (
