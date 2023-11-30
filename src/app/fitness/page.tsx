@@ -33,6 +33,13 @@ const FitnessPage: FC = () => {
 			>
 				Tools
 			</Button>
+			<Button
+				onClick={() => {
+					router.push("/fitness/log-workout");
+				}}
+			>
+				Log-Workout
+			</Button>
 		</div>
 	);
 };
