@@ -1,14 +1,14 @@
 "use client";
 import { configureStore } from "@reduxjs/toolkit";
 
-import counterReducer from "./slices/counter/counterSlice";
+import foodFetchReducer from "./slices/foodFetch/foodFetchSlice";
 
 /**
  * The Redux store for the application.
  */
 const store = configureStore({
 	reducer: {
-		counter: counterReducer
+		foodFetch: foodFetchReducer
 	}
 });
 

@@ -64,3 +64,77 @@ export interface ExerciseData {
 	optional_equipment: string[];
 	alternative_exercises: string[];
 }
+
+type FoodAggregationsTypes = {
+	dataType: {
+		Branded: number;
+		Foundation: number;
+		"SR Legacy": number;
+		"Survey (FNDDS)": number;
+	};
+};
+
+type FoodSearchCriteriaTypes = {
+	dataType: string[];
+	foodTypes: string[];
+	query: string;
+	generalSearchInput: string;
+	numberOfResultsPerPage: number;
+	pageNumber: number;
+	pageSize: number;
+	requireAllWords: boolean;
+	sortBy: string;
+	sortOrder: string;
+};
+
+type FoodNutrientTypes = {
+	dataPoints: number;
+	derivationCode: string;
+	derivationDescription: string;
+	derivationId: number;
+	foodNutrientId: number;
+	foodNutrientSourceCode: string;
+	foodNutrientSourceDescription: string;
+	foodNutrientSourceId: number;
+	indentLevel: number;
+	max: number;
+	median: number;
+	min: number;
+	nutrientId: number;
+	nutrientName: string;
+	nutrientNumber: string;
+	rank: number;
+	unitName: string;
+	value: number;
+};
+
+export type FoodSearchResultTypes = {
+	additionalDescriptions: string;
+	allHighlightFields: string;
+	commonNames: string;
+	dataType: string;
+	description: string;
+	fdcId: number;
+	finalFoodInputFoods: any[];
+	foodAttributeTypes: any[];
+	foodAttributes: any[];
+	foodCategory: string;
+	foodMeasures: any[];
+	foodNutrients: FoodNutrientTypes[];
+	foodVersionIds: any[];
+	microbes: any[];
+	mostRecentAcquisitionDate: string;
+	ndbNumber: number;
+	publishedDate: string;
+	score: number;
+};
+
+export type FoodFetchDataTypes = {
+	aggregations: FoodAggregationsTypes;
+	currentPage: number;
+	foodSearchCriteria: FoodSearchCriteriaTypes;
+	foods: FoodSearchResultTypes[];
+	pageList: number[];
+	totalHits: number;
+	totalPages: number;
+};
