@@ -10,7 +10,7 @@ import { Exercise } from "@/src/components/exercise/exercise";
 import { ExerciseData } from "@/src/types/types";
 import Fuse from "fuse.js";
 
-const UserWorkoutsPage: FC = () => {
+const ExercisesPage: FC = () => {
 	const router = useRouter();
 	const { isLoading, exercises } = useFetchUserExercsiseDatabase();
 
@@ -96,4 +96,4 @@ const UserWorkoutsPage: FC = () => {
 	);
 };
 
-export default UserWorkoutsPage;
+export default ExercisesPage;

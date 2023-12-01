@@ -71,7 +71,14 @@ const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
 			{isModalOpen && (
 				<dialog id="my_modal_1" className="modal" open>
 					<div className="modal-box">
-						<Card>
+						<Card className="flex flex-col gap-4">
+							<Button
+								onClick={() => {
+									router.push("/fitness/log-workout/live?workout=" + JSON.stringify(workoutSelected));
+								}}
+							>
+								Start
+							</Button>
 							<Button
 								onClick={() => {
 									router.push("/fitness/user-workouts/update-workout?workout=" + JSON.stringify(workoutSelected));
