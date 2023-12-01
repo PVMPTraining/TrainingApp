@@ -1,5 +1,5 @@
 import { FoodFetchDataTypes, FoodSearchResultTypes } from "@/src/types/types";
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 type FoodStateTypes = {
@@ -18,7 +18,6 @@ export const fetchFood = createAsyncThunk<any, string, {}>("food/fetchFood", asy
 	return response.data;
 });
 
-// Then, create the slice
 const foodSlice = createSlice({
 	name: "food",
 	initialState: {
