@@ -10,6 +10,7 @@ import { SignOut } from "src/utils/helpers/supabase";
 import { Button } from "@/src/components/UI/Button/Button";
 
 import { useRouter } from "next/navigation";
+import { rootPagePath } from "@/src/pathmap/pathmap";
 
 const AccountPage: FC = () => {
 	const router = useRouter();
@@ -17,7 +18,7 @@ const AccountPage: FC = () => {
 
 	const handleSignOut = async () => {
 		SignOut();
-		router.push("/");
+		router.push(rootPagePath);
 	};
 
 	return (

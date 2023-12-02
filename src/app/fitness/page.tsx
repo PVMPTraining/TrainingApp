@@ -5,6 +5,7 @@ import { FC } from "react";
 import Link from "next/link";
 import { Button } from "@/src/components/UI/Button/Button";
 import { useRouter } from "next/navigation";
+import { exercisePagePath, fitnessToolsPagePath, logWorkoutPagePath, workoutPagePath } from "@/src/pathmap/pathmap";
 
 const FitnessPage: FC = () => {
 	const router = useRouter();
@@ -14,28 +15,28 @@ const FitnessPage: FC = () => {
 			<div>Welcome to the Fitness Section!</div>
 			<Button
 				onClick={() => {
-					router.push("/fitness/exercises");
+					router.push(exercisePagePath);
 				}}
 			>
 				Exercises
 			</Button>
 			<Button
 				onClick={() => {
-					router.push("/fitness/user-workouts");
+					router.push(workoutPagePath);
 				}}
 			>
 				Workouts
 			</Button>
 			<Button
 				onClick={() => {
-					router.push("/fitness/tools");
+					router.push(fitnessToolsPagePath);
 				}}
 			>
 				Tools
 			</Button>
 			<Button
 				onClick={() => {
-					router.push("/fitness/log-workout");
+					router.push(logWorkoutPagePath);
 				}}
 			>
 				Log-Workout

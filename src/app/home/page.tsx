@@ -2,9 +2,9 @@
 import { FC } from "react";
 
 // Next
-import Link from "next/link";
 import { Button } from "@/src/components/UI/Button/Button";
 import { useRouter } from "next/navigation";
+import { fitnessHomePagePath, nutritionHomePagePath } from "@/src/pathmap/pathmap";
 
 const HomePage: FC = () => {
 	const router = useRouter();
@@ -14,10 +14,17 @@ const HomePage: FC = () => {
 			<div className="min-h-screen flex flex-col justify-end gap-4 p-8">
 				<Button
 					onClick={() => {
-						router.push("/fitness");
+						router.push(fitnessHomePagePath);
 					}}
 				>
 					FITNESS
+				</Button>
+				<Button
+					onClick={() => {
+						router.push(nutritionHomePagePath);
+					}}
+				>
+					NUTRITION
 				</Button>
 			</div>
 		</>
