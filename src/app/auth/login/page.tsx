@@ -19,7 +19,7 @@ import { Database } from "src/types/types";
 import { useFormik } from "formik";
 
 import { LoginFormValidationSchema } from "@/src/utils/yup/LoginFormValidationSchema";
-import { accountPagePath, rootPagePath } from "@/src/pathmap/pathmap";
+import { accountPagePath, rootPagePath } from "src/pathmap/pathmap";
 
 const LoginPage: FC = () => {
 	const [error, setError] = useState<string | null>(null);
