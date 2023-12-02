@@ -14,11 +14,12 @@ import { Button } from "@/src/components/UI/Button/Button";
 import { Input } from "@/src/components/UI/Input/Input";
 
 //Types
-import { Database } from "../../types/types";
+import { Database } from "src/types/types";
 
 import { useFormik } from "formik";
 
 import { LoginFormValidationSchema } from "@/src/utils/yup/LoginFormValidationSchema";
+import { accountPagePath, rootPagePath } from "@/src/pathmap/pathmap";
 
 const LoginPage: FC = () => {
 	const [error, setError] = useState<string | null>(null);
@@ -45,7 +46,7 @@ const LoginPage: FC = () => {
 				}
 
 				router.refresh();
-				router.push("/account");
+				router.push(accountPagePath);
 			} catch (error) {
 				console.error("Sign-in error:", error);
 			}
@@ -54,7 +55,7 @@ const LoginPage: FC = () => {
 
 	return (
 		<div className="h-screen flex flex-col justify-end gap-4 p-8">
-			<Link className="fixed top-4 left-4" href="/">
+			<Link className="fixed top-4 left-4" href={rootPagePath}>
 				Back
 			</Link>
 			<form className="flex flex-col gap-2" onSubmit={formik.handleSubmit}>

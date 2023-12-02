@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 
-import { GetUserID, GetUserWorkouts } from "../helpers/supabase";
-import { Log, LogLevel } from "../helpers/debugLog";
+import { GetUserID, GetUserWorkouts } from "src/utils/helpers/supabase";
+import { Log, LogLevel } from "src/utils/helpers/debugLog";
 
 /**
  * Custom hook to fetch user workouts.
