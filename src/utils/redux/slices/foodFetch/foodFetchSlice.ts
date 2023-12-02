@@ -1,28 +1,40 @@
-import { FoodFetchDataTypes, FoodSearchResultTypes } from "@/src/types/types";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+import { FoodFetchDataTypes, FoodSearchResultTypes } from "@/src/types/types";
+
 import axios from "axios";
 
 type FoodStateTypes = {
 	isLoading: boolean;
 	keywordValue: string;
+	lastKeywordValue: string;
 	foodData: FoodFetchDataTypes;
 	fetchError: string | undefined;
 	currentFood: FoodSearchResultTypes;
+	isSearched: boolean;
 };
 
-export const fetchFood = createAsyncThunk<any, string, {}>("food/fetchFood", async (keywordValue: string) => {
-	const key = "XJcXXLCXJTV0b9zmSP2bDxFOD1tjiCoC2uXUgMye";
-	const response = await axios.get(
-		`https://api.nal.usda.gov/fdc/v1/foods/search?query=${keywordValue}&dataType=Foundation&pageSize=25&pageNumber=1&sortBy=dataType.keyword&sortOrder=asc&api_key=${key}`
-	);
-	return response.data;
-});
+export const fetchFood = createAsyncThunk<FoodFetchDataTypes, string, { state: { foodFetch: FoodStateTypes } }>(
+	"food/fetchFood",
+	async (keywordValue: string, thunkAPI) => {
+		// const { lastKeywordValue, foodData } = thunkAPI.getState().foodFetch;
+		// if (keywordValue === lastKeywordValue) {
+		// 	return foodData;
+		// }
+		const response = await axios.get(
+			`https://api.nal.usda.gov/fdc/v1/foods/search?query=${keywordValue}&dataType=Foundation&pageSize=25&pageNumber=1&sortBy=dataType.keyword&sortOrder=asc&api_key=${process.env.NEXT_PUBLIC_USDA_API_KEY}`
+		);
+		return response.data;
+	}
+);
 
 const foodSlice = createSlice({
 	name: "food",
 	initialState: {
 		isLoading: false,
+		isSearched: false,
 		keywordValue: "",
+		lastKeywordValue: "",
 		foodData: {},
 		fetchError: "",
 		currentFood: {}
@@ -39,14 +51,24 @@ const foodSlice = createSlice({
 		builder
 			.addCase(fetchFood.pending, (state) => {
 				state.isLoading = true;
+				state.isSearched = false;
 			})
 			.addCase(fetchFood.fulfilled, (state, action) => {
 				state.isLoading = false;
+				state.isSearched = true;
+				state.lastKeywordValue = state.keywordValue;
 				state.foodData = action.payload;
+				state.fetchError = "";
 			})
 			.addCase(fetchFood.rejected, (state, action) => {
 				state.isLoading = false;
-				state.fetchError = action.error.message;
+				state.isSearched = true;
+				state.lastKeywordValue = state.keywordValue;
+				if (action.error.message) {
+					state.fetchError = action.error.message;
+				} else {
+					state.fetchError = "Something went wrong while searching!";
+				}
 			});
 	}
 });

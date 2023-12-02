@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchFood, setKeywordValue, setCurrentFood } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
 import { AppDispatch, RootState } from "@/src/utils/redux/store";
 import { FoodSearchResultTypes } from "@/src/types/types";
+import { FaSpinner } from "react-icons/fa";
 
 // For olive oil they didn't provide a calorie value need to calculate with formula
 
@@ -17,19 +18,29 @@ interface FoodSearcherProps {}
 
 const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 	const dispatch = useDispatch<AppDispatch>();
-	const { isLoading, keywordValue, foodData, fetchError } = useSelector((state: RootState) => state.foodFetch);
+	const { isLoading, keywordValue, foodData, fetchError, isSearched, lastKeywordValue } = useSelector((state: RootState) => state.foodFetch);
 
-	const [modalOpen, setModalOpen] = useState(false);
+	const [isFoodDetailsModalOpen, setIsFoodDetailsModalOpen] = useState(false);
 	const [selectedFood, setSelectedFood] = useState<FoodSearchResultTypes | null>(null);
-
-	const [addModal, setAddModal] = useState(false);
 
 	const keywordChangeHandler = (e: any) => {
 		dispatch(setKeywordValue(e.target.value));
 	};
 
 	const foodFetchHandler = () => {
+		if (lastKeywordValue.trim() === keywordValue.trim() || keywordValue.trim() === "") {
+			return;
+		}
 		dispatch(fetchFood(keywordValue));
+	};
+
+	const foodDetailModalShowHandler = (food: FoodSearchResultTypes) => {
+		setSelectedFood(food);
+		setIsFoodDetailsModalOpen(true);
+	};
+
+	const foodDetailModalCloseHandler = () => {
+		setIsFoodDetailsModalOpen(false);
 	};
 
 	return (
@@ -40,47 +51,55 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 					Search
 				</Button>
 			</div>
-			{foodData.foods?.length >= 1 ? (
-				<div className="flex flex-col gap-5 mt-5">
-					{foodData.foods.map((food) => (
-						<div
-							key={food.description}
-							className="bg-black text-white p-2 rounded-md flex gap-2 justify-between"
-							onClick={() => {
-								setSelectedFood(food);
-								setModalOpen(true);
-							}}
-						>
-							<div className="flex flex-col">
-								<p className="text-xl">{food.description}</p>
-								<p className="text-base text-gray-300">
-									{food.foodNutrients
-										?.filter(
-											(nutrient) =>
-												nutrient.nutrientName.includes("Energy") ||
-												(nutrient.nutrientName.includes("Energy") && nutrient.nutrientName.includes("General"))
-										)
-										.find((energy) => energy.unitName === "KCAL")?.value ?? 0}{" "}
-									kcal, 100g
-								</p>
-								<button
-									onClick={() => {
-										setSelectedFood(food);
-										setModalOpen(true);
-									}}
-									className="self-start mt-5 rounded-md font-bold"
-								>
-									See food details
-								</button>
+			{!isLoading ? (
+				foodData.foods?.length >= 1 ? (
+					<div className="flex flex-col gap-5 mt-5">
+						{foodData.foods.map((food) => (
+							<div
+								key={food.description}
+								className="bg-black text-white p-2 rounded-md flex gap-2 justify-between"
+								onClick={() => {
+									foodDetailModalShowHandler(food);
+								}}
+							>
+								<div className="flex flex-col">
+									<p className="text-xl">{food.description}</p>
+									<p className="text-base text-gray-300">
+										{food.foodNutrients
+											?.filter(
+												(nutrient) =>
+													nutrient.nutrientName.includes("Energy") ||
+													(nutrient.nutrientName.includes("Energy") && nutrient.nutrientName.includes("General"))
+											)
+											.find((energy) => energy.unitName === "KCAL")?.value ?? 0}{" "}
+										kcal, 100g
+									</p>
+									<button
+										onClick={() => {
+											foodDetailModalShowHandler(food);
+										}}
+										className="self-start mt-5 rounded-md font-bold"
+									>
+										See food details
+									</button>
+								</div>
+								<Button className="bg-white text-black self-center rounded-md font-bold">Add to diet</Button>
 							</div>
-							<Button className="bg-white text-black self-center rounded-md font-bold">Add to diet</Button>
-						</div>
-					))}
+						))}
+					</div>
+				) : isSearched && fetchError ? (
+					<div className="text-center font-bold mt-2">{fetchError}</div>
+				) : isSearched && !fetchError ? (
+					<div className="text-center font-bold mt-2">No results found for your search query. Please try again with a different query.</div>
+				) : null
+			) : (
+				<div className="self-center text-xl font-bold flex items-center gap-2 mt-2">
+					<FaSpinner className="animate-spin text-4xl" /> Searching...
 				</div>
-			) : null}
-			{modalOpen && selectedFood ? (
+			)}
+			{isFoodDetailsModalOpen && selectedFood ? (
 				<div className="absolute flex flex-col gap-3 top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-black text-white w-80 h-auto rounded-md p-3">
-					<button className="self-end text-xl" onClick={() => setModalOpen(false)}>
+					<button className="self-end text-xl" onClick={foodDetailModalCloseHandler}>
 						X
 					</button>
 					<p className="text-xl font-normal">{selectedFood.description}</p>
