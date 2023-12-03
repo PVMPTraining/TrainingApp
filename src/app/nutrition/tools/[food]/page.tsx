@@ -7,17 +7,31 @@ import Link from "next/link";
 const FoodDetailsPage: FC = () => {
 	const { currentFood, keywordValue } = useSelector((state: RootState) => state.foodFetch);
 
-	console.log(currentFood);
-
-	const calories = currentFood.foodNutrients
-		.filter((nutrient) => nutrient.nutrientName.includes("Energy") || nutrient.nutrientName.includes("General"))
-		.find((energy) => energy.unitName === "KCAL")?.value;
-
+	const calories =
+		currentFood.foodNutrients
+			.filter((nutrient) => nutrient.nutrientName.includes("Energy") || nutrient.nutrientName.includes("General"))
+			.find((energy) => energy.unitName === "KCAL")?.value! >= 0
+			? currentFood.foodNutrients
+					.filter((nutrient) => nutrient.nutrientName.includes("Energy") || nutrient.nutrientName.includes("General"))
+					.find((energy) => energy.unitName === "KCAL")?.value
+			: 0;
 	const carb =
 		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Carbohydrate")).find((carb) => carb.unitName === "G")?.value! >= 0
 			? currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Carbohydrate")).find((carb) => carb.unitName === "G")?.value
 			: 0;
-
+	const fiber =
+		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Fiber, total dietary")).find((fiber) => fiber.unitName === "G")
+			?.value! >= 0
+			? currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Fiber, total dietary")).find((fiber) => fiber.unitName === "G")
+					?.value
+			: 0;
+	const sugar =
+		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Sugars, total including NLEA")).find((sugar) => sugar.unitName === "G")
+			?.value! >= 0
+			? currentFood.foodNutrients
+					.filter((nutrient) => nutrient.nutrientName.includes("Sugars, total including NLEA"))
+					.find((sugar) => sugar.unitName === "G")?.value
+			: 0;
 	const protein =
 		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Protein")).find((carb) => carb.unitName === "G")?.value! >= 0
 			? currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Protein")).find((carb) => carb.unitName === "G")?.value
@@ -26,6 +40,43 @@ const FoodDetailsPage: FC = () => {
 	const fat =
 		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Total lipid")).find((carb) => carb.unitName === "G")?.value! >= 0
 			? currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Total lipid")).find((carb) => carb.unitName === "G")?.value
+			: 0;
+	const fat1 =
+		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Fatty acids, total saturated")).find((carb) => carb.unitName === "G")
+			?.value! >= 0
+			? currentFood.foodNutrients
+					.filter((nutrient) => nutrient.nutrientName.includes("Fatty acids, total saturated"))
+					.find((carb) => carb.unitName === "G")?.value
+			: 0;
+	const fat2 =
+		currentFood.foodNutrients
+			.filter((nutrient) => nutrient.nutrientName.includes("Fatty acids, total monounsaturated"))
+			.find((carb) => carb.unitName === "G")?.value! >= 0
+			? currentFood.foodNutrients
+					.filter((nutrient) => nutrient.nutrientName.includes("Fatty acids, total monounsaturated"))
+					.find((carb) => carb.unitName === "G")?.value
+			: 0;
+	const fat3 =
+		currentFood.foodNutrients
+			.filter((nutrient) => nutrient.nutrientName.includes("Fatty acids, total polyunsaturated"))
+			.find((carb) => carb.unitName === "G")?.value! >= 0
+			? currentFood.foodNutrients
+					.filter((nutrient) => nutrient.nutrientName.includes("Fatty acids, total polyunsaturated"))
+					.find((carb) => carb.unitName === "G")?.value
+			: 0;
+	const fat4 =
+		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Fatty acids, total trans")).find((carb) => carb.unitName === "G")
+			?.value! >= 0
+			? currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Fatty acids, total trans")).find((carb) => carb.unitName === "G")
+					?.value
+			: 0;
+	const fat5 =
+		currentFood.foodNutrients
+			.filter((nutrient) => nutrient.nutrientName.includes("Fatty acids, total trans-polyenoic"))
+			.find((carb) => carb.unitName === "G")?.value! >= 0
+			? currentFood.foodNutrients
+					.filter((nutrient) => nutrient.nutrientName.includes("Fatty acids, total trans-polyenoic"))
+					.find((carb) => carb.unitName === "G")?.value
 			: 0;
 	const vitaminB1 =
 		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Vitamin B-1")).find((vitamin) => vitamin.unitName === "MG")?.value! >= 0
@@ -61,8 +112,10 @@ const FoodDetailsPage: FC = () => {
 					?.value!
 			: 0;
 	const vitaminA =
-		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Vitamin A")).find((vitamin) => vitamin.unitName === "MG")?.value! >= 0
-			? currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Vitamin A")).find((vitamin) => vitamin.unitName === "MG")?.value!
+		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Vitamin A, IU")).find((vitamin) => vitamin.unitName === "IU")?.value! >=
+		0
+			? currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Vitamin A, IU")).find((vitamin) => vitamin.unitName === "IU")
+					?.value!
 			: 0;
 	const vitaminD =
 		currentFood.foodNutrients
@@ -88,7 +141,6 @@ const FoodDetailsPage: FC = () => {
 					.filter((nutrient) => nutrient.nutrientName.includes("Vitamin C, total ascorbic acid"))
 					.find((vitamin) => vitamin.unitName === "MG")?.value!
 			: 0;
-
 	const iron =
 		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Iron, Fe")).find((mineral) => mineral.unitName === "MG")?.value! >= 0
 			? currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Iron, Fe")).find((mineral) => mineral.unitName === "MG")?.value!
@@ -123,6 +175,10 @@ const FoodDetailsPage: FC = () => {
 	const water =
 		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Water")).find((mineral) => mineral.unitName === "G")?.value! >= 0
 			? currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Water")).find((mineral) => mineral.unitName === "G")?.value!
+			: 0;
+	const caffeine =
+		currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Caffeine")).find((mineral) => mineral.unitName === "MG")?.value! >= 0
+			? currentFood.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Caffeine")).find((mineral) => mineral.unitName === "MG")?.value!
 			: 0;
 
 	const calorieIntakePercentage = ((calories! / 2000) * 100).toFixed(2);
@@ -223,10 +279,10 @@ const FoodDetailsPage: FC = () => {
 								Carbohydrate <span>{carb} g</span>
 							</p>
 							<p className="flex items-center justify-between">
-								Fiber <span>??</span>
+								Fiber <span>{fiber} g</span>
 							</p>
 							<p className="flex items-center justify-between">
-								Sugar <span>??</span>
+								Sugar <span>{sugar} g</span>
 							</p>
 						</div>
 						<div className="flex flex-col gap-1">
@@ -234,21 +290,24 @@ const FoodDetailsPage: FC = () => {
 								Fat <span>{fat} g</span>
 							</p>
 							<p className="flex items-center justify-between">
-								Fat 1 <span>??</span>
+								Fatty acids, total saturated <span>{fat1} g</span>
 							</p>
 							<p className="flex items-center justify-between">
-								Fat 2 <span>??</span>
+								Fatty acids, total monounsaturated <span>{fat2} g</span>
 							</p>
 							<p className="flex items-center justify-between">
-								Fat 3 <span>??</span>
+								Fatty acids, total polyunsaturated <span>{fat3} g</span>
 							</p>
 							<p className="flex items-center justify-between">
-								Fat 4 <span>??</span>
+								Fatty acids, total trans <span>{fat4} g</span>
+							</p>
+							<p className="flex items-center justify-between">
+								Fatty acids, total trans-polyenoic <span>{fat5} g</span>
 							</p>
 						</div>
 						{/* B vitamins need to research */}
 						<div className="flex flex-col gap-1">
-							<p className="flex items-center justify-between">
+							{/* <p className="flex items-center justify-between">
 								B1 <span>{vitaminB1} mg</span>
 							</p>
 							<p className="flex items-center justify-between">
@@ -259,22 +318,22 @@ const FoodDetailsPage: FC = () => {
 							</p>
 							<p className="flex items-center justify-between">
 								B5 <span>{vitaminB5} mg</span>
-							</p>
+							</p> */}
 							<p className="flex items-center justify-between">
 								B6 <span>{vitaminB6} mg</span>
 							</p>
-							<p className="flex items-center justify-between">
+							{/* <p className="flex items-center justify-between">
 								B7 <span>{vitaminB7} mg</span>
 							</p>
 							<p className="flex items-center justify-between">
 								B9 <span>{vitaminB9} mg</span>
-							</p>
+							</p> */}
 							<p className="flex items-center justify-between">
 								B12 <span>{vitaminB12} ug</span>
 							</p>
 						</div>
 						<p className="flex items-center justify-between">
-							Vitamin A <span>{vitaminA} mg</span>
+							Vitamin A <span>{vitaminA} IU</span>
 						</p>
 						<p className="flex items-center justify-between">
 							Vitamin C <span>{vitaminC} mg</span>
@@ -286,10 +345,10 @@ const FoodDetailsPage: FC = () => {
 							Vitamin E <span>{vitaminE} mg</span>
 						</p>
 						<p className="flex items-center justify-between">
-							Vitamin K <span>Need to research about K vitamin</span>
+							Water <span>{water} g</span>
 						</p>
 						<p className="flex items-center justify-between">
-							Water <span>{water} g</span>
+							Caffeine <span>{caffeine} mg</span>
 						</p>
 						<p className="flex items-center justify-between">
 							Cholesterol <span>{cholesterol} mg</span>

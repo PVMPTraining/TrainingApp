@@ -22,11 +22,25 @@ export const fetchFood = createAsyncThunk<FoodFetchDataTypes, string, { state: {
 		// 	return foodData;
 		// }
 		const response = await axios.get(
-			`https://api.nal.usda.gov/fdc/v1/foods/search?query=${keywordValue}&dataType=Foundation&pageSize=25&pageNumber=1&sortBy=dataType.keyword&sortOrder=asc&api_key=${process.env.NEXT_PUBLIC_USDA_API_KEY}`
+			`https://api.nal.usda.gov/fdc/v1/foods/search?query=${keywordValue}&dataType=SR Legacy&pageSize=50&pageNumber=1&sortBy=dataType.keyword&sortOrder=asc&api_key=${process.env.NEXT_PUBLIC_USDA_API_KEY}`
 		);
 		return response.data;
 	}
 );
+
+// export const fetchFood = createAsyncThunk<FoodFetchDataTypes, string, { state: { foodFetch: FoodStateTypes } }>(
+// 	"food/fetchFood",
+// 	async (keywordValue: string, thunkAPI) => {
+// 		// const { lastKeywordValue, foodData } = thunkAPI.getState().foodFetch;
+// 		// if (keywordValue === lastKeywordValue) {
+// 		// 	return foodData;
+// 		// }
+// 		const response = await axios.get(
+// 			`https://world.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0=cereals`
+// 		);
+// 		return response.data;
+// 	}
+// );
 
 const foodSlice = createSlice({
 	name: "food",
