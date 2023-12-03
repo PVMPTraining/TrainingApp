@@ -6,10 +6,11 @@ import useFetchUserID from "@/src/utils/hooks/useFetchUserID";
 import BodyFatCalculator from "@/src/components/body-fat/BodyFatCalculator";
 import FoodScanner from "@/src/components/food-scanner/FoodScanner";
 
-import { SignOut } from "../../utils/helpers/supabase";
+import { SignOut } from "src/utils/helpers/supabase";
 import { Button } from "@/src/components/UI/Button/Button";
 
 import { useRouter } from "next/navigation";
+import { rootPagePath } from "@/src/pathmap/pathmap";
 
 const AccountPage: FC = () => {
 	const router = useRouter();
@@ -17,7 +18,7 @@ const AccountPage: FC = () => {
 
 	const handleSignOut = async () => {
 		SignOut();
-		router.push("/");
+		router.push(rootPagePath);
 	};
 
 	return (

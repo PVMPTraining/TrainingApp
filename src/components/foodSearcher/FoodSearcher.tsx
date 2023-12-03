@@ -3,8 +3,8 @@ import { FC, useState } from "react";
 
 import Link from "next/link";
 
-import { Input } from "../UI/Input/Input";
-import { Button } from "../UI/Button/Button";
+import { Input } from "@/src/components/UI/Input/Input";
+import { Button } from "@/src/components/UI/Button/Button";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFood, setKeywordValue, setCurrentFood } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";

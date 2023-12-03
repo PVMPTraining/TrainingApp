@@ -1,8 +1,8 @@
 import { FC, InputHTMLAttributes, useEffect, useState } from "react";
 import useFetchUserWorkouts from "@/src/utils/hooks/useFetchUserWorkouts";
 import { Workout } from "@/src/types/types";
-import { Card, CardBody } from "../../UI/Card/Card";
-import { Button } from "../../UI/Button/Button";
+import { Card, CardBody } from "@/src/components/UI/Card/Card";
+import { Button } from "@/src/components/UI/Button/Button";
 import { useRouter } from "next/navigation";
 
 /**

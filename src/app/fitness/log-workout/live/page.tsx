@@ -1,8 +1,7 @@
 "use client";
 
 import { FC, useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { CreateWorkout } from "@/src/components/user-workouts/user-workout-creator/create-workout/CreateWorkout";
+import { useSearchParams } from "next/navigation";
 import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 import { ExerciseData } from "@/src/types/types";
 import { ComboBox } from "@/src/components/UI/combobox/combobox";
@@ -185,6 +184,8 @@ const UserWorkoutsPage: FC = () => {
 		};
 	}, [startCountdown]);
 
+	const finishWorkout = () => {};
+
 	return (
 		<div className="flex flex-col w-screen h-screen justify-center items-center">
 			{startCountdown !== 0 && (
@@ -337,7 +338,7 @@ const UserWorkoutsPage: FC = () => {
 									Skip Set
 								</Button>
 								{activeSetIndex === activeExercise.sets.length && <Button onClick={oneMoreSet}>+ One More Set</Button>}
-								{isFinalSet && <Button>Finish Workout</Button>}
+								{isFinalSet && <Button onClick={finishWorkout}>Finish Workout</Button>}
 							</div>
 						</Form>
 					)}

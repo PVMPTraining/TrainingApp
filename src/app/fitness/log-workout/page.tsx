@@ -9,12 +9,13 @@ import { useRouter } from "next/navigation";
 import { Exercise } from "@/src/components/exercise/exercise";
 import { ExerciseData } from "@/src/types/types";
 import Fuse from "fuse.js";
+import { liveWorkoutPagePath } from "@/src/pathmap/pathmap";
 
 const LogWorkoutPage: FC = () => {
 	const router = useRouter();
 
 	const startWorkout = () => {
-		router.push("/fitness/log-workout/live");
+		router.push(liveWorkoutPagePath);
 	};
 
 	return (

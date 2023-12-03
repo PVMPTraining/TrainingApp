@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 
-import { GetUserID } from "../helpers/supabase";
-import { Log, LogLevel } from "../helpers/debugLog";
+import { GetUserID } from "src/utils/helpers/supabase";
+import { Log, LogLevel } from "src/utils/helpers/debugLog";
 
 /**
  * Custom hook to fetch the user ID.

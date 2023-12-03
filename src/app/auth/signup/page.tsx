@@ -14,7 +14,7 @@ import { Button } from "@/src/components/UI/Button/Button";
 import { Input } from "@/src/components/UI/Input/Input";
 
 //Types
-import { Database } from "../../types/types";
+import { Database } from "@/src/types/types";
 
 import { useFormik } from "formik";
 
