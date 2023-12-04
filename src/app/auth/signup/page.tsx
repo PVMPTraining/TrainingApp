@@ -19,6 +19,7 @@ import { Database } from "@/src/types/types";
 import { useFormik } from "formik";
 
 import { LoginFormValidationSchema } from "@/src/utils/yup/LoginFormValidationSchema";
+import { accountPagePath } from "@/src/pathmap/pathmap";
 
 const SignupPage: FC = () => {
 	const router = useRouter();
@@ -41,7 +42,7 @@ const SignupPage: FC = () => {
 				});
 				router.refresh();
 
-				router.push("/account");
+				router.push(accountPagePath);
 			} catch (error) {
 				console.error("Sign-up error:", error);
 			}

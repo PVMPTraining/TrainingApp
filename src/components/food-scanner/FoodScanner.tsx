@@ -49,6 +49,7 @@ const FoodScanner: FC = () => {
 						var drawingCtx = Quagga.canvas.ctx.overlay,
 							drawingCanvas = Quagga.canvas.dom.overlay;
 
+						console.log(result);
 						if (result) {
 							if (result.boxes) {
 								drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
@@ -72,6 +73,7 @@ const FoodScanner: FC = () => {
 
 					Quagga.onDetected((result: any) => {
 						// barcode.value = result.codeResult.code;
+						console.log(result.codeResult.code);
 
 						if (lastResult !== result.codeResult.code) {
 							lastResult = result.codeResult.code;
