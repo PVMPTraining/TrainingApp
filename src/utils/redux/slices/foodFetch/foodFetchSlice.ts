@@ -54,10 +54,17 @@ const foodSlice = createSlice({
 	} as FoodStateTypes,
 	reducers: {
 		setKeywordValue: (state, action) => {
+			// return {
+			// 	...state,
+			// 	keywordValue: action.payload
+			// };
 			state.keywordValue = action.payload;
 		},
 		setCurrentFood: (state, action) => {
 			state.currentFood = action.payload;
+		},
+		setEmptyBrandFood: (state) => {
+			state.brandFoodData = {};
 		}
 	},
 	extraReducers: (builder) => {
@@ -109,6 +116,6 @@ const foodSlice = createSlice({
 	}
 });
 
-export const { setKeywordValue, setCurrentFood } = foodSlice.actions;
+export const { setKeywordValue, setCurrentFood, setEmptyBrandFood } = foodSlice.actions;
 
 export default foodSlice.reducer;

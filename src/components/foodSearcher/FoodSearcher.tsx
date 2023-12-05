@@ -7,10 +7,11 @@ import { Input } from "@/src/components/UI/Input/Input";
 import { Button } from "@/src/components/UI/Button/Button";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFood, setKeywordValue, setCurrentFood, fetchBrandedFood } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
+import { fetchFood, setKeywordValue, setCurrentFood, fetchBrandedFood, setEmptyBrandFood } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
 import { AppDispatch, RootState } from "@/src/utils/redux/store";
 import { FoodSearchResultTypes } from "@/src/types/types";
 import { FaSpinner } from "react-icons/fa";
+import ReactPaginate from "react-paginate";
 
 // For olive oil they didn't provide a calorie value need to calculate with formula
 
@@ -23,6 +24,11 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 	const [isFoodDetailsModalOpen, setIsFoodDetailsModalOpen] = useState(false);
 	const [selectedFood, setSelectedFood] = useState<FoodSearchResultTypes | null>(null);
 
+	const pageCount =
+		brandFoodData.count / 50 - Math.floor(brandFoodData.count / 50) >= 0.5
+			? Math.round(brandFoodData.count / 50)
+			: Math.floor(brandFoodData.count / 50) + 1;
+
 	const keywordChangeHandler = (e: any) => {
 		dispatch(setKeywordValue(e.target.value));
 	};
@@ -34,8 +40,9 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 		dispatch(fetchFood(keywordValue));
 	};
 
-	const brandedFetchHandler = () => {
-		dispatch(fetchBrandedFood({ keywordValue: keywordValue, page: 1 }));
+	const brandedFetchHandler = async (pageNumber: number) => {
+		await dispatch(setEmptyBrandFood());
+		await dispatch(fetchBrandedFood({ keywordValue: keywordValue, page: pageNumber }));
 	};
 
 	const foodDetailModalShowHandler = (food: FoodSearchResultTypes) => {
@@ -46,8 +53,6 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 	const foodDetailModalCloseHandler = () => {
 		setIsFoodDetailsModalOpen(false);
 	};
-
-	console.log(brandFoodData, isLoading);
 
 	return (
 		<div className="flex flex-col relative">
@@ -66,10 +71,26 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 				{/* <Button className="bg-black text-white" onClick={foodFetchHandler}>
 					Search
 				</Button> */}
-				<Button className="bg-black text-white" onClick={brandedFetchHandler}>
+				<Button className="bg-black text-white" onClick={() => brandedFetchHandler(1)}>
 					Search
 				</Button>
 			</div>
+			<ReactPaginate
+				breakLabel="..."
+				nextLabel="next >"
+				pageRangeDisplayed={1}
+				pageClassName="join-item btn bg-black text-white"
+				className="flex flex-col items-center justify-center gap-2 self-center text-black"
+				pageCount={pageCount}
+				onPageChange={(data) => {
+					brandedFetchHandler(data.selected + 1);
+				}}
+				// onPageActive={(number) => brandedFetchHandler(number.selected + 1)}
+				// onClick={(number) => console.log(number)}
+				previousLabel="< previous"
+				renderOnZeroPageCount={null}
+			/>
+
 			{/* <div>Brand focused search Foundation focused</div> */}
 			{/* {!isLoading ? (
 				foodData.foods?.length >= 1 ? (
@@ -183,8 +204,6 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 					<FaSpinner className="animate-spin text-4xl" /> Searching...
 				</div>
 			)} */}
-
-			{isLoading && "HEY"}
 			{!isLoading ? (
 				brandFoodData.products?.length >= 1 ? (
 					<div className="flex flex-col gap-5 mt-5 relative">
@@ -210,13 +229,17 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 								}`}
 							>
 								<div className="flex flex-col">
-									<div>
+									{food.image_front_small_url ? (
 										<img
 											// src={food.image_front_small_url ? food.image_front_small_url : food.image_ingredients_ingredients_url}
 											src={food.image_front_small_url}
 											loading="lazy"
+											className="max-h-[200px]"
 										/>
-									</div>
+									) : (
+										<div className="w-[233px] h-[157px] bg-white"></div>
+									)}
+
 									<p className="text-xl">
 										{food.brands ? food.brands + " - " : ""}
 										{/* {food.generic_name_en
@@ -274,7 +297,6 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 					<FaSpinner className="animate-spin text-4xl" /> Searching...
 				</div>
 			)}
-
 			{/* {isFoodDetailsModalOpen && selectedFood ? (
 				<div className="absolute flex flex-col gap-3 top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-black text-white w-80 h-auto rounded-md p-3">
 					<button className="self-end text-xl" onClick={foodDetailModalCloseHandler}>
