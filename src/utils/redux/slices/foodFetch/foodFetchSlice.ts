@@ -9,6 +9,7 @@ type FoodStateTypes = {
 	keywordValue: string;
 	lastKeywordValue: string;
 	foodData: FoodFetchDataTypes;
+	brandFoodData: any;
 	fetchError: string | undefined;
 	currentFood: FoodSearchResultTypes;
 	isSearched: boolean;
@@ -28,19 +29,16 @@ export const fetchFood = createAsyncThunk<FoodFetchDataTypes, string, { state: {
 	}
 );
 
-// export const fetchFood = createAsyncThunk<FoodFetchDataTypes, string, { state: { foodFetch: FoodStateTypes } }>(
-// 	"food/fetchFood",
-// 	async (keywordValue: string, thunkAPI) => {
-// 		// const { lastKeywordValue, foodData } = thunkAPI.getState().foodFetch;
-// 		// if (keywordValue === lastKeywordValue) {
-// 		// 	return foodData;
-// 		// }
-// 		const response = await axios.get(
-// 			`https://world.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0=cereals`
-// 		);
-// 		return response.data;
-// 	}
-// );
+export const fetchBrandedFood = createAsyncThunk<any, { keywordValue: string; page: number }, { state: { foodFetch: FoodStateTypes } }>(
+	"food/fetchBrandedFood",
+	async ({ keywordValue, page }) => {
+		const response = await axios.get(
+			`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${keywordValue}&search_simple=true&action=process&page=${page}&page_size=50&json=true`
+		);
+		console.log(response);
+		return response.data;
+	}
+);
 
 const foodSlice = createSlice({
 	name: "food",
@@ -50,6 +48,7 @@ const foodSlice = createSlice({
 		keywordValue: "",
 		lastKeywordValue: "",
 		foodData: {},
+		brandFoodData: {},
 		fetchError: "",
 		currentFood: {}
 	} as FoodStateTypes,
@@ -75,6 +74,29 @@ const foodSlice = createSlice({
 				state.fetchError = "";
 			})
 			.addCase(fetchFood.rejected, (state, action) => {
+				state.isLoading = false;
+				state.isSearched = true;
+				state.lastKeywordValue = state.keywordValue;
+				if (action.error.message) {
+					state.fetchError = action.error.message;
+				} else {
+					state.fetchError = "Something went wrong while searching!";
+				}
+			})
+			.addCase(fetchBrandedFood.pending, (state) => {
+				state.isLoading = true;
+				state.isSearched = false;
+			})
+			.addCase(fetchBrandedFood.fulfilled, (state, action) => {
+				state.isLoading = false;
+				state.isSearched = true;
+				state.lastKeywordValue = state.keywordValue;
+				console.log("Action payload:", action.payload);
+				state.brandFoodData = action.payload;
+				console.log("After state change:", state.brandFoodData);
+				state.fetchError = "";
+			})
+			.addCase(fetchBrandedFood.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isSearched = true;
 				state.lastKeywordValue = state.keywordValue;
