@@ -1,5 +1,4 @@
 "use client";
-import { FC } from "react";
 
 import CalorieCalculator from "@/src/components/calorie-calculator/CalorieCalculator";
 import useFetchUserID from "@/src/utils/hooks/useFetchUserID";
@@ -11,8 +10,9 @@ import { Button } from "@/src/components/UI/Button/Button";
 
 import { useRouter } from "next/navigation";
 import { rootPagePath } from "@/src/pathmap/pathmap";
+import NavLayout from "@/src/layouts/NavLayout";
 
-const AccountPage: FC = () => {
+const AccountPage = () => {
 	const router = useRouter();
 	const { isLoading, userID } = useFetchUserID();
 
@@ -22,14 +22,14 @@ const AccountPage: FC = () => {
 	};
 
 	return (
-		<>
+		<NavLayout>
 			<div>
 				Account
 				<div>{userID}</div>
-				<FoodScanner />
+				{/* <FoodScanner /> */}
 				<Button onClick={handleSignOut}>Sign Out</Button>
 			</div>
-		</>
+		</NavLayout>
 	);
 };
 
