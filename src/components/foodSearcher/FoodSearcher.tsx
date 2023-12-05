@@ -195,18 +195,18 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 									food.product_name_en
 										? food.product_name_en
 										: food.product_name
-										? food.product_name
-										: food.abbreviated_product_name
-										? food.abbreviated_product_name
-										: food.generic_name_en
-										? food.generic_name_en
-										: food.generic_name_de
-										? food.generic_name_de
-										: food.generic_name_fr
-										? food.generic_name_fr
-										: food.generic_name
-										? food.generic_name
-										: "hidden"
+										  ? food.product_name
+										  : food.abbreviated_product_name
+										    ? food.abbreviated_product_name
+										    : food.generic_name_en
+										      ? food.generic_name_en
+										      : food.generic_name_de
+										        ? food.generic_name_de
+										        : food.generic_name_fr
+										          ? food.generic_name_fr
+										          : food.generic_name
+										            ? food.generic_name
+										            : "hidden"
 								}`}
 							>
 								<div className="flex flex-col">
@@ -230,16 +230,16 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 										{food.product_name_en
 											? food.product_name_en
 											: food.product_name
-											? food.product_name
-											: food.abbreviated_product_name
-											? food.abbreviated_product_name
-											: food.generic_name_en
-											? food.generic_name_en
-											: food.generic_name_de
-											? food.generic_name_de
-											: food.generic_name_fr
-											? food.generic_name_fr
-											: food.generic_name}
+											  ? food.product_name
+											  : food.abbreviated_product_name
+											    ? food.abbreviated_product_name
+											    : food.generic_name_en
+											      ? food.generic_name_en
+											      : food.generic_name_de
+											        ? food.generic_name_de
+											        : food.generic_name_fr
+											          ? food.generic_name_fr
+											          : food.generic_name}
 									</p>
 									{/* <p className="text-base text-gray-300">
 										{food.foodNutrients
