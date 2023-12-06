@@ -14,7 +14,7 @@ const NutritionToolsPage: FC = () => {
 
 	return (
 		<>
-			<div className="min-h-screen flex flex-col justify-end gap-4 p-8">
+			<div className="min-h-screen flex flex-col justify-end gap-4">
 				<FoodSearcher />
 			</div>
 		</>
