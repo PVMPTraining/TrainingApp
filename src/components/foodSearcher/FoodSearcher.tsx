@@ -498,16 +498,16 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 												{food.product_name_en
 													? food.product_name_en
 													: food.product_name
-													? food.product_name
-													: food.abbreviated_product_name
-													? food.abbreviated_product_name
-													: food.generic_name_en
-													? food.generic_name_en
-													: food.generic_name_de
-													? food.generic_name_de
-													: food.generic_name_fr
-													? food.generic_name_fr
-													: food.generic_name}
+													  ? food.product_name
+													  : food.abbreviated_product_name
+													    ? food.abbreviated_product_name
+													    : food.generic_name_en
+													      ? food.generic_name_en
+													      : food.generic_name_de
+													        ? food.generic_name_de
+													        : food.generic_name_fr
+													          ? food.generic_name_fr
+													          : food.generic_name}
 											</p>
 											<p className="mt-2">
 												Nutrition score:{" "}
