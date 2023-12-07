@@ -218,16 +218,16 @@ const FoodDetailsPage: FC = () => {
 					{currentBrandFoodData.product_name_en
 						? currentBrandFoodData.product_name_en
 						: currentBrandFoodData.product_name
-						? currentBrandFoodData.product_name
-						: currentBrandFoodData.abbreviated_product_name
-						? currentBrandFoodData.abbreviated_product_name
-						: currentBrandFoodData.generic_name_en
-						? currentBrandFoodData.generic_name_en
-						: currentBrandFoodData.generic_name_de
-						? currentBrandFoodData.generic_name_de
-						: currentBrandFoodData.generic_name_fr
-						? currentBrandFoodData.generic_name_fr
-						: currentBrandFoodData.generic_name}
+						  ? currentBrandFoodData.product_name
+						  : currentBrandFoodData.abbreviated_product_name
+						    ? currentBrandFoodData.abbreviated_product_name
+						    : currentBrandFoodData.generic_name_en
+						      ? currentBrandFoodData.generic_name_en
+						      : currentBrandFoodData.generic_name_de
+						        ? currentBrandFoodData.generic_name_de
+						        : currentBrandFoodData.generic_name_fr
+						          ? currentBrandFoodData.generic_name_fr
+						          : currentBrandFoodData.generic_name}
 				</p>
 				<p className="flex gap-1 items-center">
 					<span>Nutrition Score: </span>
@@ -236,12 +236,12 @@ const FoodDetailsPage: FC = () => {
 							currentBrandFoodData.nutrition_grades === "a"
 								? "text-green-500"
 								: currentBrandFoodData.nutrition_grades === "b"
-								? "text-green-300"
-								: currentBrandFoodData.nutrition_grades === "c"
-								? "text-yellow-400"
-								: currentBrandFoodData.nutrition_grades === "d"
-								? "text-orange-400"
-								: "text-red-500"
+								  ? "text-green-300"
+								  : currentBrandFoodData.nutrition_grades === "c"
+								    ? "text-yellow-400"
+								    : currentBrandFoodData.nutrition_grades === "d"
+								      ? "text-orange-400"
+								      : "text-red-500"
 						}`}
 					>
 						{currentBrandFoodData.nutrition_grades ? currentBrandFoodData.nutrition_grades.toUpperCase() : "?"}

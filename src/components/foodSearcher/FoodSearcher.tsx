@@ -286,188 +286,18 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 											food.product_name_en
 												? food.product_name_en
 												: food.product_name
-												? food.product_name
-												: food.abbreviated_product_name
-												? food.abbreviated_product_name
-												: food.generic_name_en
-												? food.generic_name_en
-												: food.generic_name_de
-												? food.generic_name_de
-												: food.generic_name_fr
-												? food.generic_name_fr
-												: food.generic_name
-												? food.generic_name
-												: "hidden"
-										}`}
-										onClick={() => setSelectedBrandFood(food)}
-									>
-										<div className="flex flex-col">
-											<div className="self-center">
-												{food.image_front_url ? (
-													<img
-														// src={food.image_front_small_url ? food.image_front_small_url : food.image_ingredients_ingredients_url}
-														src={food.image_front_url}
-														loading="lazy"
-														style={{ objectFit: "contain", width: "auto", height: "auto" }}
-													/>
-												) : (
-													<div className="w-full h-[186px] bg-white"></div>
-												)}
-											</div>
-
-											<p className="text-xl">
-												{food.brands ? food.brands + " - " : ""}
-												{/* {food.generic_name_en
-											? food.generic_name_en
-											: food.generic_name_de
-											? food.generic_name_de
-											: food.generic_name_fr
-											? food.generic_name_fr
-											: food.generic_name} */}
-												{/* {food.abbreviated_product_name} */}
-												{food.product_name_en
-													? food.product_name_en
-													: food.product_name
-													? food.product_name
-													: food.abbreviated_product_name
-													? food.abbreviated_product_name
-													: food.generic_name_en
-													? food.generic_name_en
-													: food.generic_name_de
-													? food.generic_name_de
-													: food.generic_name_fr
-													? food.generic_name_fr
-													: food.generic_name}
-											</p>
-											<p className="mt-2">
-												Nutrition score:{" "}
-												{food.nutrition_grades ? (
-													<strong
-														className={`${
-															food.nutrition_grades === "a"
-																? "text-green-500"
-																: food.nutrition_grades === "b"
-																? "text-green-300"
-																: food.nutrition_grades === "c"
-																? "text-yellow-400"
-																: food.nutrition_grades === "d"
-																? "text-orange-400"
-																: "text-red-500"
-														} text-xl`}
-													>
-														{food.nutrition_grades.toUpperCase()}
-													</strong>
-												) : (
-													"?"
-												)}
-											</p>
-											{/* <p className="text-base text-gray-300">
-										{food.foodNutrients
-											?.filter(
-												(nutrient) =>
-													nutrient.nutrientName.includes("Energy") ||
-													(nutrient.nutrientName.includes("Energy") && nutrient.nutrientName.includes("General"))
-											)
-											.find((energy) => energy.unitName === "KCAL")?.value ?? 0}{" "}
-										kcal, 100g
-									</p> */}
-											<button
-												// onClick={() => {
-												// 	foodDetailModalShowHandler(food);
-												// }}
-												className="self-start mt-5 rounded-md font-bold"
-											>
-												See food details
-											</button>
-										</div>
-										<Button className="bg-white text-black self-center rounded-md font-bold" onClick={(e) => e.stopPropagation()}>
-											Add to diet
-										</Button>
-										{food.id === selectedBrandFood?.id ? (
-											<div className="absolute flex flex-col z-50 gap-3 top-[60%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-black text-white w-80 h-auto rounded-md p-3">
-												<button
-													className="self-end text-xl"
-													onClick={(e) => {
-														e.stopPropagation();
-														setSelectedBrandFood(null);
-													}}
-												>
-													X
-												</button>
-												<div className="self-center">
-													{food.image_front_url ? (
-														<img
-															// src={food.image_front_small_url ? food.image_front_small_url : food.image_ingredients_ingredients_url}
-															src={food.image_front_url}
-															loading="lazy"
-															style={{ objectFit: "contain", width: "auto", height: "auto" }}
-														/>
-													) : (
-														<div className="w-full h-[186px] bg-white"></div>
-													)}
-												</div>
-
-												<p className="text-xl font-normal">
-													<p className="text-xl">
-														{food.brands ? food.brands + " - " : ""}
-														{/* {food.generic_name_en
-											? food.generic_name_en
-											: food.generic_name_de
-											? food.generic_name_de
-											: food.generic_name_fr
-											? food.generic_name_fr
-											: food.generic_name} */}
-														{/* {food.abbreviated_product_name} */}
-														{food.product_name_en
-															? food.product_name_en
-															: food.product_name
-															? food.product_name
-															: food.abbreviated_product_name
-															? food.abbreviated_product_name
-															: food.generic_name_en
-															? food.generic_name_en
-															: food.generic_name_de
-															? food.generic_name_de
-															: food.generic_name_fr
-															? food.generic_name_fr
-															: food.generic_name}
-													</p>
-												</p>
-												<p>Nutrition Information based on 100 gr</p>
-												<p>Energy: {food.nutriments["energy-kcal_100g"]} kcal</p>
-												<p>Carbohydrate: {food.nutriments.carbohydrates_100g}g</p>
-												<p>Fat: {food.nutriments.fat_100g}g</p>
-												<p></p>
-												<Link
-													href={`/nutrition/tools/${food.id}}`}
-													className="bg-white text-black self-center btn"
-													onClick={() => dispatch(setCurrentChosenBrandFood(selectedBrandFood))}
-												>
-													See more nutrition details
-												</Link>
-											</div>
-										) : null}
-									</div>
-							  ))
-							: brandFoodData.products.map((food) => (
-									<div
-										key={food.id}
-										className={`bg-black text-white p-2 rounded-md flex flex-col gap-5 justify-between relative ${
-											food.product_name_en
-												? food.product_name_en
-												: food.product_name
-												? food.product_name
-												: food.abbreviated_product_name
-												? food.abbreviated_product_name
-												: food.generic_name_en
-												? food.generic_name_en
-												: food.generic_name_de
-												? food.generic_name_de
-												: food.generic_name_fr
-												? food.generic_name_fr
-												: food.generic_name
-												? food.generic_name
-												: "hidden"
+												  ? food.product_name
+												  : food.abbreviated_product_name
+												    ? food.abbreviated_product_name
+												    : food.generic_name_en
+												      ? food.generic_name_en
+												      : food.generic_name_de
+												        ? food.generic_name_de
+												        : food.generic_name_fr
+												          ? food.generic_name_fr
+												          : food.generic_name
+												            ? food.generic_name
+												            : "hidden"
 										}`}
 										onClick={() => setSelectedBrandFood(food)}
 									>
@@ -517,12 +347,12 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 															food.nutrition_grades === "a"
 																? "text-green-500"
 																: food.nutrition_grades === "b"
-																? "text-green-300"
-																: food.nutrition_grades === "c"
-																? "text-yellow-400"
-																: food.nutrition_grades === "d"
-																? "text-orange-400"
-																: "text-red-500"
+																  ? "text-green-300"
+																  : food.nutrition_grades === "c"
+																    ? "text-yellow-400"
+																    : food.nutrition_grades === "d"
+																      ? "text-orange-400"
+																      : "text-red-500"
 														} text-xl`}
 													>
 														{food.nutrition_grades.toUpperCase()}
@@ -591,16 +421,186 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 														{food.product_name_en
 															? food.product_name_en
 															: food.product_name
-															? food.product_name
-															: food.abbreviated_product_name
-															? food.abbreviated_product_name
-															: food.generic_name_en
-															? food.generic_name_en
-															: food.generic_name_de
-															? food.generic_name_de
-															: food.generic_name_fr
-															? food.generic_name_fr
-															: food.generic_name}
+															  ? food.product_name
+															  : food.abbreviated_product_name
+															    ? food.abbreviated_product_name
+															    : food.generic_name_en
+															      ? food.generic_name_en
+															      : food.generic_name_de
+															        ? food.generic_name_de
+															        : food.generic_name_fr
+															          ? food.generic_name_fr
+															          : food.generic_name}
+													</p>
+												</p>
+												<p>Nutrition Information based on 100 gr</p>
+												<p>Energy: {food.nutriments["energy-kcal_100g"]} kcal</p>
+												<p>Carbohydrate: {food.nutriments.carbohydrates_100g}g</p>
+												<p>Fat: {food.nutriments.fat_100g}g</p>
+												<p></p>
+												<Link
+													href={`/nutrition/tools/${food.id}}`}
+													className="bg-white text-black self-center btn"
+													onClick={() => dispatch(setCurrentChosenBrandFood(selectedBrandFood))}
+												>
+													See more nutrition details
+												</Link>
+											</div>
+										) : null}
+									</div>
+							  ))
+							: brandFoodData.products.map((food) => (
+									<div
+										key={food.id}
+										className={`bg-black text-white p-2 rounded-md flex flex-col gap-5 justify-between relative ${
+											food.product_name_en
+												? food.product_name_en
+												: food.product_name
+												  ? food.product_name
+												  : food.abbreviated_product_name
+												    ? food.abbreviated_product_name
+												    : food.generic_name_en
+												      ? food.generic_name_en
+												      : food.generic_name_de
+												        ? food.generic_name_de
+												        : food.generic_name_fr
+												          ? food.generic_name_fr
+												          : food.generic_name
+												            ? food.generic_name
+												            : "hidden"
+										}`}
+										onClick={() => setSelectedBrandFood(food)}
+									>
+										<div className="flex flex-col">
+											<div className="self-center">
+												{food.image_front_url ? (
+													<img
+														// src={food.image_front_small_url ? food.image_front_small_url : food.image_ingredients_ingredients_url}
+														src={food.image_front_url}
+														loading="lazy"
+														style={{ objectFit: "contain", width: "auto", height: "auto" }}
+													/>
+												) : (
+													<div className="w-full h-[186px] bg-white"></div>
+												)}
+											</div>
+
+											<p className="text-xl">
+												{food.brands ? food.brands + " - " : ""}
+												{/* {food.generic_name_en
+											? food.generic_name_en
+											: food.generic_name_de
+											? food.generic_name_de
+											: food.generic_name_fr
+											? food.generic_name_fr
+											: food.generic_name} */}
+												{/* {food.abbreviated_product_name} */}
+												{food.product_name_en
+													? food.product_name_en
+													: food.product_name
+													  ? food.product_name
+													  : food.abbreviated_product_name
+													    ? food.abbreviated_product_name
+													    : food.generic_name_en
+													      ? food.generic_name_en
+													      : food.generic_name_de
+													        ? food.generic_name_de
+													        : food.generic_name_fr
+													          ? food.generic_name_fr
+													          : food.generic_name}
+											</p>
+											<p className="mt-2">
+												Nutrition score:{" "}
+												{food.nutrition_grades ? (
+													<strong
+														className={`${
+															food.nutrition_grades === "a"
+																? "text-green-500"
+																: food.nutrition_grades === "b"
+																  ? "text-green-300"
+																  : food.nutrition_grades === "c"
+																    ? "text-yellow-400"
+																    : food.nutrition_grades === "d"
+																      ? "text-orange-400"
+																      : "text-red-500"
+														} text-xl`}
+													>
+														{food.nutrition_grades.toUpperCase()}
+													</strong>
+												) : (
+													"?"
+												)}
+											</p>
+											{/* <p className="text-base text-gray-300">
+										{food.foodNutrients
+											?.filter(
+												(nutrient) =>
+													nutrient.nutrientName.includes("Energy") ||
+													(nutrient.nutrientName.includes("Energy") && nutrient.nutrientName.includes("General"))
+											)
+											.find((energy) => energy.unitName === "KCAL")?.value ?? 0}{" "}
+										kcal, 100g
+									</p> */}
+											<button
+												// onClick={() => {
+												// 	foodDetailModalShowHandler(food);
+												// }}
+												className="self-start mt-5 rounded-md font-bold"
+											>
+												See food details
+											</button>
+										</div>
+										<Button className="bg-white text-black self-center rounded-md font-bold" onClick={(e) => e.stopPropagation()}>
+											Add to diet
+										</Button>
+										{food.id === selectedBrandFood?.id ? (
+											<div className="absolute flex flex-col z-50 gap-3 top-[60%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-black text-white w-80 h-auto rounded-md p-3">
+												<button
+													className="self-end text-xl"
+													onClick={(e) => {
+														e.stopPropagation();
+														setSelectedBrandFood(null);
+													}}
+												>
+													X
+												</button>
+												<div className="self-center">
+													{food.image_front_url ? (
+														<img
+															// src={food.image_front_small_url ? food.image_front_small_url : food.image_ingredients_ingredients_url}
+															src={food.image_front_url}
+															loading="lazy"
+															style={{ objectFit: "contain", width: "auto", height: "auto" }}
+														/>
+													) : (
+														<div className="w-full h-[186px] bg-white"></div>
+													)}
+												</div>
+
+												<p className="text-xl font-normal">
+													<p className="text-xl">
+														{food.brands ? food.brands + " - " : ""}
+														{/* {food.generic_name_en
+											? food.generic_name_en
+											: food.generic_name_de
+											? food.generic_name_de
+											: food.generic_name_fr
+											? food.generic_name_fr
+											: food.generic_name} */}
+														{/* {food.abbreviated_product_name} */}
+														{food.product_name_en
+															? food.product_name_en
+															: food.product_name
+															  ? food.product_name
+															  : food.abbreviated_product_name
+															    ? food.abbreviated_product_name
+															    : food.generic_name_en
+															      ? food.generic_name_en
+															      : food.generic_name_de
+															        ? food.generic_name_de
+															        : food.generic_name_fr
+															          ? food.generic_name_fr
+															          : food.generic_name}
 													</p>
 												</p>
 												<p>Nutrition Information based on 100 gr</p>
