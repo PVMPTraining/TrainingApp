@@ -1,9 +1,6 @@
 "use client";
 
-import CalorieCalculator from "@/src/components/calorie-calculator/CalorieCalculator";
 import useFetchUserID from "@/src/utils/hooks/useFetchUserID";
-import BodyFatCalculator from "@/src/components/body-fat/BodyFatCalculator";
-import FoodScanner from "@/src/components/food-scanner/FoodScanner";
 
 import { SignOut } from "src/utils/helpers/supabase";
 import { Button } from "@/src/components/UI/Button/Button";

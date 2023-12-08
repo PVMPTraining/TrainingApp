@@ -10,6 +10,36 @@ import { Button } from "@/src/components/UI/Button/Button";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { Card, CardBody } from "@/src/components/UI/Card/Card";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
+import { AddLoggedWorkout, GetUserID } from "@/src/utils/helpers/supabase";
+import { current } from "@reduxjs/toolkit";
+
+type timeedWorkout = {
+	name: string;
+	exercises: timedExercise[];
+	time: number;
+};
+type timedExercise = {
+	name: string;
+	sets: timedSet[];
+	rest: number;
+	time: number;
+};
+
+type timedSet = {
+	reps: number;
+	weight: number;
+	rest: number;
+	time: number;
+};
+
+enum workoutState {
+	NOT_STARTED,
+	STARTED,
+	EXERCISE,
+	REST,
+	PAUSED,
+	FINISHED
+}
 
 const UserWorkoutsPage: FC = () => {
 	const searchParams = useSearchParams();
@@ -26,6 +56,7 @@ const UserWorkoutsPage: FC = () => {
 	const [workout, setWorkout] = useState<any>(JSON.parse(search as string));
 	const [activeWorkout, setActiveWorkout] = useState<any>({
 		name: "",
+		date: new Date(),
 		exercises: [
 			{
 				name: "",
@@ -64,24 +95,23 @@ const UserWorkoutsPage: FC = () => {
 	const [isRest, setIsRest] = useState<boolean>(false);
 	const [isFinalSet, setIsFinalSet] = useState<boolean>(false);
 
-	const formatTime = (seconds: number) => {
-		const hours = Math.floor(seconds / 3600);
-		const minutes = Math.floor((seconds % 3600) / 60);
-		const remainingSeconds = seconds % 60;
-		return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
-	};
+	const [currentWorkoutState, setCurrentWorkoutState] = useState<workoutState>(workoutState.NOT_STARTED);
 
-	const secondsToHMS = (seconds: number) => {
-		const hours = Math.floor(seconds / 3600);
-		const minutes = Math.floor((seconds % 3600) / 60);
-		const remainingSeconds = seconds % 60;
-
-		return {
-			hours,
-			minutes,
-			seconds: remainingSeconds
-		};
-	};
+	useEffect(() => {
+		switch (currentWorkoutState) {
+			case workoutState.NOT_STARTED:
+				break;
+			case workoutState.STARTED:
+				break;
+			case workoutState.EXERCISE:
+				break;
+			case workoutState.REST:
+				break;
+			case workoutState.PAUSED:
+				break;
+			case workoutState.FINISHED:
+		}
+	}, [currentWorkoutState]);
 
 	const finishRest = () => {
 		setIsRest(false);
@@ -149,7 +179,20 @@ const UserWorkoutsPage: FC = () => {
 	};
 
 	const oneMoreSet = () => {
-		// Implement this function if needed
+		const updatedWorkout = workout;
+		updatedWorkout.exercises[activeExerciseIndex].sets.push({
+			reps: 0,
+			weight: 0,
+			rest: 0,
+			time: 0
+		});
+		setWorkout(updatedWorkout);
+
+		setActiveExercise(updatedWorkout.exercises[activeExerciseIndex]);
+
+		console.log("workout", workout);
+		console.log("updatedWorkout.exercises[activeExerciseIndex]", updatedWorkout.exercises[activeExerciseIndex]);
+		console.log("activeExercise", activeExercise);
 	};
 
 	useEffect(() => {
@@ -184,7 +227,9 @@ const UserWorkoutsPage: FC = () => {
 		};
 	}, [startCountdown]);
 
-	const finishWorkout = () => {};
+	const finishWorkout = async () => {
+		AddLoggedWorkout((await GetUserID()) as string, activeWorkout);
+	};
 
 	return (
 		<div className="flex flex-col w-screen h-screen justify-center items-center">
@@ -337,21 +382,32 @@ const UserWorkoutsPage: FC = () => {
 								<Button type="button" onClick={skipSet} className="bg-red-500 btn-sm">
 									Skip Set
 								</Button>
-								{activeSetIndex === activeExercise.sets.length && <Button onClick={oneMoreSet}>+ One More Set</Button>}
-								{isFinalSet && <Button onClick={finishWorkout}>Finish Workout</Button>}
 							</div>
 						</Form>
 					)}
 				</Formik>
 			)}
 			{isRest && (
-				<Button onClick={finishRest} className="w-full h-full">
+				<Button onClick={finishRest} className="flex flex-col w-full h-full">
 					<span className="countdown font-mono text-6xl">
 						<span style={{ "--value": secondsToHMS(restTimer).minutes } as React.CSSProperties}></span>:
 						<span style={{ "--value": secondsToHMS(restTimer).seconds } as React.CSSProperties}></span>
 					</span>
+					<div>Touch the sceen to end rest</div>
+					{activeSetIndex === activeExercise.sets.length - 1 && (
+						<Button
+							className="btn-lg bg-base-100 fixed bottom-4 p-5"
+							onClick={(e) => {
+								e.stopPropagation();
+								oneMoreSet();
+							}}
+						>
+							+ One More Set
+						</Button>
+					)}
 				</Button>
 			)}
+			{isFinalSet && <Button onClick={finishWorkout}>Finish Workout</Button>}
 		</div>
 	);
 };

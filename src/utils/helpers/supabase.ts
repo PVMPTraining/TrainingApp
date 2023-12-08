@@ -169,3 +169,39 @@ export const AddFavoriteExercise = async (id: string, exercise: Json) => {
 		Log(LogLevel.ERROR, `AddUserFavoriteExercise, error: ${error}`);
 	}
 };
+
+export const GetUserLoggedWorkouts = async (id: string) => {
+	const { data: user_workouts, error } = await supabase.from("user_logged_workouts").select("workouts").eq("id", id);
+
+	if (user_workouts) {
+		Log(LogLevel.DEBUG, `GetUserWorkouts, user_workouts:`, user_workouts[0].workouts);
+	}
+
+	if (error) {
+		Log(LogLevel.ERROR, `GetUserWorkouts, error:`, error);
+		throw error;
+	}
+
+	return user_workouts[0].workouts || [];
+};
+
+/**
+ * Adds a logged workout for a user.
+ * @param id - The ID of the user.
+ * @param workout - The workout object to be added.
+ */
+export const AddLoggedWorkout = async (id: string, workout: any) => {
+	Log(LogLevel.DEBUG, `AddUserWorkout, id, workout:`, { id, workout });
+	const userWorkouts = await GetUserLoggedWorkouts(id);
+	userWorkouts.push(workout);
+
+	const { data, error } = await supabase.from("user_logged_workouts").update({ workouts: userWorkouts }).eq("id", id).select();
+
+	if (data) {
+		Log(LogLevel.DEBUG, `AddUserWorkout, return data:`, data);
+	}
+
+	if (error) {
+		Log(LogLevel.ERROR, `AddUserWorkout, error: ${error}`);
+	}
+};

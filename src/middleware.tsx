@@ -1,5 +1,6 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { rootPagePath } from "src/pathmap/pathmap";
 
 /**
  * Middleware function that handles requests and responses.
@@ -87,10 +88,10 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 		switch (request.nextUrl.pathname) {
 			case "/login":
 			case "/signup":
-			case "/":
+			case rootPagePath:
 				break;
 			default:
-				return NextResponse.redirect(new URL("/", request.url));
+				return NextResponse.redirect(new URL(rootPagePath, request.url));
 		}
 	}
 
@@ -98,8 +99,8 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 		switch (request.nextUrl.pathname) {
 			case "/login":
 			case "/signup":
-			case "/":
-				return NextResponse.redirect(new URL("/account", request.url));
+			case rootPagePath:
+				return NextResponse.redirect(new URL("/home", request.url));
 			default:
 				break;
 		}
