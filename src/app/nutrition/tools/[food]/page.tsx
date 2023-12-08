@@ -5,9 +5,12 @@ import { useSelector } from "react-redux";
 import Link from "next/link";
 
 const FoodDetailsPage: FC = () => {
-	const { currentFood, keywordValue } = useSelector((state: RootState) => state.foodFetch);
+	const { currentFood, keywordValue, currentBrandFoodData } = useSelector((state: RootState) => state.foodFetch);
 
-	const calories =
+	console.log(currentBrandFoodData);
+
+	{
+		/* const calories =
 		currentFood.foodNutrients
 			.filter((nutrient) => nutrient.nutrientName.includes("Energy") || nutrient.nutrientName.includes("General"))
 			.find((energy) => energy.unitName === "KCAL")?.value! >= 0
@@ -187,13 +190,71 @@ const FoodDetailsPage: FC = () => {
 
 	const proteinIntakePercentage = ((protein! / 160) * 100).toFixed(2);
 
-	const fatIntakePercentage = ((fat! / 60) * 100).toFixed(2);
+	const fatIntakePercentage = ((fat! / 60) * 100).toFixed(2) */
+	}
+
+	const calorieIntakePercentage = ((currentBrandFoodData.nutriments["energy-kcal_100g"] / 2000) * 100).toFixed(2);
+
+	const carbIntakePercentage = ((currentBrandFoodData.nutriments.carbohydrates_100g / 300) * 100).toFixed(2);
+
+	const proteinIntakePercentage = ((currentBrandFoodData.nutriments.proteins_100g / 160) * 100).toFixed(2);
+
+	const fatIntakePercentage = ((currentBrandFoodData.nutriments.fat_100g / 60) * 100).toFixed(2);
 
 	return (
 		<>
 			<div className="min-h-screen flex flex-col gap-4 bg-black text-white">
 				<Link href={"/nutrition/tools"}>Back {keywordValue} search results</Link>
-				<p>{currentFood?.description}</p>
+				<p className="text-xl">
+					{currentBrandFoodData.brands ? currentBrandFoodData.brands + " - " : ""}
+					{/* {food.generic_name_en
+											? food.generic_name_en
+											: food.generic_name_de
+											? food.generic_name_de
+											: food.generic_name_fr
+											? food.generic_name_fr
+											: food.generic_name} */}
+					{/* {food.abbreviated_product_name} */}
+					{currentBrandFoodData.product_name_en
+						? currentBrandFoodData.product_name_en
+						: currentBrandFoodData.product_name
+						  ? currentBrandFoodData.product_name
+						  : currentBrandFoodData.abbreviated_product_name
+						    ? currentBrandFoodData.abbreviated_product_name
+						    : currentBrandFoodData.generic_name_en
+						      ? currentBrandFoodData.generic_name_en
+						      : currentBrandFoodData.generic_name_de
+						        ? currentBrandFoodData.generic_name_de
+						        : currentBrandFoodData.generic_name_fr
+						          ? currentBrandFoodData.generic_name_fr
+						          : currentBrandFoodData.generic_name}
+				</p>
+				<p className="flex gap-1 items-center">
+					<span>Nutrition Score: </span>
+					<strong
+						className={`text-2xl ${
+							currentBrandFoodData.nutrition_grades === "a"
+								? "text-green-500"
+								: currentBrandFoodData.nutrition_grades === "b"
+								  ? "text-green-300"
+								  : currentBrandFoodData.nutrition_grades === "c"
+								    ? "text-yellow-400"
+								    : currentBrandFoodData.nutrition_grades === "d"
+								      ? "text-orange-400"
+								      : "text-red-500"
+						}`}
+					>
+						{currentBrandFoodData.nutrition_grades ? currentBrandFoodData.nutrition_grades.toUpperCase() : "?"}
+					</strong>
+				</p>
+				<p>INGREDIENTS</p>
+				<div className="flex flex-col">
+					{/* {+" " + ingredient.percent_estimate + " %"} */}
+					{currentBrandFoodData.ingredients?.length >= 1 &&
+						currentBrandFoodData.ingredients.map((ingredient, index) => (
+							<span key={ingredient.text}>{ingredient.id.split(":")[1] !== "ingredients" ? ingredient.id.split(":")[1] : ""}</span>
+						))}
+				</div>
 				<div className="divide-y-2 p-1">
 					<p className="text-white p-2 flex justify-between items-center">
 						Meal
@@ -209,22 +270,22 @@ const FoodDetailsPage: FC = () => {
 					</p>
 					<div className="text-white p-2 flex justify-between items-center">
 						<p className="flex flex-col">
-							Calories <span>{calories} kcal</span>
+							Calories <span>{currentBrandFoodData.nutriments["energy-kcal_100g"]} kcal</span>
 						</p>
 						{/* Need to add better find */}
 						<p className="flex flex-col">
-							Carbohydrate <span>{carb} g</span>
+							Carbohydrate <span>{currentBrandFoodData.nutriments.carbohydrates_100g} g</span>
 						</p>
 						<p className="flex flex-col">
-							Protein <span>{protein} g</span>
+							Protein <span>{currentBrandFoodData.nutriments.proteins_100g} g</span>
 						</p>
 						<p className="flex flex-col">
-							Fat <span>{fat} g</span>
+							Fat <span>{currentBrandFoodData.nutriments.fat} g</span>
 						</p>
 					</div>
 					<div className="text-white p-2 flex flex-col">
 						Daily target macronutrient intake percentages
-						<div className="flex gap-5 mt-2 w-full">
+						<div className="flex flex-wrap gap-10 items-center justify-center mt-2 w-full">
 							<div className="flex flex-col w-[25%]">
 								Calories
 								<div className="flex flex-col items-center">
@@ -269,108 +330,75 @@ const FoodDetailsPage: FC = () => {
 					</div>
 					<div className="divide-y-2 flex flex-col gap-3">
 						<p className="flex items-center justify-between">
-							Calories <span>{calories} kcal</span>
+							Calories{" "}
+							<span>
+								{currentBrandFoodData.nutriments["energy-kcal_100g"] >= 0
+									? currentBrandFoodData.nutriments["energy-kcal_100g"] + " kcal "
+									: "?"}
+							</span>
 						</p>
 						<p className="flex items-center justify-between">
-							Protein <span>{protein} g</span>
+							Protein{" "}
+							<span>{currentBrandFoodData.nutriments.proteins_100g >= 0 ? currentBrandFoodData.nutriments.proteins_100g + " g" : "?"}</span>
 						</p>
 						<div className="flex flex-col gap-1">
 							<p className="flex items-center justify-between">
-								Carbohydrate <span>{carb} g</span>
+								Carbohydrate{" "}
+								<span>
+									{currentBrandFoodData.nutriments.carbohydrates_100g >= 0 ? currentBrandFoodData.nutriments.carbohydrates_100g + " g" : "?"}
+								</span>
 							</p>
 							<p className="flex items-center justify-between">
-								Fiber <span>{fiber} g</span>
+								Fiber <span>{currentBrandFoodData.nutriments.fiber_100g >= 0 ? currentBrandFoodData.nutriments.fiber_100g + " g" : "?"}</span>
 							</p>
 							<p className="flex items-center justify-between">
-								Sugar <span>{sugar} g</span>
+								Sugar <span>{currentBrandFoodData.nutriments.sugars_100g >= 0 ? currentBrandFoodData.nutriments.sugars_100g + " g" : "?"}</span>
 							</p>
 						</div>
 						<div className="flex flex-col gap-1">
 							<p className="flex items-center justify-between">
-								Fat <span>{fat} g</span>
+								Fat <span>{currentBrandFoodData.nutriments.fat_100g >= 0 ? currentBrandFoodData.nutriments.fat_100g + " g" : "?"}</span>
 							</p>
 							<p className="flex items-center justify-between">
-								Fatty acids, total saturated <span>{fat1} g</span>
-							</p>
-							<p className="flex items-center justify-between">
-								Fatty acids, total monounsaturated <span>{fat2} g</span>
-							</p>
-							<p className="flex items-center justify-between">
-								Fatty acids, total polyunsaturated <span>{fat3} g</span>
-							</p>
-							<p className="flex items-center justify-between">
-								Fatty acids, total trans <span>{fat4} g</span>
-							</p>
-							<p className="flex items-center justify-between">
-								Fatty acids, total trans-polyenoic <span>{fat5} g</span>
-							</p>
-						</div>
-						{/* B vitamins need to research */}
-						<div className="flex flex-col gap-1">
-							{/* <p className="flex items-center justify-between">
-								B1 <span>{vitaminB1} mg</span>
-							</p>
-							<p className="flex items-center justify-between">
-								B2 <span>{vitaminB2} mg</span>
-							</p>
-							<p className="flex items-center justify-between">
-								B3 <span>{vitaminB3} mg</span>
-							</p>
-							<p className="flex items-center justify-between">
-								B5 <span>{vitaminB5} mg</span>
-							</p> */}
-							<p className="flex items-center justify-between">
-								B6 <span>{vitaminB6} mg</span>
+								Fatty acids, total saturated{" "}
+								<span>
+									{currentBrandFoodData.nutriments["saturated-fat_100g"] >= 0
+										? currentBrandFoodData.nutriments["saturated-fat_100g"] + " g"
+										: "?"}{" "}
+								</span>
 							</p>
 							{/* <p className="flex items-center justify-between">
-								B7 <span>{vitaminB7} mg</span>
+								Fatty acids, total monounsaturated <span> g</span>
 							</p>
 							<p className="flex items-center justify-between">
-								B9 <span>{vitaminB9} mg</span>
+								Fatty acids, total polyunsaturated <span> g</span>
+							</p>
+							<p className="flex items-center justify-between">
+								Fatty acids, total trans <span> g</span>
+							</p>
+							<p className="flex items-center justify-between">
+								Fatty acids, total trans-polyenoic <span> g</span>
 							</p> */}
-							<p className="flex items-center justify-between">
-								B12 <span>{vitaminB12} ug</span>
-							</p>
 						</div>
 						<p className="flex items-center justify-between">
-							Vitamin A <span>{vitaminA} IU</span>
+							Salt <span>{currentBrandFoodData.nutriments.salt_100g >= 0 ? currentBrandFoodData.nutriments.salt_100g : 0} g</span>
 						</p>
 						<p className="flex items-center justify-between">
-							Vitamin C <span>{vitaminC} mg</span>
+							Sodium <span>{currentBrandFoodData.nutriments.sodium_100g >= 0 ? currentBrandFoodData.nutriments.sodium_100g : 0} g</span>
 						</p>
-						<p className="flex items-center justify-between">
-							Vitamin D <span>{vitaminD} IU</span>
-						</p>
-						<p className="flex items-center justify-between">
-							Vitamin E <span>{vitaminE} mg</span>
-						</p>
-						<p className="flex items-center justify-between">
-							Water <span>{water} g</span>
-						</p>
-						<p className="flex items-center justify-between">
-							Caffeine <span>{caffeine} mg</span>
-						</p>
-						<p className="flex items-center justify-between">
-							Cholesterol <span>{cholesterol} mg</span>
-						</p>
-						<p className="flex items-center justify-between">
-							Calcium <span>{calcium} mg</span>
-						</p>
-						<p className="flex items-center justify-between">
-							Zinc <span>{zinc} mg</span>
-						</p>
-						<p className="flex items-center justify-between">
-							Iron <span>{iron} mg</span>
-						</p>
-						<p className="flex items-center justify-between">
-							Potassium <span>{potassium} mg</span>
-						</p>
-						<p className="flex items-center justify-between">
-							Magnesium <span>{magnesium} mg</span>
-						</p>
-						<p className="flex items-center justify-between">
-							Sodium <span>{sodium} mg</span>
-						</p>
+						{/* <p className="flex items-center justify-between"></p>
+						<p className="flex items-center justify-between"></p>
+						<p className="flex items-center justify-between"></p>
+						<p className="flex items-center justify-between"></p>
+						<p className="flex items-center justify-between"></p>
+						<p className="flex items-center justify-between"></p>
+						<p className="flex items-center justify-between"></p>
+						<p className="flex items-center justify-between"></p>
+						<p className="flex items-center justify-between"></p>
+						<p className="flex items-center justify-between"></p>
+						<p className="flex items-center justify-between"></p>
+						<p className="flex items-center justify-between"></p>
+						<p className="flex items-center justify-between"></p> */}
 					</div>
 				</div>
 			</div>

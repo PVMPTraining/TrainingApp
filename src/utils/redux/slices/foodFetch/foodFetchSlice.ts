@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { FoodFetchDataTypes, FoodSearchResultTypes } from "@/src/types/types";
+import { BrandFoodFetchDataTypes, BrandFoodSearchResultTypes, FoodFetchDataTypes, FoodSearchResultTypes } from "@/src/types/types";
 
 import axios from "axios";
 
@@ -9,7 +9,8 @@ type FoodStateTypes = {
 	keywordValue: string;
 	lastKeywordValue: string;
 	foodData: FoodFetchDataTypes;
-	brandFoodData: any;
+	brandFoodData: BrandFoodFetchDataTypes;
+	currentBrandFoodData: BrandFoodSearchResultTypes;
 	fetchError: string | undefined;
 	currentFood: FoodSearchResultTypes;
 	isSearched: boolean;
@@ -29,13 +30,12 @@ export const fetchFood = createAsyncThunk<FoodFetchDataTypes, string, { state: {
 	}
 );
 
-export const fetchBrandedFood = createAsyncThunk<any, { keywordValue: string; page: number }, { state: { foodFetch: FoodStateTypes } }>(
+export const fetchBrandedFood = createAsyncThunk<BrandFoodFetchDataTypes, { keywordValue: string; page: number }, { state: { foodFetch: FoodStateTypes } }>(
 	"food/fetchBrandedFood",
 	async ({ keywordValue, page }) => {
 		const response = await axios.get(
 			`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${keywordValue}&search_simple=true&action=process&page=${page}&page_size=50&json=true`
 		);
-		console.log(response);
 		return response.data;
 	}
 );
@@ -49,6 +49,7 @@ const foodSlice = createSlice({
 		lastKeywordValue: "",
 		foodData: {},
 		brandFoodData: {},
+		currentBrandFoodData: {},
 		fetchError: "",
 		currentFood: {}
 	} as FoodStateTypes,
@@ -63,8 +64,18 @@ const foodSlice = createSlice({
 		setCurrentFood: (state, action) => {
 			state.currentFood = action.payload;
 		},
+		setCurrentChosenBrandFood: (state, action) => {
+			state.currentBrandFoodData = action.payload;
+		},
 		setEmptyBrandFood: (state) => {
-			state.brandFoodData = {};
+			state.brandFoodData = {
+				count: 0,
+				page: 0,
+				page_count: 0,
+				page_size: 0,
+				products: [],
+				skip: 0
+			};
 		}
 	},
 	extraReducers: (builder) => {
@@ -98,9 +109,7 @@ const foodSlice = createSlice({
 				state.isLoading = false;
 				state.isSearched = true;
 				state.lastKeywordValue = state.keywordValue;
-				console.log("Action payload:", action.payload);
 				state.brandFoodData = action.payload;
-				console.log("After state change:", state.brandFoodData);
 				state.fetchError = "";
 			})
 			.addCase(fetchBrandedFood.rejected, (state, action) => {
@@ -116,6 +125,6 @@ const foodSlice = createSlice({
 	}
 });
 
-export const { setKeywordValue, setCurrentFood, setEmptyBrandFood } = foodSlice.actions;
+export const { setKeywordValue, setCurrentFood, setEmptyBrandFood, setCurrentChosenBrandFood } = foodSlice.actions;
 
 export default foodSlice.reducer;
