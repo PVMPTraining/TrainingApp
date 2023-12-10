@@ -279,10 +279,6 @@ const UserWorkoutsPage: FC = () => {
 		Log(LogLevel.DEBUG, `Updated workout:`, updatedWorkout);
 	};
 
-	const skipSet = () => {};
-
-	const oneMoreSet = () => {};
-
 	useEffect(() => {
 		const incrementTimer = (timerStateSetter: (value: number | ((prevValue: number) => number)) => void) => {
 			timerStateSetter((prevValue: number) => prevValue + 1);
@@ -477,7 +473,7 @@ const UserWorkoutsPage: FC = () => {
 							className="btn-lg bg-base-100 fixed bottom-4 p-5"
 							onClick={(e) => {
 								e.stopPropagation();
-								oneMoreSet();
+								triggerAction(workoutAction.ADD_SET);
 							}}
 						>
 							+ One More Set
