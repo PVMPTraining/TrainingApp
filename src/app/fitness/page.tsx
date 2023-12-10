@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { exercisePagePath, fitnessToolsPagePath, logWorkoutPagePath, workoutPagePath } from "@/src/pathmap/pathmap";
 import NavLayout from "@/src/layouts/NavLayout";
 import { UserWorkoutsDay } from "@/src/components/user-workouts/user-workouts-day/UserWorkoutsDay";
+import { UserWorkoutsCalendar } from "@/src/components/user-workouts/user-workouts-calendar/UserWorkoutsCalendar";
 
 const FitnessPage: FC = () => {
 	const router = useRouter();
@@ -14,6 +15,7 @@ const FitnessPage: FC = () => {
 	return (
 		<NavLayout>
 			<div className="flex-grow flex flex-col justify-end gap-4 p-4">
+				<UserWorkoutsCalendar></UserWorkoutsCalendar>
 				<UserWorkoutsDay></UserWorkoutsDay>
 				<div>Welcome to the Fitness Section!</div>
 				<Button

@@ -29,6 +29,7 @@
 		"next": "14.0.3",
 		"quagga": "^0.12.1",
 		"react": "^18",
+		"react-calendar": "^4.7.0",
 		"react-dom": "^18",
 		"react-icons": "^4.12.0",
 		"react-paginate": "^8.2.0",
