@@ -31,18 +31,18 @@
 /* ~~~ button styles ~~~ */
 button {
 	margin: 3px;
-	background-color: #6f876f;
+	background-color: #dfdfdf;
 	border: 0;
 	border-radius: 3px;
 	color: white;
 	padding: 5px 0;
 
 	&:hover {
-		background-color: #556b55;
+		background-color: #dfdfdf;
 	}
 
 	&:active {
-		background-color: #a5c1a5;
+		background-color: #dfdfdf;
 	}
 }
 

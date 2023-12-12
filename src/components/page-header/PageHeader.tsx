@@ -3,13 +3,15 @@
 import { accountPagePath } from "@/src/pathmap/pathmap";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FC, ButtonHTMLAttributes } from "react";
+import { FC, ButtonHTMLAttributes, ReactNode } from "react";
 import { FaChevronLeft, FaUser } from "react-icons/fa";
 import { Button } from "src/components/UI/Button/Button";
 
-interface PageHeaderProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
+interface PageHeaderProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+	children: ReactNode;
+}
 
-export const PageHeader: FC<PageHeaderProps> = () => {
+export const PageHeader: FC<PageHeaderProps> = ({ children }: PageHeaderProps) => {
 	const router = useRouter();
 
 	return (
@@ -22,7 +24,7 @@ export const PageHeader: FC<PageHeaderProps> = () => {
 			>
 				<FaChevronLeft />
 			</Button>
-			<div className="mx-auto">Test</div>
+			{children}
 			<Link className="btn btn-circle bg-base-100" href={accountPagePath}>
 				<FaUser />
 			</Link>

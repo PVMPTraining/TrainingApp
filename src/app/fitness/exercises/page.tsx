@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { Exercise } from "@/src/components/exercise/exercise";
 import { ExerciseData } from "@/src/types/types";
 import Fuse from "fuse.js";
+import NavLayout from "@/src/layouts/NavLayout";
 
 const ExercisesPage: FC = () => {
 	const router = useRouter();
@@ -54,45 +55,40 @@ const ExercisesPage: FC = () => {
 	const filteredExercises = performFuzzySearch(searchQuery);
 
 	return (
-		<div className="flex flex-col justify-center gap-4 m-4">
-			<div className="flex items-center gap-2 bg-base-300 rounded p-2">
-				<Button
-					onClick={() => {
-						router.back();
-					}}
-				>
-					BACK
-				</Button>
-				<h1 className="w-full uppercase text-center">Exercises</h1>
-			</div>
-			<Input className="bg-base-200" placeholder="Search for exercises" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-			<div className="flex flex-wrap gap-2 justify-center">
-				{filteredExercises.map((exercise: ExerciseData, index: number) => {
-					return (
-						<Button
-							key={index}
-							className="btn bg-base-200 w-[48%] h-24"
-							onClick={() => {
-								openModal();
-								setExercise(exercise);
-							}}
-						>
-							<div>{exercise.name}</div>
-						</Button>
-					);
-				})}
-			</div>
-			{isModalOpen && (
-				<dialog id="my_modal_1" className="modal" open>
-					<div className="modal-box">
-						<Exercise exercise={selected}></Exercise>
+		<NavLayout
+			header={<div>Exercises</div>}
+			children={
+				<div className="flex flex-col flex-grow justify-center gap-4 m-2 mb-auto">
+					<Input className="bg-base-200" placeholder="Search for exercises" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+					<div className="flex flex-wrap gap-2 justify-center">
+						{filteredExercises.map((exercise: ExerciseData, index: number) => {
+							return (
+								<Button
+									key={index}
+									className="btn bg-base-200 w-[48%] h-24 m-0"
+									onClick={() => {
+										openModal();
+										setExercise(exercise);
+									}}
+								>
+									<div>{exercise.name}</div>
+								</Button>
+							);
+						})}
 					</div>
-					<div className="modal-backdrop">
-						<button onClick={closeModal}>close</button>
-					</div>
-				</dialog>
-			)}
-		</div>
+					{isModalOpen && (
+						<dialog id="my_modal_1" className="modal" open>
+							<div className="modal-box">
+								<Exercise exercise={selected}></Exercise>
+							</div>
+							<div className="modal-backdrop">
+								<button onClick={closeModal}>close</button>
+							</div>
+						</dialog>
+					)}
+				</div>
+			}
+		/>
 	);
 };
 
