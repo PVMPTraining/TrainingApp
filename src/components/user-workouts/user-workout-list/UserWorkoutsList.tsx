@@ -4,6 +4,8 @@ import { Workout } from "@/src/types/types";
 import { Card, CardBody } from "@/src/components/UI/Card/Card";
 import { Button } from "@/src/components/UI/Button/Button";
 import { useRouter } from "next/navigation";
+import NavLayout from "@/src/layouts/NavLayout";
+import { Modal } from "@/src/components/UI/Modal/Modal";
 
 /**
  * Props for the UserWorkouts component.
@@ -26,91 +28,75 @@ const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
 		setIsModalOpen(true);
 	};
 
-	// Function to close the modal
-	const closeModal = () => {
-		setIsModalOpen(false);
-	};
-
 	return (
-		<div className="flex flex-col gap-4 m-4">
-			<div className="flex gap-4 items-center bg-base-300 rounded p-2">
-				<Button
-					onClick={() => {
-						router.back();
-					}}
-				>
-					BACK
-				</Button>
-				<div className="w-full text-center">
-					<h1 className="uppercase">User Workouts</h1>
+		<NavLayout
+			header={<div>Workouts</div>}
+			content={
+				<div className="flex flex-grow flex-col gap-4 m-2">
+					<div className="flex flex-wrap gap-2">
+						{userWorkouts.map((workout: Workout, index: number) => {
+							return (
+								<Button
+									key={index}
+									className="w-[48%] h-24 uppercase text-center m-0"
+									onClick={() => {
+										openModal();
+										setWorkout(workout);
+									}}
+								>
+									<div>{workout.name}</div>
+								</Button>
+							);
+						})}
+					</div>
+					<Button
+						className="mt-auto"
+						onClick={() => {
+							router.push("/fitness/user-workouts/new-workout");
+						}}
+					>
+						Add New Workout
+					</Button>
+					<Modal openModal={isModalOpen} closeModalCallback={setIsModalOpen}>
+						{workoutSelected && workoutSelected.exercises && (
+							<Card className="flex flex-col gap-4">
+								<Button
+									onClick={() => {
+										router.push("/fitness/log-workout/live?workout=" + JSON.stringify(workoutSelected));
+									}}
+								>
+									Start
+								</Button>
+								<Button
+									onClick={() => {
+										router.push("/fitness/user-workouts/update-workout?workout=" + JSON.stringify(workoutSelected));
+									}}
+								>
+									Edit
+								</Button>
+								{workoutSelected.name}
+								{workoutSelected.exercises.map((exercise: any, index: number) => {
+									return (
+										<div key={index}>
+											<div>{exercise.name}</div>
+											{exercise.sets.map((set: any, index: number) => {
+												return (
+													<div className="flex gap-2" key={index}>
+														<span>{set.reps}</span>
+														<span>{set.weight}</span>
+														<span>{set.rest}</span>
+													</div>
+												);
+											})}
+										</div>
+									);
+								})}
+							</Card>
+						)}
+					</Modal>
 				</div>
-				<Button
-					onClick={() => {
-						router.push("/fitness/user-workouts/new-workout");
-					}}
-				>
-					Add New Workout
-				</Button>
-			</div>
-			<div className="flex flex-wrap gap-2">
-				{userWorkouts.map((workout: Workout, index: number) => {
-					return (
-						<Button
-							key={index}
-							className="w-[48%] h-24 uppercase text-center"
-							onClick={() => {
-								openModal();
-								setWorkout(workout);
-							}}
-						>
-							<div>{workout.name}</div>
-						</Button>
-					);
-				})}
-			</div>
-			{isModalOpen && (
-				<dialog id="my_modal_1" className="modal" open>
-					<div className="modal-box">
-						<Card className="flex flex-col gap-4">
-							<Button
-								onClick={() => {
-									router.push("/fitness/log-workout/live?workout=" + JSON.stringify(workoutSelected));
-								}}
-							>
-								Start
-							</Button>
-							<Button
-								onClick={() => {
-									router.push("/fitness/user-workouts/update-workout?workout=" + JSON.stringify(workoutSelected));
-								}}
-							>
-								Edit
-							</Button>
-							{workoutSelected.name}
-							{workoutSelected.exercises.map((exercise: any, index: number) => {
-								return (
-									<div key={index}>
-										<div>{exercise.name}</div>
-										{exercise.sets.map((set: any, index: number) => {
-											return (
-												<div className="flex gap-2" key={index}>
-													<span>{set.reps}</span>
-													<span>{set.weight}</span>
-													<span>{set.rest}</span>
-												</div>
-											);
-										})}
-									</div>
-								);
-							})}
-						</Card>
-					</div>
-					<div className="modal-backdrop">
-						<button onClick={closeModal}>close</button>
-					</div>
-				</dialog>
-			)}
-		</div>
+			}
+		/>
 	);
 };
 

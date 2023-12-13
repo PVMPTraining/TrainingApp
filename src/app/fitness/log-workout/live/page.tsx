@@ -4,7 +4,7 @@ import { FC, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 import { ExerciseData } from "@/src/types/types";
-import { ComboBox } from "@/src/components/UI/combobox/combobox";
+import { ComboBox } from "@/src/components/UI/ComboBox/combobox";
 import { Input } from "@/src/components/UI/Input/Input";
 import { Button } from "@/src/components/UI/Button/Button";
 import { Field, FieldArray, Form, Formik } from "formik";

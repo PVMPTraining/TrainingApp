@@ -4,15 +4,15 @@ import React, { ReactNode } from "react";
 
 type BottomNavProps = {
 	header: ReactNode;
-	children: ReactNode;
+	content: ReactNode;
 };
 
-const NavLayout = ({ header, children }: BottomNavProps) => {
+const NavLayout = ({ header, content }: BottomNavProps) => {
 	return (
 		<div className="flex flex-col min-h-screen">
 			<PageHeader>{header}</PageHeader>
 			<div className="flex-grow flex" style={{ marginTop: "4rem", marginBottom: "4rem" }}>
-				{children}
+				{content}
 			</div>
 			<BottomNav />
 		</div>

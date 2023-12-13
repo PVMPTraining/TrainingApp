@@ -10,6 +10,7 @@ import { Exercise } from "@/src/components/exercise/exercise";
 import { ExerciseData } from "@/src/types/types";
 import Fuse from "fuse.js";
 import NavLayout from "@/src/layouts/NavLayout";
+import { Modal } from "@/src/components/UI/Modal/Modal";
 
 const ExercisesPage: FC = () => {
 	const router = useRouter();
@@ -25,11 +26,6 @@ const ExercisesPage: FC = () => {
 	// Function to open the modal
 	const openModal = () => {
 		setIsModalOpen(true);
-	};
-
-	// Function to close the modal
-	const closeModal = () => {
-		setIsModalOpen(false);
 	};
 
 	// Filter exercises based on the search query
@@ -57,7 +53,7 @@ const ExercisesPage: FC = () => {
 	return (
 		<NavLayout
 			header={<div>Exercises</div>}
-			children={
+			content={
 				<div className="flex flex-col flex-grow justify-center gap-4 m-2 mb-auto">
 					<Input className="bg-base-200" placeholder="Search for exercises" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
 					<div className="flex flex-wrap gap-2 justify-center">
@@ -76,16 +72,9 @@ const ExercisesPage: FC = () => {
 							);
 						})}
 					</div>
-					{isModalOpen && (
-						<dialog id="my_modal_1" className="modal" open>
-							<div className="modal-box">
-								<Exercise exercise={selected}></Exercise>
-							</div>
-							<div className="modal-backdrop">
-								<button onClick={closeModal}>close</button>
-							</div>
-						</dialog>
-					)}
+					<Modal openModal={isModalOpen} closeModalCallback={setIsModalOpen}>
+						<Exercise exercise={selected}></Exercise>
+					</Modal>
 				</div>
 			}
 		/>

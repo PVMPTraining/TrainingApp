@@ -2,9 +2,8 @@
 	@apply text-white;
 }
 
-.react-calendar__tile {
-	@apply hover:bg-blue-100;
-}
+/* .react-calendar__tile {
+} */
 
 .react-calendar__tile--active {
 	@apply bg-blue-500 text-white;
@@ -31,19 +30,9 @@
 /* ~~~ button styles ~~~ */
 button {
 	margin: 3px;
-	background-color: #dfdfdf;
 	border: 0;
 	border-radius: 3px;
-	color: white;
 	padding: 5px 0;
-
-	&:hover {
-		background-color: #dfdfdf;
-	}
-
-	&:active {
-		background-color: #dfdfdf;
-	}
 }
 
 /* ~~~ day grid styles ~~~ */
@@ -60,9 +49,8 @@ button {
 .react-calendar__month-view__days__day--neighboringMonth {
 	opacity: 0.7;
 }
-.react-calendar__month-view__days__day--weekend {
-	color: #dfdfdf;
-}
+/* .react-calendar__month-view__days__day--weekend {
+} */
 
 /* ~~~ other view styles ~~~ */
 .react-calendar__year-view__months,

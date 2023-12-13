@@ -31,6 +31,10 @@ export const UserWorkoutsCalendar: FC<UserWorkoutsCalendarProps> = ({ className,
 						const workouts = loggedUserWorkouts.filter((workout: any) => new Date(workout.date).toDateString() === date.toDateString());
 						return workouts.map((workout: any, index: number) => <div key={index}>{workout.name}</div>);
 					}}
+					tileClassName={({ date, view }) => {
+						const workouts = loggedUserWorkouts.filter((workout: any) => new Date(workout.date).toDateString() === date.toDateString());
+						return workouts.map((workout: any, index: number) => "bg-green-500");
+					}}
 				/>
 				<div>{isLoading ? <p>Loading...</p> : workoutsForSelectedDate.map((workout: any, index: number) => <div key={index}>{workout.name}</div>)}</div>
 			</CardBody>
