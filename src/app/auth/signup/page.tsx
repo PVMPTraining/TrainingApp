@@ -19,7 +19,8 @@ import { Database } from "@/src/types/types";
 import { useFormik } from "formik";
 
 import { LoginFormValidationSchema } from "@/src/utils/yup/LoginFormValidationSchema";
-import { accountPagePath } from "@/src/pathmap/pathmap";
+import { accountPagePath, loginPagePath, rootPagePath } from "@/src/pathmap/pathmap";
+import { FaChevronLeft } from "react-icons/fa";
 
 const SignupPage: FC = () => {
 	const router = useRouter();
@@ -51,8 +52,8 @@ const SignupPage: FC = () => {
 
 	return (
 		<div className="h-screen flex flex-col justify-end gap-4 p-8">
-			<Link className="fixed top-4 left-4" href="/">
-				Back
+			<Link className="fixed p-8 top-0 left-0" href={rootPagePath}>
+				<FaChevronLeft />
 			</Link>
 			<form className="flex flex-col gap-2" onSubmit={formik.handleSubmit}>
 				<h1>Email</h1>
@@ -73,7 +74,18 @@ const SignupPage: FC = () => {
 					value={formik.values.password}
 				/>
 				{formik.touched.password && formik.errors.password && <div className="text-red-600">{formik.errors.password}</div>}
-				<Button type="submit">Sign up</Button>
+				<Button className="mt-2" type="submit">
+					Sign up
+				</Button>
+				<div className="divider">OR</div>
+				<Button
+					onClick={() => {
+						router.push(loginPagePath);
+					}}
+					type="button"
+				>
+					Sign in
+				</Button>
 			</form>
 		</div>
 	);

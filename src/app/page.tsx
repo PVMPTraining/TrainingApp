@@ -5,14 +5,14 @@ import { FC, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { on } from "events";
 
-import { fitnessHomePagePath } from "src/pathmap/pathmap";
+import { authPagePath } from "src/pathmap/pathmap";
 
 const AppPage: FC = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		router.push(fitnessHomePagePath);
-	}, [router]);
+		router.push(authPagePath);
+	}, []);
 
 	return <></>;
 };

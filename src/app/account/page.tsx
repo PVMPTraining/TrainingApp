@@ -19,14 +19,15 @@ const AccountPage = () => {
 	};
 
 	return (
-		<NavLayout>
-			<div>
-				Account
-				<div>{userID}</div>
-				{/* <FoodScanner /> */}
-				<Button onClick={handleSignOut}>Sign Out</Button>
-			</div>
-		</NavLayout>
+		<NavLayout
+			header={<div>Account</div>}
+			content={
+				<div className="flex-grow flex flex-col m-4">
+					<div>{userID}</div>
+					<Button onClick={handleSignOut}>Sign Out</Button>
+				</div>
+			}
+		></NavLayout>
 	);
 };
 
