@@ -4,7 +4,14 @@ import { FC, use, useState } from "react";
 // Next
 import { Button } from "@/src/components/UI/Button/Button";
 import { useRouter } from "next/navigation";
-import { exercisePagePath, fitnessToolsPagePath, liveWorkoutPagePath, logWorkoutPagePath, workoutPagePath } from "@/src/pathmap/pathmap";
+import {
+	exercisePagePath,
+	fitnessToolsPagePath,
+	liveWorkoutPagePath,
+	logWorkoutPagePath,
+	workoutHistoryPagePath,
+	workoutPagePath
+} from "@/src/pathmap/pathmap";
 import NavLayout from "@/src/layouts/NavLayout";
 import { UserWorkoutsDay } from "@/src/components/user-workouts/user-workouts-day/UserWorkoutsDay";
 import { UserWorkoutsCalendar } from "@/src/components/user-workouts/user-workouts-calendar/UserWorkoutsCalendar";
@@ -72,7 +79,13 @@ const FitnessPage: FC = () => {
 							>
 								New Workout
 							</Button>
-							<Button>From a logged workout</Button>
+							<Button
+								onClick={() => {
+									router.push(workoutHistoryPagePath);
+								}}
+							>
+								From a logged workout
+							</Button>
 							<Button
 								onClick={() => {
 									router.push(workoutPagePath);

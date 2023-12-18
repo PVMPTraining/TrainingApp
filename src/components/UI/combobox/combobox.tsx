@@ -1,6 +1,4 @@
 import { Input } from "@/src/components/UI/Input/Input";
-import { Exercise } from "@/src/types/types";
-import { error } from "console";
 import { FormikErrors, FormikTouched } from "formik";
 import React, { ButtonHTMLAttributes, FC, useEffect, useState } from "react";
 
@@ -20,7 +18,9 @@ export const ComboBox: FC<ComboBoxProps> = ({ className, options, selectedCallba
 	const [inputFocused, setInputFocused] = useState(false);
 
 	useEffect(() => {
-		selectedCallback(selectedOption);
+		if (selectedOption !== "") {
+			selectedCallback(selectedOption);
+		}
 	}, [selectedOption]);
 
 	useEffect(() => {

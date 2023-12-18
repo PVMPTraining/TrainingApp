@@ -20,6 +20,7 @@ export const workoutPagePath: string = "/fitness/user-workouts";
 export const exercisePagePath: string = "/fitness/exercises";
 export const logWorkoutPagePath: string = "/fitness/log-workout";
 export const fitnessToolsPagePath: string = "/fitness/tools";
+export const workoutHistoryPagePath: string = "/fitness/workout-history";
 export const liveWorkoutPagePath: string = "/fitness/log-workout/live";
 export const newWorkoutPagePath: string = "/fitness/user-workouts/new-workout";
 export const updateWorkoutPagePath: string = "/fitness/user-workouts/update-workout";

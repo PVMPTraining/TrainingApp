@@ -1,4 +1,3 @@
-import { ExerciseData, Workout } from "@/src/types/types";
 import useFetchLoggedUserWorkouts from "@/src/utils/hooks/useFetchLoggedUserWorkouts";
 import { FC, ButtonHTMLAttributes, Key, useState, useEffect } from "react";
 import { Card, CardBody } from "src/components/UI/Card/Card";

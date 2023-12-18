@@ -100,6 +100,7 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 		switch (request.nextUrl.pathname) {
 			case loginPagePath:
 			case signupPagePath:
+			case authPagePath:
 				return NextResponse.redirect(new URL(homePagePath, request.url));
 			default:
 				break;

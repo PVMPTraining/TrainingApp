@@ -26,23 +26,6 @@ export interface Database {
 	};
 }
 
-export interface Workout {
-	name: string;
-	exercises: Exercise[];
-}
-
-export interface Exercise {
-	name: string;
-	sets: Set[];
-	rest: number;
-}
-
-export interface Set {
-	reps: number;
-	weight: number;
-	rest: number;
-}
-
 export interface ExerciseData {
 	id: string;
 	created_at: string;

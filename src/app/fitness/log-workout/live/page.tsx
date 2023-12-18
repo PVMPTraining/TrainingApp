@@ -1,9 +1,10 @@
 "use client";
 
-import { FC, useState, useEffect } from "react";
+import { FC, useState, useEffect, Key } from "react";
 import { useSearchParams } from "next/navigation";
 import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 import { ExerciseData } from "@/src/types/types";
+import { timedExercise, timedSets, timedWorkout } from "@/src/types/fitnessTypes";
 import { ComboBox } from "@/src/components/UI/ComboBox/combobox";
 import { Input } from "@/src/components/UI/Input/Input";
 import { Button } from "@/src/components/UI/Button/Button";
@@ -11,6 +12,8 @@ import { Field, FieldArray, Form, Formik } from "formik";
 import { Card, CardBody } from "@/src/components/UI/Card/Card";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
 import { AddLoggedWorkout, GetUserID } from "@/src/utils/helpers/supabase";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import React from "react";
 
 enum workoutState {
 	NOT_STARTED,
@@ -18,6 +21,7 @@ enum workoutState {
 	EXERCISE,
 	REST,
 	PAUSED,
+	FULL_VIEW,
 	FINISHED
 }
 
@@ -32,28 +36,9 @@ enum workoutAction {
 	FINISH_SET,
 	FINISH_REST,
 	FINISH,
+	OPEN_FULL_VIEW,
+	CLOSE_FULL_VIEW,
 	NONE
-}
-
-interface timedWorkout {
-	name: string;
-	date: Date;
-	exercises: timedExercise[];
-	time: number;
-}
-
-interface timedExercise {
-	name: string;
-	sets: timedSets[];
-	rest: number;
-	time: number;
-}
-
-interface timedSets {
-	reps: number;
-	weight: number;
-	rest: number;
-	time: number;
 }
 
 // Constants
@@ -91,7 +76,8 @@ const UserWorkoutsPage: FC = () => {
 	const { isLoading, exercises } = useFetchUserExercsiseDatabase();
 
 	// Workout state
-	const [currentWorkoutState, setWorkoutState] = useState<workoutState>(workoutState.NOT_STARTED);
+	const [currentWorkoutState, setWorkoutStateInternal] = useState<workoutState>(workoutState.NOT_STARTED);
+	const [prevWorkoutState, setPrevWorkoutState] = useState<workoutState>(workoutState.NOT_STARTED);
 
 	// Timers
 	const [startCountdown, setStartCountdown] = useState<number>(WORKOUT_COUNTDOWN);
@@ -113,6 +99,8 @@ const UserWorkoutsPage: FC = () => {
 	const [isRest, setIsRest] = useState<boolean>(false);
 	const [isFinalSet, setIsFinalSet] = useState<boolean>(false);
 
+	let availabelAcitons: workoutAction[] = [];
+
 	const formatTime = ({ hours, minutes, seconds }: { hours: number; minutes: number; seconds: number }) => {
 		return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 	};
@@ -129,9 +117,13 @@ const UserWorkoutsPage: FC = () => {
 		};
 	};
 
-	useEffect(() => {
-		// console.log(workoutState[currentWorkoutState]);
+	const setWorkoutState = (newWorkoutState: workoutState) => {
+		setPrevWorkoutState(currentWorkoutState);
+		setWorkoutStateInternal(newWorkoutState);
+	};
 
+	useEffect(() => {
+		console.log(workoutState[currentWorkoutState]);
 		switch (currentWorkoutState) {
 			case workoutState.NOT_STARTED:
 				triggerAction(workoutAction.START);
@@ -143,14 +135,47 @@ const UserWorkoutsPage: FC = () => {
 				break;
 			case workoutState.REST:
 				break;
+			case workoutState.FULL_VIEW:
+				break;
 			case workoutState.PAUSED:
 				break;
 			case workoutState.FINISHED:
 		}
 	}, [currentWorkoutState]);
 
+	useEffect(() => {
+		switch (currentWorkoutState) {
+			case workoutState.NOT_STARTED:
+				availabelAcitons = [workoutAction.START];
+				break;
+			case workoutState.STARTED:
+				availabelAcitons = [];
+				break;
+			case workoutState.EXERCISE:
+				availabelAcitons = [
+					workoutAction.SKIP_EXERCISE,
+					workoutAction.SKIP_SET,
+					workoutAction.FINISH_SET,
+					workoutAction.OPEN_FULL_VIEW,
+					workoutAction.FINISH
+				];
+				break;
+			case workoutState.REST:
+				availabelAcitons = [workoutAction.FINISH_REST, workoutAction.ADD_SET, workoutAction.ADD_EXERCISE, workoutAction.OPEN_FULL_VIEW];
+				break;
+			case workoutState.FULL_VIEW:
+				availabelAcitons = [workoutAction.CLOSE_FULL_VIEW];
+				break;
+			case workoutState.PAUSED:
+				break;
+			case workoutState.FINISHED:
+		}
+	}, [availabelAcitons]);
+
 	const triggerAction = (triggeredAction: workoutAction) => {
-		// console.log(workoutState[currentWorkoutState]);
+		if (!availabelAcitons.includes(triggeredAction)) {
+			return;
+		}
 
 		switch (triggeredAction) {
 			case workoutAction.NONE:
@@ -163,12 +188,12 @@ const UserWorkoutsPage: FC = () => {
 
 					let countdownTracker = WORKOUT_COUNTDOWN;
 					const countdownInterval = setInterval(() => {
-						if (countdownTracker > 0) {
-							setStartCountdown(countdownTracker - 1);
-							countdownTracker--;
-						} else {
+						if (countdownTracker < 0) {
 							setWorkoutState(workoutState.STARTED);
 							clearInterval(countdownInterval);
+						} else {
+							setStartCountdown(countdownTracker - 1);
+							countdownTracker--;
 						}
 					}, 1000);
 				}
@@ -225,10 +250,20 @@ const UserWorkoutsPage: FC = () => {
 					setWorkoutState(workoutState.EXERCISE);
 				}
 				break;
+			case workoutAction.OPEN_FULL_VIEW:
+				{
+					setWorkoutState(workoutState.FULL_VIEW);
+				}
+				break;
+			case workoutAction.CLOSE_FULL_VIEW:
+				{
+					setWorkoutState(prevWorkoutState);
+				}
+				break;
 			case workoutAction.FINISH:
 				{
 					const finishWorkout = async () => {
-						// AddLoggedWorkout((await GetUserID()) as string, activeWorkout);
+						AddLoggedWorkout((await GetUserID()) as string, activeWorkout);
 						console.log(activeWorkout);
 					};
 
@@ -297,19 +332,44 @@ const UserWorkoutsPage: FC = () => {
 		};
 	}, []);
 
+	const timers = (
+		<>
+			<div className="flex w-full items-center">
+				<div className="w-[6rem]">Workout Timer:</div>
+				<Card className="bg-base-200 w-full card-compact">
+					<CardBody className="text-center">{formatTime(secondsToHMS(workoutTimer))}</CardBody>
+				</Card>
+			</div>
+			<div className="flex gap-4">
+				<div className="flex gap-2 w-1/2 items-center">
+					<div className="w-[7rem]">Exercise Timer:</div>
+					<Card className="bg-base-200 w-full card-compact">
+						<CardBody>{formatTime(secondsToHMS(exerciseTimer))}</CardBody>
+					</Card>
+				</div>
+				<div className="flex gap-2 w-1/2 items-center">
+					<div>Set Timer:</div>
+					<Card className="bg-base-200 w-full card-compact">
+						<CardBody>{formatTime(secondsToHMS(setTimer))}</CardBody>
+					</Card>
+				</div>
+			</div>
+		</>
+	);
+
 	return (
 		<div className="flex flex-col w-screen h-screen justify-center items-center">
-			{startCountdown !== 0 && (
-				<>
+			{startCountdown > -1 && (
+				<div className="mt-auto flex flex-col justify-center items-center">
 					<div>
 						<span className="text-2xl">{workout.name} Workout Starting In:</span>
 					</div>
 					<span className="countdown font-mono text-6xl">
 						<span style={{ "--value": startCountdown } as React.CSSProperties}></span>
 					</span>
-				</>
+				</div>
 			)}
-			{startCountdown === 0 && activeExercise && !isRest && (
+			{startCountdown < 0 && activeExercise && !isRest && currentWorkoutState !== workoutState.FULL_VIEW && (
 				<Formik
 					initialValues={{
 						name: ""
@@ -318,27 +378,8 @@ const UserWorkoutsPage: FC = () => {
 				>
 					{({ values, errors, touched, setFieldValue }) => (
 						<Form>
-							<div className="flex flex-col h-screen gap-4 p-4 rounded bg-base-300">
-								<div className="flex w-full items-center">
-									<div className="w-[6rem]">Workout Timer:</div>
-									<Card className="bg-base-200 w-full card-compact">
-										<CardBody className="text-center">{formatTime(secondsToHMS(workoutTimer))}</CardBody>
-									</Card>
-								</div>
-								<div className="flex gap-4">
-									<div className="flex gap-2 w-1/2 items-center">
-										<div className="w-[7rem]">Exercise Timer:</div>
-										<Card className="bg-base-200 w-full card-compact">
-											<CardBody>{formatTime(secondsToHMS(exerciseTimer))}</CardBody>
-										</Card>
-									</div>
-									<div className="flex gap-2 w-1/2 items-center">
-										<div>Set Timer:</div>
-										<Card className="bg-base-200 w-full card-compact">
-											<CardBody>{formatTime(secondsToHMS(setTimer))}</CardBody>
-										</Card>
-									</div>
-								</div>
+							<div className="flex flex-col gap-4 p-4 rounded bg-base-300">
+								{timers}
 								<div className="flex flex-col gap-2">
 									{exercises ? (
 										<ComboBox
@@ -482,6 +523,119 @@ const UserWorkoutsPage: FC = () => {
 				</div>
 			)}
 			{isFinalSet && <Button onClick={() => triggerAction(workoutAction.FINISH)}>Finish Workout</Button>}
+			{currentWorkoutState === workoutState.FULL_VIEW && (
+				<Formik
+					initialValues={{
+						name: ""
+					}}
+					onSubmit={() => {}}
+				>
+					{({ values, errors, touched, setFieldValue }) => (
+						<Form>
+							<div className="flex flex-col gap-4 p-4 rounded bg-base-300">
+								{timers}
+								{workout.exercises.map((exercise: any, i: Key | null | undefined) => (
+									<React.Fragment key={i}>
+										<div className="flex flex-col gap-2">
+											{exercises ? (
+												<ComboBox
+													className="w-full"
+													options={exercises.map((exercise: ExerciseData) => exercise.name)}
+													selectedCallback={(selectedExerciseName) => {
+														setWorkout((prevWorkout: { exercises: any }) => {
+															const updatedExercises = [...prevWorkout.exercises];
+															updatedExercises[i as number].name = selectedExerciseName;
+															return { ...prevWorkout, exercises: updatedExercises };
+														});
+													}}
+													value={exercise.name}
+												/>
+											) : (
+												<Input disabled />
+											)}
+										</div>
+										<FieldArray name={`exercises`}>
+											{({ push, remove }) => (
+												<>
+													{exercise.sets.map((set: any, j: number) => (
+														<div key={j} className="flex flex-col gap-4">
+															<div className="flex gap-4 items-center max-w-screen justify-center">
+																<div className="flex gap-1 items-center max-w-[33%]">
+																	<Input
+																		type="number"
+																		className="bg-base-200 input-sm text-end"
+																		placeholder="Reps"
+																		value={isNaN(set.reps) ? "" : set.reps.toString()}
+																		onChange={(e) => {
+																			setWorkout((prevWorkout: { exercises: any }) => {
+																				const updatedExercises = [...prevWorkout.exercises];
+																				updatedExercises[i as number].set[j as number].reps = e.target.value;
+																				return { ...prevWorkout, exercises: updatedExercises };
+																			});
+																		}}
+																	/>
+																	<span className="text-xs">Reps</span>
+																</div>
+																<div className="flex gap-1 items-center max-w-[33%]">
+																	<Input
+																		type="number"
+																		className="bg-base-200 input-sm text-end"
+																		placeholder="kg"
+																		value={isNaN(set.weight) ? "" : set.weight.toString()}
+																		onChange={(e) => {
+																			setWorkout((prevWorkout: { exercises: any }) => {
+																				const updatedExercises = [...prevWorkout.exercises];
+																				updatedExercises[i as number].set[j as number].weight = e.target.value;
+																				return { ...prevWorkout, exercises: updatedExercises };
+																			});
+																		}}
+																	/>
+																	<span className="text-xs">Weights (kg)</span>
+																</div>
+																<div className="flex gap-1 items-center max-w-[33%]">
+																	<Input
+																		type="number"
+																		className="bg-base-200 input-sm text-end"
+																		placeholder="s"
+																		value={isNaN(set.rest) ? "" : set.rest.toString()}
+																		onChange={(e) => {
+																			setWorkout((prevWorkout: { exercises: any }) => {
+																				const updatedExercises = [...prevWorkout.exercises];
+																				updatedExercises[i as number].set[j as number].rest = e.target.value;
+																				return { ...prevWorkout, exercises: updatedExercises };
+																			});
+																		}}
+																	/>
+																	<span className="text-xs">Rest (s)</span>
+																</div>
+															</div>
+														</div>
+													))}
+												</>
+											)}
+										</FieldArray>
+									</React.Fragment>
+								))}
+							</div>
+						</Form>
+					)}
+				</Formik>
+			)}
+			<Card className="bg-base-200 mt-auto w-screen card-compact rounded-b-none rounded-t-[3.5rem]">
+				<CardBody className="flex flex-row justify-between items-center !px-10">
+					<div>{workout.name}</div>
+					{currentWorkoutState !== workoutState.FULL_VIEW && (
+						<Button type="button" onClick={() => triggerAction(workoutAction.OPEN_FULL_VIEW)}>
+							<FaChevronUp />
+						</Button>
+					)}
+					{currentWorkoutState == workoutState.FULL_VIEW && (
+						<Button type="button" onClick={() => triggerAction(workoutAction.CLOSE_FULL_VIEW)}>
+							<FaChevronDown />
+						</Button>
+					)}
+				</CardBody>
+			</Card>
 		</div>
 	);
 };
