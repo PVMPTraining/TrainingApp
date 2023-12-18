@@ -1,7 +1,7 @@
 import { FC, InputHTMLAttributes } from "react";
 import { Button } from "@/src/components/UI/Button/Button";
 import { CreateExercise } from "src/components/user-workouts/user-workout-creator/create-exercise/CreateExercise";
-import { Exercise, Workout } from "@/src/types/types";
+import { Workout } from "@/src/types/fitnessTypes";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
 import { Input } from "@/src/components/UI/Input/Input";
 import { useRouter } from "next/navigation";

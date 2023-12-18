@@ -2,7 +2,8 @@ import { FC, InputHTMLAttributes } from "react";
 import { Input } from "@/src/components/UI/Input/Input";
 import { Button } from "@/src/components/UI/Button/Button";
 import { Field, FieldArray, FormikErrors, FormikTouched } from "formik"; // Import Field and FieldArray from Formik
-import { Exercise, ExerciseData, Workout } from "@/src/types/types";
+import { Exercise, Workout } from "@/src/types/fitnessTypes";
+import { ExerciseData } from "@/src/types/types";
 import { ComboBox } from "@/src/components/UI/ComboBox/combobox";
 import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 
