@@ -12,12 +12,15 @@ const NutritionPage: FC = () => {
 	const router = useRouter();
 
 	return (
-		<NavLayout>
-			<div className="flex-grow flex flex-col justify-end gap-4 p-8">
-				NUTRITION
-				<Link href={nutritionToolsPagePath}>Search foods</Link>
-			</div>
-		</NavLayout>
+		<NavLayout
+			header={<div>Nutrition</div>}
+			content={
+				<div className="flex-grow flex flex-col justify-end gap-4 p-8">
+					NUTRITION
+					<Link href={nutritionToolsPagePath}>Search foods</Link>
+				</div>
+			}
+		/>
 	);
 };
 
