@@ -15,7 +15,7 @@ export const PageHeader: FC<PageHeaderProps> = ({ children }: PageHeaderProps) =
 	const router = useRouter();
 
 	return (
-		<div className="fixed top-0 bg-base-200 h-[4rem] w-screen flex justify-between items-center px-4">
+		<div className="fixed top-0 bg-base-200 h-[4rem] w-screen flex justify-between items-center px-4 z-50">
 			<Button
 				className="btn btn-circle bg-base-100"
 				onClick={() => {

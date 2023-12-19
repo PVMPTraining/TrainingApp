@@ -17,6 +17,7 @@ import { UserWorkoutsDay } from "@/src/components/user-workouts/user-workouts-da
 import { UserWorkoutsCalendar } from "@/src/components/user-workouts/user-workouts-calendar/UserWorkoutsCalendar";
 import { FaDumbbell } from "react-icons/fa";
 import { Modal } from "@/src/components/UI/Modal/Modal";
+import { WorkoutHistoryWidget } from "@/src/components/user-workouts/workout-widgets/workout-history-widget/WorkoutHistoryWidget";
 
 const FitnessPage: FC = () => {
 	const router = useRouter();
@@ -29,6 +30,7 @@ const FitnessPage: FC = () => {
 			content={
 				<>
 					<div className="flex-grow flex flex-col justify-end gap-4 p-4">
+						<WorkoutHistoryWidget />
 						<UserWorkoutsCalendar className="top-0" dateChangeCallback={setSelectedDate}></UserWorkoutsCalendar>
 						<UserWorkoutsDay date={selectedDate}></UserWorkoutsDay>
 						<div className="flex flex-wrap mt-auto">

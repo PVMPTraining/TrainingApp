@@ -13,7 +13,7 @@ export const BottomNav: FC<BottomNavProps> = () => {
 	const currentPath = usePathname();
 
 	return (
-		<div className="btm-nav bg-base-200">
+		<div className="btm-nav bg-base-200 z-50">
 			<Link href={fitnessHomePagePath} className={currentPath === fitnessHomePagePath ? "active" : ""}>
 				<FaDumbbell />
 			</Link>
