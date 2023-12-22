@@ -353,7 +353,7 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 	}, []);
 
 	const moveExerciseUp = (index: number) => {
-		if (((activeExerciseIndex < (index - 1)) || (activeExerciseIndex === (index - 1) && activeSetIndex === 0))) {
+		if (activeExerciseIndex < index - 1 || (activeExerciseIndex === index - 1 && activeSetIndex === 0)) {
 			const updatedWorkout = { ...workout };
 
 			const temp = updatedWorkout.exercises[index];
@@ -586,7 +586,8 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 												) : (
 													<Input disabled />
 												)}
-												{((activeExerciseIndex < (i as number - 1)) || (activeExerciseIndex === (i as number - 1) && activeSetIndex === 0)) && ( // Conditionally render the button if it's not the top component
+												{(activeExerciseIndex < (i as number) - 1 ||
+													(activeExerciseIndex === (i as number) - 1 && activeSetIndex === 0)) && ( // Conditionally render the button if it's not the top component
 													<Button onClick={() => moveExerciseUp(i as number)}>
 														<FaChevronUp />
 													</Button>
@@ -724,12 +725,13 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 					)}
 				</div>
 			</div>
-			<Modal openModal={false} closeModalCallback={function (close: boolean): void {
-				throw new Error("Function not implemented.");
-			} }>
-				<div>
-					Test
-				</div>
+			<Modal
+				openModal={false}
+				closeModalCallback={function (close: boolean): void {
+					throw new Error("Function not implemented.");
+				}}
+			>
+				<div>Test</div>
 			</Modal>
 		</div>
 	);
