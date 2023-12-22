@@ -77,6 +77,8 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 		}
 	}, [selectedNutritionScoreForFilter, brandFoodData]);
 
+	console.log(selectedBrandFood);
+
 	return (
 		<div className="flex flex-col relative p-1">
 			<div className="flex items-center gap-2">
@@ -137,7 +139,6 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 					renderOnZeroPageCount={null}
 				/>
 			) : null}
-
 			{/* <div>Brand focused search Foundation focused</div> */}
 			{/* {!isLoading ? (
 				foodData.foods?.length >= 1 ? (
@@ -286,18 +287,18 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 											food.product_name_en
 												? food.product_name_en
 												: food.product_name
-													? food.product_name
-													: food.abbreviated_product_name
-														? food.abbreviated_product_name
-														: food.generic_name_en
-															? food.generic_name_en
-															: food.generic_name_de
-																? food.generic_name_de
-																: food.generic_name_fr
-																	? food.generic_name_fr
-																	: food.generic_name
-																		? food.generic_name
-																		: "hidden"
+												? food.product_name
+												: food.abbreviated_product_name
+												? food.abbreviated_product_name
+												: food.generic_name_en
+												? food.generic_name_en
+												: food.generic_name_de
+												? food.generic_name_de
+												: food.generic_name_fr
+												? food.generic_name_fr
+												: food.generic_name
+												? food.generic_name
+												: "hidden"
 										}`}
 										onClick={() => setSelectedBrandFood(food)}
 									>
@@ -314,7 +315,6 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 													<div className="w-full h-[186px] bg-white"></div>
 												)}
 											</div>
-
 											<p className="text-xl">
 												{food.brands ? food.brands + " - " : ""}
 												{/* {food.generic_name_en
@@ -328,16 +328,16 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 												{food.product_name_en
 													? food.product_name_en
 													: food.product_name
-														? food.product_name
-														: food.abbreviated_product_name
-															? food.abbreviated_product_name
-															: food.generic_name_en
-																? food.generic_name_en
-																: food.generic_name_de
-																	? food.generic_name_de
-																	: food.generic_name_fr
-																		? food.generic_name_fr
-																		: food.generic_name}
+													? food.product_name
+													: food.abbreviated_product_name
+													? food.abbreviated_product_name
+													: food.generic_name_en
+													? food.generic_name_en
+													: food.generic_name_de
+													? food.generic_name_de
+													: food.generic_name_fr
+													? food.generic_name_fr
+													: food.generic_name}
 											</p>
 											<p className="mt-2">
 												Nutrition score:{" "}
@@ -347,12 +347,12 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 															food.nutrition_grades === "a"
 																? "text-green-500"
 																: food.nutrition_grades === "b"
-																	? "text-green-300"
-																	: food.nutrition_grades === "c"
-																		? "text-yellow-400"
-																		: food.nutrition_grades === "d"
-																			? "text-orange-400"
-																			: "text-red-500"
+																? "text-green-300"
+																: food.nutrition_grades === "c"
+																? "text-yellow-400"
+																: food.nutrition_grades === "d"
+																? "text-orange-400"
+																: "text-red-500"
 														} text-xl`}
 													>
 														{food.nutrition_grades.toUpperCase()}
@@ -421,23 +421,22 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 														{food.product_name_en
 															? food.product_name_en
 															: food.product_name
-																? food.product_name
-																: food.abbreviated_product_name
-																	? food.abbreviated_product_name
-																	: food.generic_name_en
-																		? food.generic_name_en
-																		: food.generic_name_de
-																			? food.generic_name_de
-																			: food.generic_name_fr
-																				? food.generic_name_fr
-																				: food.generic_name}
+															? food.product_name
+															: food.abbreviated_product_name
+															? food.abbreviated_product_name
+															: food.generic_name_en
+															? food.generic_name_en
+															: food.generic_name_de
+															? food.generic_name_de
+															: food.generic_name_fr
+															? food.generic_name_fr
+															: food.generic_name}
 													</p>
 												</p>
 												<p>Nutrition Information based on 100 gr</p>
 												<p>Energy: {food.nutriments["energy-kcal_100g"]} kcal</p>
 												<p>Carbohydrate: {food.nutriments.carbohydrates_100g}g</p>
 												<p>Fat: {food.nutriments.fat_100g}g</p>
-												<p></p>
 												<Link
 													href={`/nutrition/tools/${food.id}}`}
 													className="bg-white text-black self-center btn"
@@ -448,7 +447,7 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 											</div>
 										) : null}
 									</div>
-								))
+							  ))
 							: brandFoodData.products.map((food) => (
 									<div
 										key={food.id}
@@ -456,18 +455,18 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 											food.product_name_en
 												? food.product_name_en
 												: food.product_name
-													? food.product_name
-													: food.abbreviated_product_name
-														? food.abbreviated_product_name
-														: food.generic_name_en
-															? food.generic_name_en
-															: food.generic_name_de
-																? food.generic_name_de
-																: food.generic_name_fr
-																	? food.generic_name_fr
-																	: food.generic_name
-																		? food.generic_name
-																		: "hidden"
+												? food.product_name
+												: food.abbreviated_product_name
+												? food.abbreviated_product_name
+												: food.generic_name_en
+												? food.generic_name_en
+												: food.generic_name_de
+												? food.generic_name_de
+												: food.generic_name_fr
+												? food.generic_name_fr
+												: food.generic_name
+												? food.generic_name
+												: "hidden"
 										}`}
 										onClick={() => setSelectedBrandFood(food)}
 									>
@@ -498,16 +497,16 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 												{food.product_name_en
 													? food.product_name_en
 													: food.product_name
-														? food.product_name
-														: food.abbreviated_product_name
-															? food.abbreviated_product_name
-															: food.generic_name_en
-																? food.generic_name_en
-																: food.generic_name_de
-																	? food.generic_name_de
-																	: food.generic_name_fr
-																		? food.generic_name_fr
-																		: food.generic_name}
+													? food.product_name
+													: food.abbreviated_product_name
+													? food.abbreviated_product_name
+													: food.generic_name_en
+													? food.generic_name_en
+													: food.generic_name_de
+													? food.generic_name_de
+													: food.generic_name_fr
+													? food.generic_name_fr
+													: food.generic_name}
 											</p>
 											<p className="mt-2">
 												Nutrition score:{" "}
@@ -517,12 +516,12 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 															food.nutrition_grades === "a"
 																? "text-green-500"
 																: food.nutrition_grades === "b"
-																	? "text-green-300"
-																	: food.nutrition_grades === "c"
-																		? "text-yellow-400"
-																		: food.nutrition_grades === "d"
-																			? "text-orange-400"
-																			: "text-red-500"
+																? "text-green-300"
+																: food.nutrition_grades === "c"
+																? "text-yellow-400"
+																: food.nutrition_grades === "d"
+																? "text-orange-400"
+																: "text-red-500"
 														} text-xl`}
 													>
 														{food.nutrition_grades.toUpperCase()}
@@ -554,7 +553,7 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 											Add to diet
 										</Button>
 										{food.id === selectedBrandFood?.id ? (
-											<div className="absolute flex flex-col z-50 gap-3 top-[60%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-black text-white w-80 h-auto rounded-md p-3">
+											<div className="fixed flex flex-col z-50 gap-3 top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-black text-white w-80 h-auto rounded-md p-3">
 												<button
 													className="self-end text-xl"
 													onClick={(e) => {
@@ -591,16 +590,16 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 														{food.product_name_en
 															? food.product_name_en
 															: food.product_name
-																? food.product_name
-																: food.abbreviated_product_name
-																	? food.abbreviated_product_name
-																	: food.generic_name_en
-																		? food.generic_name_en
-																		: food.generic_name_de
-																			? food.generic_name_de
-																			: food.generic_name_fr
-																				? food.generic_name_fr
-																				: food.generic_name}
+															? food.product_name
+															: food.abbreviated_product_name
+															? food.abbreviated_product_name
+															: food.generic_name_en
+															? food.generic_name_en
+															: food.generic_name_de
+															? food.generic_name_de
+															: food.generic_name_fr
+															? food.generic_name_fr
+															: food.generic_name}
 													</p>
 												</p>
 												<p>Nutrition Information based on 100 gr</p>
@@ -618,7 +617,7 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 											</div>
 										) : null}
 									</div>
-								))}
+							  ))}
 					</div>
 				) : isSearched && fetchError ? (
 					<div className="text-center font-bold mt-2">{fetchError}</div>
