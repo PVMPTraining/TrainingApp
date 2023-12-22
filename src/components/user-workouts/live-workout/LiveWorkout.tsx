@@ -76,8 +76,10 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 	const [currentWorkoutState, setWorkoutStateInternal] = useState<workoutState>(workoutState.NOT_STARTED);
 	const [prevWorkoutState, setPrevWorkoutState] = useState<workoutState>(workoutState.NOT_STARTED);
 
-	// Timers
+	// Countdown
 	const [startCountdown, setStartCountdown] = useState<number>(WORKOUT_COUNTDOWN);
+
+	// Timers
 	const [workoutTimer, setWorkoutTimer] = useState<number>(-WORKOUT_COUNTDOWN);
 	const [exerciseTimer, setExerciseTimer] = useState<number>(-WORKOUT_COUNTDOWN);
 	const [setTimer, setSetTimer] = useState<number>(-WORKOUT_COUNTDOWN);
@@ -95,6 +97,7 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 	// Workout temp state
 	const [isFinalSet, setIsFinalSet] = useState<boolean>(false);
 
+	// Action List
 	let availabelAcitons: workoutAction[] = [];
 
 	const formatTime = ({ hours, minutes, seconds }: { hours: number; minutes: number; seconds: number }) => {
@@ -349,6 +352,10 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 	}, []);
 
 	const moveExerciseUp = (index: number) => {
+		if ((activeExerciseIndex === index - 1 || activeExerciseIndex < index - 1) && activeSetIndex !== 0) {
+			return;
+		}
+
 		if (index > 0) {
 			const updatedWorkout = { ...workout };
 			const temp = updatedWorkout.exercises[index];
