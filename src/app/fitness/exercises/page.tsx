@@ -56,12 +56,12 @@ const ExercisesPage: FC = () => {
 			content={
 				<div className="flex flex-col flex-grow justify-center gap-4 m-2 mb-auto">
 					<Input className="bg-base-200" placeholder="Search for exercises" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-					<div className="flex flex-wrap gap-2 justify-center">
+					<div className="flex flex-wrap gap-2 justify-start">
 						{filteredExercises.map((exercise: ExerciseData, index: number) => {
 							return (
 								<Button
 									key={index}
-									className="btn bg-base-200 w-[48%] h-24 m-0"
+									className="btn bg-base-200 w-[49%] h-24 m-0"
 									onClick={() => {
 										openModal();
 										setExercise(exercise);
