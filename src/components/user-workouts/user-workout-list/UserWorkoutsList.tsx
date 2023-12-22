@@ -38,7 +38,7 @@ const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
 							return (
 								<Button
 									key={index}
-									className="w-[48%] h-24 uppercase text-center m-0"
+									className="w-[49%] h-24 uppercase text-center m-0"
 									onClick={() => {
 										openModal();
 										setWorkout(workout);

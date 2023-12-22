@@ -1,18 +1,19 @@
 "use client";
 
-import { FC, useState, useEffect, Key, HTMLAttributes } from "react";
-import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
-import { ExerciseData } from "@/src/types/types";
+import React from "react";
 import { Workout, timedExercise, timedSets, timedWorkout } from "@/src/types/fitnessTypes";
+import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
+import { AddLoggedWorkout, GetUserID } from "@/src/utils/helpers/supabase";
+import { FC, useState, useEffect, Key, HTMLAttributes } from "react";
 import { ComboBox } from "@/src/components/UI/ComboBox/combobox";
-import { Input } from "@/src/components/UI/Input/Input";
-import { Button } from "@/src/components/UI/Button/Button";
-import { Field, FieldArray, Form, Formik } from "formik";
 import { Card, CardBody } from "@/src/components/UI/Card/Card";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
-import { AddLoggedWorkout, GetUserID } from "@/src/utils/helpers/supabase";
+import { Button } from "@/src/components/UI/Button/Button";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import React from "react";
+import { Field, FieldArray, Form, Formik } from "formik";
+import { Input } from "@/src/components/UI/Input/Input";
+import { Modal } from "@/src/components/UI/Modal/Modal";
+import { ExerciseData } from "@/src/types/types";
 
 enum workoutState {
 	NOT_STARTED,
@@ -352,23 +353,22 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 	}, []);
 
 	const moveExerciseUp = (index: number) => {
-		if ((activeExerciseIndex === index - 1 || activeExerciseIndex < index - 1) && activeSetIndex !== 0) {
-			return;
-		}
-
-		if (index > 0) {
+		if (((activeExerciseIndex < (index - 1)) || (activeExerciseIndex === (index - 1) && activeSetIndex === 0))) {
 			const updatedWorkout = { ...workout };
+
 			const temp = updatedWorkout.exercises[index];
 			updatedWorkout.exercises[index] = updatedWorkout.exercises[index - 1];
 			updatedWorkout.exercises[index - 1] = temp;
+
 			setWorkout(updatedWorkout);
+			setActiveExercise(updatedWorkout.exercises[activeExerciseIndex] as timedExercise);
 		}
 	};
 
 	return (
 		<div className="flex flex-col min-h-screen">
 			{startCountdown < 0 && (
-				<div className="fixed top-0 w-full flex flex-col gap-4 p-4 bg-base-300 h-36">
+				<div className="fixed top-0 w-full flex flex-col gap-4 p-4 bg-base-300 h-36 z-50">
 					<div className="flex w-full items-center">
 						<div className="w-[6rem]">Workout Timer:</div>
 						<Card className="bg-base-200 w-full card-compact">
@@ -586,7 +586,7 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 												) : (
 													<Input disabled />
 												)}
-												{(i as number) > 0 && ( // Conditionally render the button if it's not the top component
+												{((activeExerciseIndex < (i as number - 1)) || (activeExerciseIndex === (i as number - 1) && activeSetIndex === 0)) && ( // Conditionally render the button if it's not the top component
 													<Button onClick={() => moveExerciseUp(i as number)}>
 														<FaChevronUp />
 													</Button>
@@ -724,6 +724,13 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 					)}
 				</div>
 			</div>
+			<Modal openModal={false} closeModalCallback={function (close: boolean): void {
+				throw new Error("Function not implemented.");
+			} }>
+				<div>
+					Test
+				</div>
+			</Modal>
 		</div>
 	);
 };
