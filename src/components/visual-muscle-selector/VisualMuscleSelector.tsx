@@ -11,7 +11,7 @@ const muscleList = [
 	"lower_abs",
 	"pectoralis_sternal_head",
 	"pectoralis_calvicular_head",
-	"lower-pectoralis",
+	"lower_pectoralis",
 	"lateral-deltoid",
 	"anterior-deltoid",
 	"upper_trapezius",
@@ -63,27 +63,34 @@ export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMu
 
 			Array.from(body.current.children).forEach((child) => {
 				const musclesChild = findChildById(child, muscle);
+				const musclesChildMirror = findChildById(child, `${muscle}-2`);
 
-				if (musclesChild) {
-					musclesChild.addEventListener("click", addMuscleToSelected);
-				}
+				musclesChild && musclesChild.addEventListener("click", addMuscleToSelected);
+				musclesChildMirror && musclesChildMirror.addEventListener("click", addMuscleToSelected);
 			});
 		});
 	}, [body]);
 
-	const addMuscleToSelected = (e: React.MouseEvent) => {
-		console.log(e.currentTarget.id);
+	const toggleMuscleSelect = (id: string) => {
+		id = id.replace(/-[^-]*$/, "");
+
 		setSelectedMuscles((prevSelectedMuscles) => {
-			if (prevSelectedMuscles.includes(e.currentTarget.id)) {
-				return prevSelectedMuscles.filter((muscle) => muscle !== e.currentTarget.id);
+			if (prevSelectedMuscles.includes(id)) {
+				return prevSelectedMuscles.filter((muscle) => muscle !== id);
 			} else {
-				return [...prevSelectedMuscles, e.currentTarget.id];
+				return [...prevSelectedMuscles, id];
 			}
 		});
-		e.currentTarget.classList.toggle(selectedFillColor);
+	};
 
-		const musclesChildMirror = findChildById(body.current, `${e.currentTarget.id}-2`);
-		musclesChildMirror.classList.toggle(selectedFillColor);
+	const addMuscleToSelected = (e: React.MouseEvent) => {
+		toggleMuscleSelect(e.currentTarget.id);
+
+		const musclesChild = findChildById(body.current, e.currentTarget.id.replace(/-[^-]*$/, ""));
+		const musclesChildMirror = findChildById(body.current, e.currentTarget.id.endsWith("-2") ? e.currentTarget.id : `${e.currentTarget.id}-2`);
+
+		musclesChild && musclesChild.classList.toggle(selectedFillColor);
+		musclesChildMirror && musclesChildMirror.classList.toggle(selectedFillColor);
 	};
 
 	return (
@@ -203,7 +210,7 @@ export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMu
 					</g>
 					<g>
 						<path
-							id="lower-pectoralis"
+							id="lower_pectoralis"
 							d="M354.49,202.22c-.4-.41-27.19,12.61-52.69,7.11s-35.67-7.33-35.67-7.33c0,0-.94,17.5,5.36,26.67,15.27,10.04,31.64,10.21,47.21,4.38,18.69-7,36.42-30.19,35.79-30.83Z"
 							style={{ stroke: "#231f20", strokeMiterlimit: 10 }}
 						/>
@@ -346,8 +353,8 @@ export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMu
 					</g>
 					<g>
 						<path
-							id="lower-pectoralis-2"
-							data-name="lower-pectoralis"
+							id="lower_pectoralis-2"
+							data-name="lower_pectoralis"
 							d="M176.48,202.22c.4-.41,27.19,12.61,52.69,7.11s35.67-7.33,35.67-7.33c0,0,.94,17.5-5.36,26.67-15.27,10.04-31.64,10.21-47.21,4.38-18.69-7-36.42-30.19-35.79-30.83Z"
 							style={{ stroke: "#231f20", strokeMiterlimit: 10 }}
 						/>
