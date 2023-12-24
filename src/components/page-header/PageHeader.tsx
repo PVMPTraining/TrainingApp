@@ -15,19 +15,24 @@ export const PageHeader: FC<PageHeaderProps> = ({ children }: PageHeaderProps) =
 	const router = useRouter();
 
 	return (
-		<div className="fixed top-0 bg-base-200 h-[4rem] w-screen flex justify-between items-center px-4 z-50">
+		<div className="fixed top-0 bg-base-200 h-[4rem] w-screen flex justify-between items-center px-4 z-50 rounded-b-3xl">
 			<Button
-				className="btn btn-circle bg-base-100"
+				className="btn btn-circle text-xl"
 				onClick={() => {
 					router.back();
 				}}
 			>
-				<FaChevronLeft />
+				<FaChevronLeft className="text-accent" />
 			</Button>
-			{children}
-			<Link className="btn btn-circle bg-base-100" href={accountPagePath}>
-				<FaUser />
-			</Link>
+			<div className="uppercase text-xl">{children}</div>
+			<Button
+				className="btn btn-circle text-xl"
+				onClick={() => {
+					router.push(accountPagePath);
+				}}
+			>
+				<FaUser className="text-accent" />
+			</Button>
 		</div>
 	);
 };

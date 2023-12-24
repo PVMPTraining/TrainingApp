@@ -24,7 +24,9 @@ const AccountPage = () => {
 			content={
 				<div className="flex-grow flex flex-col m-4">
 					<div>{userID}</div>
-					<Button onClick={handleSignOut}>Sign Out</Button>
+					<Button className="bg-error" onClick={handleSignOut}>
+						<span className="text-lg">Sign Out</span>
+					</Button>
 				</div>
 			}
 		></NavLayout>

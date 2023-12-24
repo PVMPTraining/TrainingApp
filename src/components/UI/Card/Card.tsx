@@ -17,8 +17,15 @@ interface CardProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  * @returns {JSX.Element} The rendered Button component.
  */
 export const Card: FC<CardProps> = ({ className, children, ...props }) => {
+	const randomX = Math.floor(Math.random() * 100);
+	const randomY = Math.floor(Math.random() * 100);
+
+	const backgroundStyles = {
+		background: `radial-gradient(farthest-corner at ${randomX}% ${randomY}%, rgba(84, 226, 16, 1) -150%, rgba(18, 18, 18, 1) 100%)`
+	};
+
 	return (
-		<div className={["card", className].join(" ")} {...(props as HTMLAttributes<HTMLDivElement>)}>
+		<div className={["card", className].join(" ")} {...(props as HTMLAttributes<HTMLDivElement>)} style={backgroundStyles}>
 			{children}
 		</div>
 	);

@@ -3,12 +3,18 @@ import { FC } from "react";
 
 // Next
 import NavLayout from "@/src/layouts/NavLayout";
+import { VisualMuscleSelector } from "@/src/components/visual-muscle-selector/VisualMuscleSelector";
 
 const HomePage: FC = () => {
 	return (
-		<NavLayout>
-			<div className="flex-grow flex flex-col gap-2 justify-end p-8"></div>
-		</NavLayout>
+		<NavLayout
+			header={<div>Home</div>}
+			content={
+				<div className="flex-grow flex flex-col m-4">
+					<VisualMuscleSelector selectedMusclesCallback={function (selectedMuscles: string[]): void {}}></VisualMuscleSelector>
+				</div>
+			}
+		/>
 	);
 };
 
