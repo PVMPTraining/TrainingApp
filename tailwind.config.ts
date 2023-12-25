@@ -3,7 +3,11 @@ const colors = require("tailwindcss/colors");
 
 const config: Config = {
 	content: ["./src/pages/**/*.{js,ts,jsx,tsx,mdx}", "./src/components/**/*.{js,ts,jsx,tsx,mdx}", "./src/app/**/*.{js,ts,jsx,tsx,mdx}"],
-	theme: {},
+	theme: {
+		screens: {
+			xs: "425px"
+		}
+	},
 	daisyui: {
 		themes: [
 			// "dark"

@@ -12,8 +12,8 @@ const muscleList = [
 	"pectoralis_sternal_head",
 	"pectoralis_calvicular_head",
 	"lower_pectoralis",
-	"lateral-deltoid",
-	"anterior-deltoid",
+	"deltoid_lateral",
+	"deltoid_anterior",
 	"upper_trapezius",
 	"neck",
 	"outer_quadricep",
@@ -31,10 +31,12 @@ const muscleList = [
 
 interface VisualMuscleSelectorProps extends HTMLAttributes<HTMLElement> {
 	selectedMusclesCallback: (selectedMuscles: string[]) => void;
+	value?: string[];
 }
 
-export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMusclesCallback }: VisualMuscleSelectorProps) => {
-	const [selectedMuscles, setSelectedMuscles] = useState<string[]>([]);
+export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMusclesCallback, value }: VisualMuscleSelectorProps) => {
+	const [selectedMuscles, setSelectedMuscles] = useState<string[]>(value || []);
+	const [prevValue, setPrevValue] = useState<string[]>(value || []);
 	const body = useRef<SVGSVGElement>(null);
 
 	const findChildById = (parent: any, targetId: any) => {
@@ -54,8 +56,52 @@ export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMu
 	};
 
 	useEffect(() => {
-		selectedMusclesCallback(selectedMuscles);
-	}, [selectedMuscles]);
+		value?.forEach((muscle) => {
+			setSelectedMuscles(() => {
+				selectedMusclesCallback(value);
+				return value;
+			});
+
+			const musclesChild = findChildById(body.current, muscle.replace(/-[^-]*$/, ""));
+			const musclesChildMirror = findChildById(body.current, muscle.endsWith("-2") ? muscle : `${muscle}-2`);
+
+			musclesChild && musclesChild.classList.add(selectedFillColor);
+			musclesChildMirror && musclesChildMirror.classList.add(selectedFillColor);
+		});
+
+		prevValue.forEach((muscle) => {
+			if (!value?.includes(muscle)) {
+				const musclesChild = findChildById(body.current, muscle.replace(/-[^-]*$/, ""));
+				const musclesChildMirror = findChildById(body.current, muscle.endsWith("-2") ? muscle : `${muscle}-2`);
+
+				musclesChild && musclesChild.classList.remove(selectedFillColor);
+				musclesChildMirror && musclesChildMirror.classList.remove(selectedFillColor);
+			}
+		});
+		setPrevValue(value || []);
+	}, [value]);
+
+	const handleMuscleSelect = (e: React.MouseEvent) => {
+		const filteredID = e.currentTarget.id.replace(/-[^-]*$/, "");
+		const musclesChild = findChildById(body.current, e.currentTarget.id.replace(/-[^-]*$/, ""));
+		const musclesChildMirror = findChildById(body.current, e.currentTarget.id.endsWith("-2") ? e.currentTarget.id : `${e.currentTarget.id}-2`);
+
+		setSelectedMuscles((prevSelectedMuscles) => {
+			const isMuscleSelected = prevSelectedMuscles.includes(filteredID);
+
+			if (isMuscleSelected) {
+				musclesChild && musclesChild.classList.remove(selectedFillColor);
+				musclesChildMirror && musclesChildMirror.classList.remove(selectedFillColor);
+				selectedMusclesCallback(prevSelectedMuscles.filter((muscle) => muscle !== filteredID));
+				return prevSelectedMuscles.filter((muscle) => muscle !== filteredID);
+			} else {
+				musclesChild && musclesChild.classList.add(selectedFillColor);
+				musclesChildMirror && musclesChildMirror.classList.add(selectedFillColor);
+				selectedMusclesCallback([...prevSelectedMuscles, filteredID]);
+				return [...prevSelectedMuscles, filteredID];
+			}
+		});
+	};
 
 	useEffect(() => {
 		muscleList.forEach((muscle) => {
@@ -65,33 +111,11 @@ export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMu
 				const musclesChild = findChildById(child, muscle);
 				const musclesChildMirror = findChildById(child, `${muscle}-2`);
 
-				musclesChild && musclesChild.addEventListener("click", addMuscleToSelected);
-				musclesChildMirror && musclesChildMirror.addEventListener("click", addMuscleToSelected);
+				musclesChild && musclesChild.addEventListener("click", handleMuscleSelect);
+				musclesChildMirror && musclesChildMirror.addEventListener("click", handleMuscleSelect);
 			});
 		});
 	}, [body]);
-
-	const toggleMuscleSelect = (id: string) => {
-		id = id.replace(/-[^-]*$/, "");
-
-		setSelectedMuscles((prevSelectedMuscles) => {
-			if (prevSelectedMuscles.includes(id)) {
-				return prevSelectedMuscles.filter((muscle) => muscle !== id);
-			} else {
-				return [...prevSelectedMuscles, id];
-			}
-		});
-	};
-
-	const addMuscleToSelected = (e: React.MouseEvent) => {
-		toggleMuscleSelect(e.currentTarget.id);
-
-		const musclesChild = findChildById(body.current, e.currentTarget.id.replace(/-[^-]*$/, ""));
-		const musclesChildMirror = findChildById(body.current, e.currentTarget.id.endsWith("-2") ? e.currentTarget.id : `${e.currentTarget.id}-2`);
-
-		musclesChild && musclesChild.classList.toggle(selectedFillColor);
-		musclesChildMirror && musclesChildMirror.classList.toggle(selectedFillColor);
-	};
 
 	return (
 		<svg ref={body} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.81 841.89">
@@ -227,12 +251,12 @@ export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMu
 					</g>
 					<g>
 						<path
-							id="anterior-deltoid"
+							id="deltoid_anterior"
 							d="M371.96,213.88s-23.7-14.89-39.25-32.16-4-32.1-3.78-32.16,15.11,13.33,23.56,24.89,19.48,39.43,19.48,39.43Z"
 							style={{ stroke: "#231f20", strokeMiterlimit: 10 }}
 						/>
 						<path
-							id="lateral-deltoid"
+							id="deltoid_lateral"
 							d="M371.96,213.88c1,1.12,2.08-37.65-6.14-48.1s-36.86-16.49-36.89-16.22,13.78,12,23.56,24.89,18.48,38.31,19.48,39.43Z"
 							style={{ stroke: "#231f20", strokeMiterlimit: 10 }}
 						/>
@@ -373,14 +397,14 @@ export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMu
 					</g>
 					<g>
 						<path
-							id="anterior-deltoid-2"
-							data-name="anterior-deltoid"
+							id="deltoid_anterior-2"
+							data-name="deltoid_anterior"
 							d="M159,213.88s23.7-14.89,39.25-32.16,4-32.1,3.78-32.16-15.11,13.33-23.56,24.89-19.48,39.43-19.48,39.43Z"
 							style={{ stroke: "#231f20", strokeMiterlimit: 10 }}
 						/>
 						<path
-							id="lateral-deltoid-2"
-							data-name="lateral-deltoid"
+							id="deltoid_lateral-2"
+							data-name="deltoid_lateral"
 							d="M159,213.88c-1,1.12-2.08-37.65,6.14-48.1s36.86-16.49,36.89-16.22-13.78,12-23.56,24.89-18.48,38.31-19.48,39.43Z"
 							style={{ stroke: "#231f20", strokeMiterlimit: 10 }}
 						/>

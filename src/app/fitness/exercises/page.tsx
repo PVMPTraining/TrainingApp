@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 import { Card, CardBody } from "@/src/components/UI/Card/Card";
 import { Input } from "@/src/components/UI/Input/Input";
@@ -13,6 +13,33 @@ import NavLayout from "@/src/layouts/NavLayout";
 import { Modal } from "@/src/components/UI/Modal/Modal";
 import { FaFilter } from "react-icons/fa";
 import { VisualMuscleSelector } from "@/src/components/visual-muscle-selector/VisualMuscleSelector";
+import { Select } from "@/src/components/UI/Select/Select";
+import { Toggle } from "@/src/components/UI/Toggle/Toggle";
+
+const muscleList = [
+	"bicep_long_head",
+	"bicep_short_head",
+	"upper_abs",
+	"lower_abs",
+	"pectoralis_sternal_head",
+	"pectoralis_calvicular_head",
+	"lower_pectoralis",
+	"deltoid_lateral",
+	"deltoid_anterior",
+	"upper_trapezius",
+	"neck",
+	"outer_quadricep",
+	"inner_quadricep",
+	"rectus_femoris",
+	"inner_thigh",
+	"tibialis",
+	"soleus",
+	"gastrocnemius",
+	"wrist_extensors",
+	"wrist_flexors",
+	"hands",
+	"obliques"
+];
 
 const ExercisesPage: FC = () => {
 	const router = useRouter();
@@ -23,6 +50,13 @@ const ExercisesPage: FC = () => {
 	const [isFilterSelectionOpen, setIsFilterSelectionOpen] = useState(false);
 	const [selected, setExercise] = useState<ExerciseData>({} as ExerciseData);
 	const [selectedMuscles, setSelectedMuscles] = useState<string[]>([]);
+	const [selectedExerciseType, setSelectedExerciseType] = useState<string>("All");
+	const [visualView, setVisualView] = useState<boolean>(true);
+	const exerciseType = ["All", "Compound", "Isolation", "Cardio", "Stretching", "Calisthenics", "Plyometrics"];
+
+	useEffect(() => {
+		console.log(selectedExerciseType);
+	}, [selectedExerciseType]);
 
 	// State to manage the search query
 	const [searchQuery, setSearchQuery] = useState<string>("");
@@ -57,16 +91,16 @@ const ExercisesPage: FC = () => {
 		<NavLayout
 			header={<div>Exercises</div>}
 			content={
-				<div className="flex flex-col flex-grow justify-center gap-4 m-2">
+				<div className="flex flex-col flex-grow justify-center m-2">
 					<div className="relative">
 						<Input
-							className="bg-base-200"
+							className={"bg-base-200 " + (isFilterSelectionOpen ? "rounded-b-none" : "")}
 							placeholder="Search for exercises"
 							value={searchQuery}
 							onChange={(e) => setSearchQuery(e.target.value)}
 						/>
 						<Button
-							className="btn-sm absolute right-0 top-1"
+							className="btn-sm absolute right-0 top-0 h-full"
 							onClick={() => {
 								setIsFilterSelectionOpen((prevValue) => !prevValue);
 							}}
@@ -75,8 +109,63 @@ const ExercisesPage: FC = () => {
 						</Button>
 					</div>
 					{isFilterSelectionOpen && (
-						<div className="w-1/2">
-							<VisualMuscleSelector selectedMusclesCallback={setSelectedMuscles}></VisualMuscleSelector>
+						<div className="bg-base-200 rounded-b-lg mb-4">
+							<div className="flex flex-col gap-4 m-4">
+								<Select
+									value={selectedExerciseType}
+									onChange={(event) => setSelectedExerciseType(event.target.value)}
+									options={
+										<>
+											{exerciseType.map((type) => (
+												<option key={type} value={type}>
+													{type}
+												</option>
+											))}
+										</>
+									}
+								/>
+								<div className="flex items-center gap-2 mx-auto">
+									List
+									<Toggle
+										checked={visualView}
+										onChange={() => {
+											setVisualView((prevValue) => !prevValue);
+										}}
+									/>
+									Visual
+								</div>
+								{!visualView && (
+									<div className="grid grid-cols-1 xs:grid-cols-2 gap-1 m-2">
+										{muscleList.map((muscle, i) => (
+											<div key={i} className="flex items-center gap-2 justify-start">
+												<input
+													onChange={() => {
+														if (selectedMuscles.includes(muscle)) {
+															setSelectedMuscles((prevValue) => prevValue.filter((muscleName) => muscleName !== muscle));
+														} else {
+															setSelectedMuscles((prevValue) => [...prevValue, muscle]);
+														}
+													}}
+													checked={selectedMuscles.includes(muscle)}
+													type="checkbox"
+													className="checkbox"
+												/>
+												<div className="text-xs">
+													{muscle
+														.split("_")
+														.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+														.join(" ")}
+												</div>
+											</div>
+										))}
+									</div>
+								)}
+								{visualView && (
+									<div className="w-1/2">
+										<VisualMuscleSelector selectedMusclesCallback={setSelectedMuscles}></VisualMuscleSelector>
+									</div>
+								)}
+							</div>
 						</div>
 					)}
 					<div className="flex flex-wrap gap-2 justify-center mb-auto">
