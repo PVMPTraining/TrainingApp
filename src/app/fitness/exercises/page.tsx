@@ -91,83 +91,85 @@ const ExercisesPage: FC = () => {
 		<NavLayout
 			header={<div>Exercises</div>}
 			content={
-				<div className="flex flex-col flex-grow justify-center m-2">
-					<div className="relative">
-						<Input
-							className={"bg-base-200 " + (isFilterSelectionOpen ? "rounded-b-none" : "")}
-							placeholder="Search for exercises"
-							value={searchQuery}
-							onChange={(e) => setSearchQuery(e.target.value)}
-						/>
-						<Button
-							className="btn-sm absolute right-0 top-0 h-full"
-							onClick={() => {
-								setIsFilterSelectionOpen((prevValue) => !prevValue);
-							}}
-						>
-							<FaFilter className="text-accent text-2xl" />
-						</Button>
-					</div>
-					{isFilterSelectionOpen && (
-						<div className="bg-base-200 rounded-b-lg mb-4">
-							<div className="flex flex-col gap-4 m-4">
-								<Select
-									value={selectedExerciseType}
-									onChange={(event) => setSelectedExerciseType(event.target.value)}
-									options={
-										<>
-											{exerciseType.map((type) => (
-												<option key={type} value={type}>
-													{type}
-												</option>
-											))}
-										</>
-									}
-								/>
-								<div className="flex items-center gap-2 mx-auto">
-									List
-									<Toggle
-										checked={visualView}
-										onChange={() => {
-											setVisualView((prevValue) => !prevValue);
-										}}
-									/>
-									Visual
-								</div>
-								{!visualView && (
-									<div className="grid grid-cols-1 xs:grid-cols-2 gap-1 m-2">
-										{muscleList.map((muscle, i) => (
-											<div key={i} className="flex items-center gap-2 justify-start">
-												<input
-													onChange={() => {
-														if (selectedMuscles.includes(muscle)) {
-															setSelectedMuscles((prevValue) => prevValue.filter((muscleName) => muscleName !== muscle));
-														} else {
-															setSelectedMuscles((prevValue) => [...prevValue, muscle]);
-														}
-													}}
-													checked={selectedMuscles.includes(muscle)}
-													type="checkbox"
-													className="checkbox"
-												/>
-												<div className="text-xs">
-													{muscle
-														.split("_")
-														.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-														.join(" ")}
-												</div>
-											</div>
-										))}
-									</div>
-								)}
-								{visualView && (
-									<div className="w-1/2">
-										<VisualMuscleSelector selectedMusclesCallback={setSelectedMuscles}></VisualMuscleSelector>
-									</div>
-								)}
-							</div>
+				<div className="flex flex-col flex-grow justify-center gap-4 m-2">
+					<div>
+						<div className="relative">
+							<Input
+								className={"bg-base-200 " + (isFilterSelectionOpen ? "rounded-b-none" : "")}
+								placeholder="Search for exercises"
+								value={searchQuery}
+								onChange={(e) => setSearchQuery(e.target.value)}
+							/>
+							<Button
+								className="btn-sm absolute right-0 top-0 h-full"
+								onClick={() => {
+									setIsFilterSelectionOpen((prevValue) => !prevValue);
+								}}
+							>
+								<FaFilter className="text-accent text-2xl" />
+							</Button>
 						</div>
-					)}
+						{isFilterSelectionOpen && (
+							<div className="bg-base-200 rounded-b-lg">
+								<div className="flex flex-col gap-4 p-4">
+									<Select
+										value={selectedExerciseType}
+										onChange={(event) => setSelectedExerciseType(event.target.value)}
+										options={
+											<>
+												{exerciseType.map((type) => (
+													<option key={type} value={type}>
+														{type}
+													</option>
+												))}
+											</>
+										}
+									/>
+									<div className="flex items-center gap-2 mx-auto">
+										List
+										<Toggle
+											checked={visualView}
+											onChange={() => {
+												setVisualView((prevValue) => !prevValue);
+											}}
+										/>
+										Visual
+									</div>
+									{!visualView && (
+										<div className="grid grid-cols-1 xs:grid-cols-2 gap-1 m-2">
+											{muscleList.map((muscle, i) => (
+												<div key={i} className="flex items-center gap-2 justify-start">
+													<input
+														onChange={() => {
+															if (selectedMuscles.includes(muscle)) {
+																setSelectedMuscles((prevValue) => prevValue.filter((muscleName) => muscleName !== muscle));
+															} else {
+																setSelectedMuscles((prevValue) => [...prevValue, muscle]);
+															}
+														}}
+														checked={selectedMuscles.includes(muscle)}
+														type="checkbox"
+														className="checkbox"
+													/>
+													<div className="text-xs">
+														{muscle
+															.split("_")
+															.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+															.join(" ")}
+													</div>
+												</div>
+											))}
+										</div>
+									)}
+									{visualView && (
+										<div className="w-1/2">
+											<VisualMuscleSelector value={selectedMuscles} selectedMusclesCallback={setSelectedMuscles}></VisualMuscleSelector>
+										</div>
+									)}
+								</div>
+							</div>
+						)}
+					</div>
 					<div className="flex flex-wrap gap-2 justify-center mb-auto">
 						{filteredExercises.map((exercise: ExerciseData, index: number) => {
 							return (
