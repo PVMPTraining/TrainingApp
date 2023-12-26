@@ -1,6 +1,6 @@
 export const formatLongDate = (date: Date): string => {
 	const getDayWithSuffix = (day: number): string => {
-		return day >= 11 && day <= 13 ? "ᵗʰ" : day % 10 === 1 ? "ˢᵗ" : day % 10 === 2 ? "ⁿᵈ" : day % 10 === 3 ? "ʳᵈ" : "ᵗʰ";
+		return day + (day >= 11 && day <= 13 ? "ᵗʰ" : day % 10 === 1 ? "ˢᵗ" : day % 10 === 2 ? "ⁿᵈ" : day % 10 === 3 ? "ʳᵈ" : "ᵗʰ");
 	};
 
 	return `${getDayWithSuffix(date.getDate())} of ${date.toLocaleString("default", { month: "long" })} ${date.getFullYear()}`;
