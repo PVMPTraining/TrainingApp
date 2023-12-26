@@ -198,12 +198,12 @@ const ExercisesPage: FC = () => {
 							</div>
 						)}
 					</div>
-					<div className="flex flex-wrap gap-2 justify-center mb-auto">
+					<div className="grid grid-cols-1 xs:grid-cols-2 gap-2 mx-2 mb-auto">
 						{filteredExercises.map((exercise: ExerciseData, index: number) => {
 							return (
 								<Button
 									key={index}
-									className="bg-base-300 w-[48%] h-fit p-0 m-0 rounded-3xl"
+									className="bg-base-300 h-fit p-0 m-0 rounded-3xl"
 									onClick={() => {
 										setIsModalOpen(true);
 										setExercise(exercise);
