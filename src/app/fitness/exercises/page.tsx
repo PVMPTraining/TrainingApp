@@ -54,6 +54,7 @@ const ExercisesPage: FC = () => {
 	const [selectedExerciseType, setSelectedExerciseType] = useState<string>("All");
 	const [visualView, setVisualView] = useState<boolean>(true);
 	const exerciseType = ["All", "Compound", "Isolation", "Cardio", "Stretching", "Calisthenics", "Plyometrics"];
+	const requiredEquipment = ["None", "Barbell", "Dumbbell", "Kettlebell", "Bodyweight", "Resistance Band", "Machine"];
 
 	useEffect(() => {
 		console.log(selectedExerciseType);
@@ -114,7 +115,7 @@ const ExercisesPage: FC = () => {
 							<div className="bg-base-200 rounded-b-lg">
 								<div className="flex flex-col gap-4 p-4">
 									<Labels
-										topLeftLabel="Muscle"
+										topLeftLabel="Exercise Type"
 										input={
 											<Select
 												value={selectedExerciseType}
@@ -131,6 +132,27 @@ const ExercisesPage: FC = () => {
 											/>
 										}
 									/>
+									<Labels
+										topLeftLabel="Equipment"
+										input={
+											<Select
+												value={requiredEquipment}
+												onChange={(e) => {
+													console.log(e.target.value);
+												}}
+												options={
+													<>
+														{requiredEquipment.map((type) => (
+															<option key={type} value={type}>
+																{type}
+															</option>
+														))}
+													</>
+												}
+											/>
+										}
+									/>
+									<div>Muscles</div>
 									<div className="flex items-center gap-2 mx-auto">
 										List
 										<Toggle
