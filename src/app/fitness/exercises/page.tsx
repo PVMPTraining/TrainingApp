@@ -53,15 +53,13 @@ const ExercisesPage: FC = () => {
 	const [selectedMuscles, setSelectedMuscles] = useState<string[]>([]);
 	const [selectedExerciseType, setSelectedExerciseType] = useState<string>("All");
 	const [visualView, setVisualView] = useState<boolean>(true);
+	const [searchQuery, setSearchQuery] = useState<string>("");
 	const exerciseType = ["All", "Compound", "Isolation", "Cardio", "Stretching", "Calisthenics", "Plyometrics"];
 	const requiredEquipment = ["None", "Barbell", "Dumbbell", "Kettlebell", "Bodyweight", "Resistance Band", "Machine"];
 
 	useEffect(() => {
 		console.log(selectedExerciseType);
 	}, [selectedExerciseType]);
-
-	// State to manage the search query
-	const [searchQuery, setSearchQuery] = useState<string>("");
 
 	const exercisesFilteredByMuscle = exercises.filter((exercise: ExerciseData) => {
 		if (selectedMuscles.length === 0) return true;
