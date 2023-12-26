@@ -1,4 +1,5 @@
 "use client";
+import { arraysAreEqual } from "@/src/utils/helpers/functions";
 import React from "react";
 import { FC, HTMLAttributes, useEffect, useRef, useState } from "react";
 
@@ -31,10 +32,10 @@ const muscleList = [
 
 interface VisualMuscleSelectorProps extends HTMLAttributes<HTMLElement> {
 	selectedMusclesCallback: (selectedMuscles: string[]) => void;
-	value?: string[];
+	value: string[];
 }
 
-export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMusclesCallback, value }: VisualMuscleSelectorProps) => {
+export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMusclesCallback, value = [] }: VisualMuscleSelectorProps) => {
 	const [selectedMuscles, setSelectedMuscles] = useState<string[]>(value || []);
 	const [prevValue, setPrevValue] = useState<string[]>(value || []);
 	const body = useRef<SVGSVGElement>(null);
@@ -56,11 +57,17 @@ export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMu
 	};
 
 	useEffect(() => {
+		selectedMusclesCallback(selectedMuscles);
+	}, [selectedMuscles]);
+
+	useEffect(() => {
 		value?.forEach((muscle) => {
-			setSelectedMuscles(() => {
-				selectedMusclesCallback(value);
-				return value;
-			});
+			// If value hasn't changed only update visuals
+			if (!arraysAreEqual(value, prevValue)) {
+				setSelectedMuscles(() => {
+					return value;
+				});
+			}
 
 			const musclesChild = findChildById(body.current, muscle.replace(/-[^-]*$/, ""));
 			const musclesChildMirror = findChildById(body.current, muscle.endsWith("-2") ? muscle : `${muscle}-2`);
@@ -92,12 +99,10 @@ export const VisualMuscleSelector: FC<VisualMuscleSelectorProps> = ({ selectedMu
 			if (isMuscleSelected) {
 				musclesChild && musclesChild.classList.remove(selectedFillColor);
 				musclesChildMirror && musclesChildMirror.classList.remove(selectedFillColor);
-				selectedMusclesCallback(prevSelectedMuscles.filter((muscle) => muscle !== filteredID));
 				return prevSelectedMuscles.filter((muscle) => muscle !== filteredID);
 			} else {
 				musclesChild && musclesChild.classList.add(selectedFillColor);
 				musclesChildMirror && musclesChildMirror.classList.add(selectedFillColor);
-				selectedMusclesCallback([...prevSelectedMuscles, filteredID]);
 				return [...prevSelectedMuscles, filteredID];
 			}
 		});
