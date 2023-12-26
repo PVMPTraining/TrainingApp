@@ -33,6 +33,13 @@ const FitnessPage: FC = () => {
 		);
 	};
 
+	const randomX = Math.floor(Math.random() * 100);
+	const randomY = Math.floor(Math.random() * 100);
+
+	const backgroundStyles = {
+		background: `radial-gradient(farthest-corner at ${randomX}% ${randomY}%, rgba(84, 226, 16, 1) -150%, rgba(18, 18, 18, 1) 100%)`
+	};
+
 	return (
 		<NavLayout
 			header={<div>Fitness</div>}

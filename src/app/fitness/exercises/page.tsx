@@ -15,6 +15,7 @@ import { FaFilter } from "react-icons/fa";
 import { VisualMuscleSelector } from "@/src/components/visual-muscle-selector/VisualMuscleSelector";
 import { Select } from "@/src/components/UI/Select/Select";
 import { Toggle } from "@/src/components/UI/Toggle/Toggle";
+import { Labels } from "@/src/components/UI/Labels/Labels";
 
 const muscleList = [
 	"bicep_long_head",
@@ -112,17 +113,22 @@ const ExercisesPage: FC = () => {
 						{isFilterSelectionOpen && (
 							<div className="bg-base-200 rounded-b-lg">
 								<div className="flex flex-col gap-4 p-4">
-									<Select
-										value={selectedExerciseType}
-										onChange={(event) => setSelectedExerciseType(event.target.value)}
-										options={
-											<>
-												{exerciseType.map((type) => (
-													<option key={type} value={type}>
-														{type}
-													</option>
-												))}
-											</>
+									<Labels
+										topLeftLabel="Muscle"
+										input={
+											<Select
+												value={selectedExerciseType}
+												onChange={(event) => setSelectedExerciseType(event.target.value)}
+												options={
+													<>
+														{exerciseType.map((type) => (
+															<option key={type} value={type}>
+																{type}
+															</option>
+														))}
+													</>
+												}
+											/>
 										}
 									/>
 									<div className="flex items-center gap-2 mx-auto">

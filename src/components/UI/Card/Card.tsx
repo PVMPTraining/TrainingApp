@@ -25,7 +25,7 @@ export const Card: FC<CardProps> = ({ className, children, ...props }) => {
 	};
 
 	return (
-		<div className={["card", className].join(" ")} {...(props as HTMLAttributes<HTMLDivElement>)} style={backgroundStyles}>
+		<div className={["card", className].join(" ")} {...(props as HTMLAttributes<HTMLDivElement>)}>
 			{children}
 		</div>
 	);

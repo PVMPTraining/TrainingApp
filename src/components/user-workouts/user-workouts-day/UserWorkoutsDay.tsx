@@ -1,10 +1,12 @@
-import { ExerciseData } from "@/src/types/types";
+"use client";
+
 import useFetchLoggedUserWorkouts from "@/src/utils/hooks/useFetchLoggedUserWorkouts";
 import { useRouter } from "next/navigation";
 import { FC, ButtonHTMLAttributes, Key, useState, useEffect } from "react";
 import { Card, CardBody } from "src/components/UI/Card/Card";
 import { Button } from "../../UI/Button/Button";
 import { timedWorkout } from "@/src/types/fitnessTypes";
+import { formatLongDate } from "@/src/utils/helpers/dateHelpers";
 
 interface UserWorkoutsDayProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	date: Date;
@@ -29,7 +31,7 @@ export const UserWorkoutsDay: FC<UserWorkoutsDayProps> = ({ className, date }) =
 
 	return (
 		<div>
-			<div className="text-xl font-bold ml-2 mb-1">Workouts for the day! {date.toISOString().split("T")[0]}</div>
+			<div className="text-xl font-bold ml-2 mb-1">Workouts for {formatLongDate(date)}</div>
 			{selectedDateWorkouts && selectedDateWorkouts.length !== 0 && (
 				<Card className={["bg-base-200 card-compact", className].join(" ")}>
 					<CardBody>

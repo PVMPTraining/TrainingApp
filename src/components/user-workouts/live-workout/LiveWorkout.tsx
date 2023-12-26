@@ -6,7 +6,6 @@ import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsi
 import { AddLoggedWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 import { FC, useState, useEffect, Key, HTMLAttributes } from "react";
 import { ComboBox } from "@/src/components/UI/ComboBox/combobox";
-import { Card, CardBody } from "@/src/components/UI/Card/Card";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
 import { Button } from "@/src/components/UI/Button/Button";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
@@ -14,6 +13,7 @@ import { Field, FieldArray, Form, Formik } from "formik";
 import { Input } from "@/src/components/UI/Input/Input";
 import { Modal } from "@/src/components/UI/Modal/Modal";
 import { ExerciseData } from "@/src/types/types";
+import { formatTimeHHMMSS, convertSecondsToTime } from "@/src/utils/helpers/dateHelpers";
 
 enum workoutState {
 	NOT_STARTED,
@@ -100,22 +100,6 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 
 	// Action List
 	let availabelAcitons: workoutAction[] = [];
-
-	const formatTime = ({ hours, minutes, seconds }: { hours: number; minutes: number; seconds: number }) => {
-		return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-	};
-
-	const secondsToHMS = (seconds: number) => {
-		const hours = Math.floor(seconds / 3600);
-		const minutes = Math.floor((seconds % 3600) / 60);
-		const remainingSeconds = seconds % 60;
-
-		return {
-			hours,
-			minutes,
-			seconds: remainingSeconds
-		};
-	};
 
 	const setWorkoutState = (newWorkoutState: workoutState) => {
 		setPrevWorkoutState(currentWorkoutState);
@@ -393,7 +377,7 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 						<div className="w-[6rem]">Workout Timer:</div>
 						<div className="bg-base-200 w-full rounded-xl">
 							<div className="text-center !py-3">
-								<span className="text-lg">{formatTime(secondsToHMS(workoutTimer))}</span>
+								<span className="text-lg">{formatTimeHHMMSS(convertSecondsToTime(workoutTimer))}</span>
 							</div>
 						</div>
 					</div>
@@ -402,7 +386,7 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 							<div className="w-[7rem]">Exercise Timer:</div>
 							<div className="bg-base-200 w-full px-2 rounded-xl">
 								<div className="text-center !py-3">
-									<span className="text-lg">{formatTime(secondsToHMS(exerciseTimer))}</span>
+									<span className="text-lg">{formatTimeHHMMSS(convertSecondsToTime(exerciseTimer))}</span>
 								</div>
 							</div>
 						</div>
@@ -410,7 +394,7 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 							<div>Set Timer:</div>
 							<div className="bg-base-200 w-full px-2 rounded-xl">
 								<div className="text-center !py-3">
-									<span className="text-lg">{formatTime(secondsToHMS(setTimer))}</span>
+									<span className="text-lg">{formatTimeHHMMSS(convertSecondsToTime(setTimer))}</span>
 								</div>
 							</div>
 						</div>
@@ -437,8 +421,8 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 							{activeSetIndex < activeExercise.sets.length - 1 && <div>Set {activeSetIndex + 1} Rest</div>}
 							{activeSetIndex === activeExercise.sets.length - 1 && <div>Exercise {activeExerciseIndex + 1} Rest</div>}
 							<span className="countdown font-mono text-6xl">
-								<span style={{ "--value": secondsToHMS(restTimer).minutes } as React.CSSProperties}></span>:
-								<span style={{ "--value": secondsToHMS(restTimer).seconds } as React.CSSProperties}></span>
+								<span style={{ "--value": convertSecondsToTime(restTimer).minutes } as React.CSSProperties}></span>:
+								<span style={{ "--value": convertSecondsToTime(restTimer).seconds } as React.CSSProperties}></span>
 							</span>
 							<div>Touch the sceen to end rest</div>
 						</Button>
