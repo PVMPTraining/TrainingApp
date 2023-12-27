@@ -28,18 +28,18 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 					food.product_name_en
 						? food.product_name_en
 						: food.product_name
-						? food.product_name
-						: food.abbreviated_product_name
-						? food.abbreviated_product_name
-						: food.generic_name_en
-						? food.generic_name_en
-						: food.generic_name_de
-						? food.generic_name_de
-						: food.generic_name_fr
-						? food.generic_name_fr
-						: food.generic_name
-						? food.generic_name
-						: "hidden"
+							? food.product_name
+							: food.abbreviated_product_name
+								? food.abbreviated_product_name
+								: food.generic_name_en
+									? food.generic_name_en
+									: food.generic_name_de
+										? food.generic_name_de
+										: food.generic_name_fr
+											? food.generic_name_fr
+											: food.generic_name
+												? food.generic_name
+												: "hidden"
 				}`}
 				onClick={() => selectBrandFoodHandler(food)}
 			>
@@ -69,16 +69,16 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 						{food.product_name_en
 							? food.product_name_en
 							: food.product_name
-							? food.product_name
-							: food.abbreviated_product_name
-							? food.abbreviated_product_name
-							: food.generic_name_en
-							? food.generic_name_en
-							: food.generic_name_de
-							? food.generic_name_de
-							: food.generic_name_fr
-							? food.generic_name_fr
-							: food.generic_name}
+								? food.product_name
+								: food.abbreviated_product_name
+									? food.abbreviated_product_name
+									: food.generic_name_en
+										? food.generic_name_en
+										: food.generic_name_de
+											? food.generic_name_de
+											: food.generic_name_fr
+												? food.generic_name_fr
+												: food.generic_name}
 					</p>
 					<p className="mt-2">
 						Nutrition score:{" "}
@@ -88,12 +88,12 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 									food.nutrition_grades === "a"
 										? "text-green-500"
 										: food.nutrition_grades === "b"
-										? "text-green-300"
-										: food.nutrition_grades === "c"
-										? "text-yellow-400"
-										: food.nutrition_grades === "d"
-										? "text-orange-400"
-										: "text-red-500"
+											? "text-green-300"
+											: food.nutrition_grades === "c"
+												? "text-yellow-400"
+												: food.nutrition_grades === "d"
+													? "text-orange-400"
+													: "text-red-500"
 								} text-xl`}
 							>
 								{food.nutrition_grades.toUpperCase()}
