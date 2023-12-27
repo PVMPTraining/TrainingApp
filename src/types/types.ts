@@ -214,7 +214,7 @@ type BrandFoodIngredientsTypes = {
 }[];
 
 export type BrandFoodSearchResultTypes = {
-	id: string;
+	_id: string;
 	nutriments: BrandFoodNutrimentTypes;
 	ingredients: BrandFoodIngredientsTypes;
 	brands: string;
@@ -227,7 +227,7 @@ export type BrandFoodSearchResultTypes = {
 	generic_name_fr: string;
 	generic_name_en: string;
 	generic_name_de: string;
-	image_front_url: string;
+	image_small_url: string;
 	image_thumb_url: string;
 	nutrition_grades: string;
 };

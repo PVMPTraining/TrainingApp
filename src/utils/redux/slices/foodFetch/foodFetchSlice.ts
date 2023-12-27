@@ -7,24 +7,29 @@ import axios from "axios";
 type FoodStateTypes = {
 	isLoading: boolean;
 	keywordValue: string;
-	lastKeywordValue: string;
-	foodData: FoodFetchDataTypes;
-	brandFoodData: BrandFoodFetchDataTypes;
-	currentBrandFoodData: BrandFoodSearchResultTypes;
+	lastSearchedCoreKeywordValue: string;
+	lastSearchedBrandKeywordValue: string;
+	chosenFoodCategory: string;
+	activePaginatePage: number;
+	coreFoodData: FoodFetchDataTypes | null;
+	brandFoodData: BrandFoodFetchDataTypes | null;
+	selectedBrandFoodData: BrandFoodSearchResultTypes | null;
+	selectedCoreFoodData: FoodSearchResultTypes | null;
 	fetchError: string | undefined;
-	currentFood: FoodSearchResultTypes;
 	isSearched: boolean;
 };
 
-export const fetchFood = createAsyncThunk<FoodFetchDataTypes, string, { state: { foodFetch: FoodStateTypes } }>(
-	"food/fetchFood",
-	async (keywordValue: string, thunkAPI) => {
+// Need to add core foods to page number
+
+export const fetchCoreFood = createAsyncThunk<FoodFetchDataTypes, { keywordValue: string; page: number }, { state: { foodFetch: FoodStateTypes } }>(
+	"food/fetchCoreFood",
+	async ({ keywordValue, page }, thunkAPI) => {
 		// const { lastKeywordValue, foodData } = thunkAPI.getState().foodFetch;
 		// if (keywordValue === lastKeywordValue) {
 		// 	return foodData;
 		// }
 		const response = await axios.get(
-			`https://api.nal.usda.gov/fdc/v1/foods/search?query=${keywordValue}&dataType=SR Legacy&pageSize=50&pageNumber=1&sortBy=dataType.keyword&sortOrder=asc&api_key=${process.env.NEXT_PUBLIC_USDA_API_KEY}`
+			`https://api.nal.usda.gov/fdc/v1/foods/search?query=${keywordValue}&dataType=SR Legacy&pageSize=50&pageNumber=${page}&sortBy=dataType.keyword&sortOrder=asc&api_key=${process.env.NEXT_PUBLIC_USDA_API_KEY}`
 		);
 		return response.data;
 	}
@@ -46,14 +51,24 @@ const foodSlice = createSlice({
 		isLoading: false,
 		isSearched: false,
 		keywordValue: "",
-		lastKeywordValue: "",
-		foodData: {},
-		brandFoodData: {},
-		currentBrandFoodData: {},
-		fetchError: "",
-		currentFood: {}
+		lastSearchedCoreKeywordValue: "",
+		lastSearchedBrandKeywordValue: "",
+		chosenFoodCategory: "core",
+		activePaginatePage: 0,
+		coreFoodData: null,
+		brandFoodData: null,
+		selectedCoreFoodData: null,
+		selectedBrandFoodData: null,
+		fetchError: ""
 	} as FoodStateTypes,
 	reducers: {
+		setActivePaginatePage: (state, action) => {
+			state.activePaginatePage = action.payload;
+		},
+		setChosenFoodCategory: (state, action) => {
+			if (state.chosenFoodCategory === action.payload) return;
+			state.chosenFoodCategory = action.payload;
+		},
 		setKeywordValue: (state, action) => {
 			// return {
 			// 	...state,
@@ -61,40 +76,33 @@ const foodSlice = createSlice({
 			// };
 			state.keywordValue = action.payload;
 		},
-		setCurrentFood: (state, action) => {
-			state.currentFood = action.payload;
+		setChosenCoreFood: (state, action) => {
+			state.selectedCoreFoodData = action.payload;
 		},
-		setCurrentChosenBrandFood: (state, action) => {
-			state.currentBrandFoodData = action.payload;
-		},
-		setEmptyBrandFood: (state) => {
-			state.brandFoodData = {
-				count: 0,
-				page: 0,
-				page_count: 0,
-				page_size: 0,
-				products: [],
-				skip: 0
-			};
+		setChosenBrandFood: (state, action) => {
+			state.selectedBrandFoodData = action.payload;
 		}
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(fetchFood.pending, (state) => {
+			.addCase(fetchCoreFood.pending, (state) => {
 				state.isLoading = true;
 				state.isSearched = false;
 			})
-			.addCase(fetchFood.fulfilled, (state, action) => {
+			.addCase(fetchCoreFood.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSearched = true;
-				state.lastKeywordValue = state.keywordValue;
-				state.foodData = action.payload;
+				state.lastSearchedCoreKeywordValue = state.keywordValue;
+				state.lastSearchedBrandKeywordValue = "";
+				state.coreFoodData = action.payload;
+				state.brandFoodData = null;
+				state.selectedCoreFoodData = null;
 				state.fetchError = "";
 			})
-			.addCase(fetchFood.rejected, (state, action) => {
+			.addCase(fetchCoreFood.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isSearched = true;
-				state.lastKeywordValue = state.keywordValue;
+				state.lastSearchedCoreKeywordValue = state.keywordValue;
 				if (action.error.message) {
 					state.fetchError = action.error.message;
 				} else {
@@ -108,14 +116,17 @@ const foodSlice = createSlice({
 			.addCase(fetchBrandedFood.fulfilled, (state, action) => {
 				state.isLoading = false;
 				state.isSearched = true;
-				state.lastKeywordValue = state.keywordValue;
+				state.lastSearchedBrandKeywordValue = state.keywordValue;
+				state.lastSearchedCoreKeywordValue = "";
 				state.brandFoodData = action.payload;
+				state.coreFoodData = null;
+				state.selectedBrandFoodData = null;
 				state.fetchError = "";
 			})
 			.addCase(fetchBrandedFood.rejected, (state, action) => {
 				state.isLoading = false;
 				state.isSearched = true;
-				state.lastKeywordValue = state.keywordValue;
+				state.lastSearchedBrandKeywordValue = state.keywordValue;
 				if (action.error.message) {
 					state.fetchError = action.error.message;
 				} else {
@@ -125,6 +136,6 @@ const foodSlice = createSlice({
 	}
 });
 
-export const { setKeywordValue, setCurrentFood, setEmptyBrandFood, setCurrentChosenBrandFood } = foodSlice.actions;
+export const { setKeywordValue, setChosenCoreFood, setChosenBrandFood, setChosenFoodCategory, setActivePaginatePage } = foodSlice.actions;
 
 export default foodSlice.reducer;
