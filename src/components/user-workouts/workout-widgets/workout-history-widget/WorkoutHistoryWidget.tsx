@@ -19,41 +19,44 @@ export const WorkoutHistoryWidget: FC<WorkoutHistoryWidgetProps> = () => {
 	const latestWorkouts = sortedWorkouts.slice(0, 3);
 
 	return (
-		<Card className="flex flex-col gap-2 bg-base-200">
-			<CardBody>
-				<div className="flex justify-between">
-					<div>Workout History</div>
-					<Button
-						className="btn-xs"
-						onClick={() => {
-							router.push(workoutHistoryPagePath);
-						}}
-					>
-						View Full History
-					</Button>
-				</div>
-				{isLoading ? (
-					<p>Loading...</p>
-				) : (
-					latestWorkouts.map((workout: timedWorkout, index: number) => (
-						<div className="bg-base-300 p-2 rounded" key={index}>
-							<div className="flex flex-row justify-between">
-								<div className="flex flex-col">
-									<div>{String(workout.date).split("T")[0]}</div>
-									<div>{workout.name}</div>
+		<div>
+			<div className="text-xl font-bold ml-2 mb-1">Workout History</div>
+			<Card className="card-compact flex flex-col gap-2 bg-base-200">
+				<CardBody>
+					<div className="flex justify-start">
+						<Button
+							className="btn-xs bg-accent"
+							onClick={() => {
+								router.push(workoutHistoryPagePath);
+							}}
+						>
+							<span className="text-black">View Full History</span>
+						</Button>
+					</div>
+					{isLoading ? (
+						<p>Loading...</p>
+					) : (
+						latestWorkouts.map((workout: timedWorkout, index: number) => (
+							<div className="bg-base-300 p-2 rounded" key={index}>
+								<div className="flex flex-row justify-between">
+									<div className="flex flex-col">
+										<div>{String(workout.date).split("T")[0]}</div>
+										<div>{workout.name}</div>
+									</div>
+									<Button
+										className="btn-sm bg-accent"
+										onClick={() => {
+											router.push("/fitness/log-workout/live?workout=" + JSON.stringify(timedWorkoutToWorkout(workout)));
+										}}
+									>
+										<span className="text-black">Repeat</span>
+									</Button>
 								</div>
-								<Button
-									onClick={() => {
-										router.push("/fitness/log-workout/live?workout=" + JSON.stringify(timedWorkoutToWorkout(workout)));
-									}}
-								>
-									Repeat
-								</Button>
 							</div>
-						</div>
-					))
-				)}
-			</CardBody>
-		</Card>
+						))
+					)}
+				</CardBody>
+			</Card>
+		</div>
 	);
 };

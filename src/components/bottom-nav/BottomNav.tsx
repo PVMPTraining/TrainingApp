@@ -13,14 +13,14 @@ export const BottomNav: FC<BottomNavProps> = () => {
 	const currentPath = usePathname();
 
 	return (
-		<div className="btm-nav bg-base-200 z-50">
-			<Link href={fitnessHomePagePath} className={currentPath === fitnessHomePagePath ? "active" : ""}>
+		<div className="btm-nav bg-base-200 text-3xl z-50 rounded-t-3xl">
+			<Link href={fitnessHomePagePath} className={currentPath === fitnessHomePagePath ? "text-accent border-hidden" : ""}>
 				<FaDumbbell />
 			</Link>
-			<Link href={homePagePath} className={currentPath === homePagePath ? "active" : ""}>
+			<Link href={homePagePath} className={currentPath === homePagePath ? "text-accent border-hidden" : ""}>
 				<FaHome />
 			</Link>
-			<Link href={nutritionHomePagePath} className={currentPath === nutritionHomePagePath ? "active" : ""}>
+			<Link href={nutritionHomePagePath} className={currentPath === nutritionHomePagePath ? "text-accent border-hidden" : ""}>
 				<FaBowlFood />
 			</Link>
 		</div>

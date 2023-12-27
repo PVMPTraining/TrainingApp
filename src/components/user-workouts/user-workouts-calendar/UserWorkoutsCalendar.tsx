@@ -21,22 +21,27 @@ export const UserWorkoutsCalendar: FC<UserWorkoutsCalendarProps> = ({ className,
 	const workoutsForSelectedDate = loggedUserWorkouts.filter((workout: any) => new Date(workout.date).toDateString() === date.toDateString());
 
 	return (
-		<Card className={["bg-base-200", className].join(" ")}>
-			<CardBody>
-				<Calendar
-					onChange={(e) => onDateChange(e as Date)}
-					value={date}
-					tileContent={({ date, view }) => {
-						const workouts = loggedUserWorkouts.filter((workout: any) => new Date(workout.date).toDateString() === date.toDateString());
-						return workouts.map((workout: any, index: number) => <div key={index}>{workout.name}</div>);
-					}}
-					tileClassName={({ date, view }) => {
-						const workouts = loggedUserWorkouts.filter((workout: any) => new Date(workout.date).toDateString() === date.toDateString());
-						return workouts.map((workout: any, index: number) => "bg-green-500");
-					}}
-				/>
-				<div>{isLoading ? <p>Loading...</p> : workoutsForSelectedDate.map((workout: any, index: number) => <div key={index}>{workout.name}</div>)}</div>
-			</CardBody>
-		</Card>
+		<div>
+			<div className="text-xl font-bold ml-2 mb-1">Calendar</div>
+			<Card className={["bg-base-200", className].join(" ")}>
+				<CardBody>
+					<Calendar
+						onChange={(e) => onDateChange(e as Date)}
+						value={date}
+						tileContent={({ date, view }) => {
+							const workouts = loggedUserWorkouts.filter((workout: any) => new Date(workout.date).toDateString() === date.toDateString());
+							return workouts.map((workout: any, index: number) => <div key={index}>{workout.name}</div>);
+						}}
+						tileClassName={({ date, view }) => {
+							const workouts = loggedUserWorkouts.filter((workout: any) => new Date(workout.date).toDateString() === date.toDateString());
+							return workouts.map((workout: any, index: number) => "bg-accent text-black");
+						}}
+					/>
+					<div>
+						{isLoading ? <p>Loading...</p> : workoutsForSelectedDate.map((workout: any, index: number) => <div key={index}>{workout.name}</div>)}
+					</div>
+				</CardBody>
+			</Card>
+		</div>
 	);
 };

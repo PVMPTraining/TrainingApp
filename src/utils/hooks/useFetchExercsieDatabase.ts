@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 import { GetExercises, GetUserID, GetUserWorkouts } from "src/utils/helpers/supabase";
 import { Log, LogLevel } from "src/utils/helpers/debugLog";
+import { ExerciseData } from "@/src/types/types";
 
 /**
  * Custom hook to fetch user workouts.
@@ -11,7 +12,7 @@ import { Log, LogLevel } from "src/utils/helpers/debugLog";
  */
 export const useFetchUserExercsiseDatabase = () => {
 	const [isLoading, setIsLoading] = useState(true);
-	const [exercises, setExercises] = useState<any>([]);
+	const [exercises, setExercises] = useState<ExerciseData[]>([]);
 
 	useEffect(() => {
 		const fetchPosts = async () => {

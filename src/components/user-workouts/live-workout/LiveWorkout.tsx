@@ -6,7 +6,6 @@ import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsi
 import { AddLoggedWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 import { FC, useState, useEffect, Key, HTMLAttributes } from "react";
 import { ComboBox } from "@/src/components/UI/ComboBox/combobox";
-import { Card, CardBody } from "@/src/components/UI/Card/Card";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
 import { Button } from "@/src/components/UI/Button/Button";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
@@ -14,6 +13,7 @@ import { Field, FieldArray, Form, Formik } from "formik";
 import { Input } from "@/src/components/UI/Input/Input";
 import { Modal } from "@/src/components/UI/Modal/Modal";
 import { ExerciseData } from "@/src/types/types";
+import { formatTimeHHMMSS, convertSecondsToTime } from "@/src/utils/helpers/dateHelpers";
 
 enum workoutState {
 	NOT_STARTED,
@@ -101,22 +101,6 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 	// Action List
 	let availabelAcitons: workoutAction[] = [];
 
-	const formatTime = ({ hours, minutes, seconds }: { hours: number; minutes: number; seconds: number }) => {
-		return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-	};
-
-	const secondsToHMS = (seconds: number) => {
-		const hours = Math.floor(seconds / 3600);
-		const minutes = Math.floor((seconds % 3600) / 60);
-		const remainingSeconds = seconds % 60;
-
-		return {
-			hours,
-			minutes,
-			seconds: remainingSeconds
-		};
-	};
-
 	const setWorkoutState = (newWorkoutState: workoutState) => {
 		setPrevWorkoutState(currentWorkoutState);
 		setWorkoutStateInternal(newWorkoutState);
@@ -172,6 +156,13 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 		}
 	}, [availabelAcitons]);
 
+	useEffect(() => {
+		const audio = new Audio("/rest_end.mp3");
+		if (currentWorkoutState === workoutState.REST && activeExercise.sets[activeSetIndex].rest + 1 === restTimer) {
+			audio.play();
+		}
+	}, [restTimer]);
+
 	const triggerAction = (triggeredAction: workoutAction) => {
 		if (!availabelAcitons.includes(triggeredAction)) {
 			return;
@@ -226,7 +217,11 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 			case workoutAction.FINISH_SET:
 				{
 					setRestTimer(0);
-					setWorkoutState(workoutState.REST);
+					if (activeExercise.sets[activeSetIndex].rest !== 0) {
+						setWorkoutState(workoutState.REST);
+					} else {
+						triggerAction(workoutAction.FINISH_REST);
+					}
 				}
 				break;
 			case workoutAction.ADD_SET:
@@ -303,9 +298,18 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 						setActiveSetIndex(activeSetIndex + 1);
 						setWorkoutState(workoutState.EXERCISE);
 					} else if (activeSetIndex === activeExercise.sets.length - 1) {
-						console.log("activeSetIndex:", activeSetIndex);
 						setActiveSetIndex(activeSetIndex + 1);
-						triggerAction(workoutAction.FINISH_SET);
+						if (activeExercise.rest !== 0) {
+							triggerAction(workoutAction.FINISH_SET);
+						} else {
+							const newActiveExerciseIndex = activeExerciseIndex + 1;
+							setActiveExerciseIndex(newActiveExerciseIndex);
+							setActiveExercise(workout.exercises[newActiveExerciseIndex] as timedExercise);
+
+							setActiveSetIndex(0);
+							setExerciseTimer(0);
+							setWorkoutState(workoutState.EXERCISE);
+						}
 					}
 
 					Log(LogLevel.DEBUG, `Updated workout:`, updatedWorkout);
@@ -371,27 +375,33 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 				<div className="fixed top-0 w-full flex flex-col gap-4 p-4 bg-base-300 h-36 z-50">
 					<div className="flex w-full items-center">
 						<div className="w-[6rem]">Workout Timer:</div>
-						<Card className="bg-base-200 w-full card-compact">
-							<CardBody className="text-center">{formatTime(secondsToHMS(workoutTimer))}</CardBody>
-						</Card>
+						<div className="bg-base-200 w-full rounded-xl">
+							<div className="text-center !py-3">
+								<span className="text-lg">{formatTimeHHMMSS(convertSecondsToTime(workoutTimer))}</span>
+							</div>
+						</div>
 					</div>
 					<div className="flex gap-4">
 						<div className="flex gap-2 w-1/2 items-center">
 							<div className="w-[7rem]">Exercise Timer:</div>
-							<Card className="bg-base-200 w-full card-compact">
-								<CardBody>{formatTime(secondsToHMS(exerciseTimer))}</CardBody>
-							</Card>
+							<div className="bg-base-200 w-full px-2 rounded-xl">
+								<div className="text-center !py-3">
+									<span className="text-lg">{formatTimeHHMMSS(convertSecondsToTime(exerciseTimer))}</span>
+								</div>
+							</div>
 						</div>
 						<div className="flex gap-2 w-1/2 items-center">
 							<div>Set Timer:</div>
-							<Card className="bg-base-200 w-full card-compact">
-								<CardBody>{formatTime(secondsToHMS(setTimer))}</CardBody>
-							</Card>
+							<div className="bg-base-200 w-full px-2 rounded-xl">
+								<div className="text-center !py-3">
+									<span className="text-lg">{formatTimeHHMMSS(convertSecondsToTime(setTimer))}</span>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			)}
-			<div className={"flex-grow flex flex-col" + (startCountdown < 0 ? "mb-16 mt-36" : "")}>
+			<div className={"flex-grow flex flex-col" + (startCountdown < 0 ? " mb-16 mt-36" : "")}>
 				{startCountdown > -1 && (
 					<div className="flex-grow flex flex-col justify-center items-center">
 						<div>
@@ -404,12 +414,15 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 				)}
 				{currentWorkoutState === workoutState.REST && (
 					<div className="flex-grow flex flex-col justify-center">
-						<Button onClick={() => triggerAction(workoutAction.FINISH_REST)} className="flex-grow flex flex-col bg-base-100">
+						<Button
+							onClick={() => triggerAction(workoutAction.FINISH_REST)}
+							className={"flex-grow flex flex-col" + (activeExercise.sets[activeSetIndex].rest < restTimer ? " bg-error" : " bg-base-100")}
+						>
 							{activeSetIndex < activeExercise.sets.length - 1 && <div>Set {activeSetIndex + 1} Rest</div>}
 							{activeSetIndex === activeExercise.sets.length - 1 && <div>Exercise {activeExerciseIndex + 1} Rest</div>}
 							<span className="countdown font-mono text-6xl">
-								<span style={{ "--value": secondsToHMS(restTimer).minutes } as React.CSSProperties}></span>:
-								<span style={{ "--value": secondsToHMS(restTimer).seconds } as React.CSSProperties}></span>
+								<span style={{ "--value": convertSecondsToTime(restTimer).minutes } as React.CSSProperties}></span>:
+								<span style={{ "--value": convertSecondsToTime(restTimer).seconds } as React.CSSProperties}></span>
 							</span>
 							<div>Touch the sceen to end rest</div>
 						</Button>
@@ -434,8 +447,8 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 						onSubmit={() => {}}
 					>
 						{({ values, errors, touched, setFieldValue }) => (
-							<Form>
-								<div className="flex flex-col gap-4 p-4 rounded bg-base-300">
+							<Form className="flex-grow flex">
+								<div className="flex-grow flex flex-col gap-4 p-4 rounded bg-base-300">
 									<div className="flex flex-col gap-2">
 										{exercises ? (
 											<ComboBox
@@ -452,15 +465,6 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 										) : (
 											<Input disabled />
 										)}
-										<Button
-											onClick={() => {
-												triggerAction(workoutAction.SKIP_EXERCISE);
-											}}
-											type="button"
-											className="btn-sm bg-red-500"
-										>
-											Skip Exercise
-										</Button>
 									</div>
 									<FieldArray name={`exercises`}>
 										{({ push, remove }) => (
@@ -535,21 +539,20 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 											</>
 										)}
 									</FieldArray>
-									<div className="flex items-center gap-1">
-										<Field
-											type="number"
-											name={`exercises.rest`}
-											className="input-sm text-end"
-											placeholder="Rest After Exercise (s)"
-											as={Input}
-										/>
-										<span>Rest</span>
-									</div>
-									<Button type="button" onClick={() => triggerAction(workoutAction.FINISH_SET)} className="bg-green-500">
+									<Button type="button" onClick={() => triggerAction(workoutAction.FINISH_SET)} className="bg-green-500 grow-[5]">
 										Done / Rest
 									</Button>
-									<Button type="button" onClick={() => triggerAction(workoutAction.SKIP_SET)} className="bg-red-500 btn-sm">
+									<Button type="button" onClick={() => triggerAction(workoutAction.SKIP_SET)} className="bg-red-500 flex-grow btn-sm">
 										Skip Set
+									</Button>
+									<Button
+										type="button"
+										onClick={() => {
+											triggerAction(workoutAction.SKIP_EXERCISE);
+										}}
+										className="btn-sm bg-red-500 flex-grow"
+									>
+										Skip Exercise
 									</Button>
 								</div>
 							</Form>
@@ -692,8 +695,8 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 											<Input
 												type="number"
 												className="bg-base-200 input-sm text-end"
-												placeholder="kg"
-												value={isNaN(exercise.rest) ? "" : exercise.rest.toString()}
+												placeholder="Rest After Exercise (s)"
+												defaultValue={exercise.rest === 0 ? "" : exercise.rest.toString()}
 												onChange={(e) => {
 													setWorkout((prevWorkout: Workout) => {
 														const updatedExercises = [...prevWorkout.exercises];

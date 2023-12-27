@@ -66,7 +66,7 @@ export const ComboBox: FC<ComboBoxProps> = ({ className, options, selectedCallba
 			<div className="form-control w-full">
 				<Input
 					tabIndex={0}
-					className={`focus:rounded-b-none ${
+					className={`focus:rounded-b-none bg-base-200 ${
 						index !== undefined &&
 						touched?.exercises &&
 						errors?.exercises &&
@@ -84,19 +84,21 @@ export const ComboBox: FC<ComboBoxProps> = ({ className, options, selectedCallba
 					onFocus={handleInputFocus}
 					onBlur={handleInputBlur}
 				/>
-				<div className="label">
-					<span className="label-text-alt">
-						{index !== undefined &&
-							touched?.exercises &&
-							errors?.exercises &&
-							Array.isArray(touched?.exercises) &&
-							Array.isArray(errors?.exercises) &&
-							touched.exercises[index] &&
-							errors.exercises[index] && <div className="text-red-600">{String((errors.exercises[index] as FormikErrors<any>).name)}</div>}
-					</span>
-				</div>
+				{index !== undefined &&
+					touched?.exercises &&
+					errors?.exercises &&
+					Array.isArray(touched?.exercises) &&
+					Array.isArray(errors?.exercises) &&
+					touched.exercises[index] &&
+					errors.exercises[index] && (
+						<div className="label">
+							<span className="label-text-alt">
+								<div className="text-red-600">{String((errors.exercises[index] as FormikErrors<any>).name)}</div>
+							</span>
+						</div>
+					)}
 			</div>
-			<ul tabIndex={0} className="shadow menu dropdown-content bg-base-300 z-10 p-2 w-full rounded-b-md">
+			<ul tabIndex={0} className="shadow menu dropdown-content bg-base-200 z-10 p-2 w-full rounded-b-md">
 				{options
 					.filter((option) => option.includes(inputValue))
 					.map((option) => (

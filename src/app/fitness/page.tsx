@@ -24,6 +24,22 @@ const FitnessPage: FC = () => {
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
+	const buttonLabel: FC<{ text: string }> = ({ text }) => {
+		return (
+			<div className="w-full flex items-center gap-2 mx-2">
+				<FaDumbbell className="text-accent text-2xl" />
+				<span className="uppercase">{text}</span>
+			</div>
+		);
+	};
+
+	const randomX = Math.floor(Math.random() * 100);
+	const randomY = Math.floor(Math.random() * 100);
+
+	const backgroundStyles = {
+		background: `radial-gradient(farthest-corner at ${randomX}% ${randomY}%, rgba(84, 226, 16, 1) -150%, rgba(18, 18, 18, 1) 100%)`
+	};
+
 	return (
 		<NavLayout
 			header={<div>Fitness</div>}
@@ -40,8 +56,7 @@ const FitnessPage: FC = () => {
 									router.push(exercisePagePath);
 								}}
 							>
-								<FaDumbbell />
-								Exercises
+								{buttonLabel({ text: "Exercises" })}
 							</Button>
 							<Button
 								className="basis-[48%] grow"
@@ -49,8 +64,7 @@ const FitnessPage: FC = () => {
 									router.push(workoutPagePath);
 								}}
 							>
-								<FaDumbbell />
-								Workouts
+								{buttonLabel({ text: "Workouts" })}
 							</Button>
 							<Button
 								className="basis-[48%] grow"
@@ -58,8 +72,7 @@ const FitnessPage: FC = () => {
 									router.push(fitnessToolsPagePath);
 								}}
 							>
-								<FaDumbbell />
-								Tools
+								{buttonLabel({ text: "Tools" })}
 							</Button>
 							<Button
 								className="basis-[48%] grow"
@@ -67,8 +80,7 @@ const FitnessPage: FC = () => {
 									setIsModalOpen(true);
 								}}
 							>
-								<FaDumbbell />
-								Log-Workout
+								{buttonLabel({ text: "Log-Workout" })}
 							</Button>
 						</div>
 					</div>
