@@ -1,23 +1,19 @@
 "use client";
 import { FC } from "react";
 
-// Next
-import Link from "next/link";
-import { Button } from "@/src/components/UI/Button/Button";
-import { useRouter } from "next/navigation";
-import { Input } from "@/src/components/UI/Input/Input";
-
 import FoodSearcher from "@/src/components/foodSearcher/FoodSearcher";
+import NavLayout from "@/src/layouts/NavLayout";
 
 const NutritionToolsPage: FC = () => {
-	const router = useRouter();
-
 	return (
-		<>
-			<div className="min-h-screen flex flex-col justify-end gap-4">
-				<FoodSearcher />
-			</div>
-		</>
+		<NavLayout
+			header={<div>Food Searcher</div>}
+			content={
+				<div className="flex flex-col items-center w-full gap-4">
+					<FoodSearcher />
+				</div>
+			}
+		></NavLayout>
 	);
 };
 
