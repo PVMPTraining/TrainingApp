@@ -3,10 +3,25 @@
 // Supabase
 import { createBrowserClient } from "@supabase/ssr";
 import { LogLevel, Log } from "./debugLog";
-import { ExerciseData, Json } from "@/src/types/types";
+import { ExerciseData, Json, RecipesData } from "@/src/types/types";
 import { Workout } from "@/src/types/fitnessTypes";
 
 const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
+
+// Table Constants
+const user_workouts_table: string = "user_workouts";
+const exercise_database_table: string = "exercise_database";
+const recipes_table: string = "recipes";
+const user_favorite_exercises_table: string = "user_favorite_exercises";
+const user_logged_workouts_table: string = "user_logged_workouts";
+
+// Column Constants
+const id_column: string = "id";
+const workouts_column = "workouts";
+const exercises_column = "exercises";
+
+// All Constant
+const all = "*";
 
 /**
  * If succesful, returns the user.
@@ -41,7 +56,7 @@ export const SignOut = async () => {
  * @returns The retrieved row from the 'user_workouts' table.
  */
 export const GetUserWorkoutsRow = async (id: string) => {
-	const { data: user_workouts } = await supabase.from("user_workouts").select("*").eq("id", id).single();
+	const { data: user_workouts } = await supabase.from(user_workouts_table).select(all).eq(id_column, id).single();
 	Log(LogLevel.DEBUG, `GetUserWorkoutsRow: ${user_workouts}`);
 	return user_workouts;
 };
@@ -52,7 +67,7 @@ export const GetUserWorkoutsRow = async (id: string) => {
  * @returns The workouts associated with the user.
  */
 export const GetUserWorkouts = async (id: string) => {
-	const { data: user_workouts, error } = await supabase.from("user_workouts").select("workouts").eq("id", id);
+	const { data: user_workouts, error } = await supabase.from(user_workouts_table).select(workouts_column).eq(id_column, id);
 
 	if (user_workouts) {
 		Log(LogLevel.DEBUG, `GetUserWorkouts, user_workouts:`, user_workouts[0].workouts);
@@ -71,7 +86,7 @@ export const GetUserWorkouts = async (id: string) => {
  * @returns An array of exercises.
  */
 export const GetExercises = async () => {
-	const { data: exercises, error } = await supabase.from("exercise_database").select("*");
+	const { data: exercises, error } = await supabase.from(exercise_database_table).select(all);
 
 	if (exercises) {
 		Log(LogLevel.DEBUG, `GetExercises, exercises:`, exercises);
@@ -85,6 +100,21 @@ export const GetExercises = async () => {
 	return (exercises as ExerciseData[]) || [];
 };
 
+export const GetRecipes = async () => {
+	const { data: recipes, error } = await supabase.from(recipes_table).select(all);
+
+	if (recipes) {
+		Log(LogLevel.DEBUG, `GetRecepies, exercises:`, recipes);
+	}
+
+	if (error) {
+		Log(LogLevel.ERROR, `GetRecepies, error:`, error);
+		throw error;
+	}
+
+	return (recipes as RecipesData[]) || [];
+};
+
 /**
  * Adds a workout to the user's workout list.
  * @param id - The ID of the user.
@@ -95,7 +125,7 @@ export const AddUserWorkout = async (id: string, workout: Workout) => {
 	const userWorkouts = await GetUserWorkouts(id);
 	userWorkouts.push(workout);
 
-	const { data, error } = await supabase.from("user_workouts").update({ workouts: userWorkouts }).eq("id", id).select();
+	const { data, error } = await supabase.from(user_workouts_table).update({ workouts: userWorkouts }).eq(id_column, id).select();
 
 	if (data) {
 		Log(LogLevel.DEBUG, `AddUserWorkout, return data:`, data);
@@ -125,7 +155,7 @@ export const UpdateUserWorkout = async (id: string, updatedWorkout: Workout) => 
 		userWorkouts[existingWorkoutIndex] = updatedWorkout;
 
 		// Update the user workouts in the database
-		const { data, error } = await supabase.from("user_workouts").update({ workouts: userWorkouts }).eq("id", id).select();
+		const { data, error } = await supabase.from(user_workouts_table).update({ workouts: userWorkouts }).eq(id_column, id).select();
 
 		if (data) {
 			Log(LogLevel.DEBUG, `UpdateUserWorkout, return data:`, data);
@@ -145,7 +175,7 @@ export const UpdateUserWorkout = async (id: string, updatedWorkout: Workout) => 
  * @returns The favorite exercises associated with the user.
  */
 export const GetUserFavoriteExercises = async (id: string) => {
-	const { data: user_favorite_exercises } = await supabase.from("user_favorite_exercises").select("exercises").eq("id", id);
+	const { data: user_favorite_exercises } = await supabase.from(user_favorite_exercises_table).select(exercises_column).eq(id_column, id);
 
 	Log(LogLevel.DEBUG, `GetUserFavoriteExercises: ${JSON.stringify(user_favorite_exercises)}`);
 	return user_favorite_exercises?.[0]?.exercises || [];
@@ -163,7 +193,7 @@ export const AddFavoriteExercise = async (id: string, exercise: Json) => {
 
 	userExercises.push(favoriteExercisesToAdd);
 
-	const { data, error } = await supabase.from("user_favorite_exercises").update({ exercises: userExercises }).eq("id", id).select();
+	const { data, error } = await supabase.from(user_favorite_exercises_table).update({ exercises: userExercises }).eq(id_column, id).select();
 
 	Log(LogLevel.DEBUG, `AddUserFavoriteExercise, data: ${JSON.stringify(data)}`);
 	if (error) {
@@ -172,7 +202,7 @@ export const AddFavoriteExercise = async (id: string, exercise: Json) => {
 };
 
 export const GetUserLoggedWorkouts = async (id: string) => {
-	const { data: user_workouts, error } = await supabase.from("user_logged_workouts").select("workouts").eq("id", id);
+	const { data: user_workouts, error } = await supabase.from(user_logged_workouts_table).select(workouts_column).eq(id_column, id);
 
 	if (user_workouts) {
 		Log(LogLevel.DEBUG, `GetUserWorkouts, user_workouts:`, user_workouts[0].workouts);
@@ -196,7 +226,7 @@ export const AddLoggedWorkout = async (id: string, workout: any) => {
 	const userWorkouts = await GetUserLoggedWorkouts(id);
 	userWorkouts.push(workout);
 
-	const { data, error } = await supabase.from("user_logged_workouts").update({ workouts: userWorkouts }).eq("id", id).select();
+	const { data, error } = await supabase.from(user_logged_workouts_table).update({ workouts: userWorkouts }).eq(id_column, id).select();
 
 	if (data) {
 		Log(LogLevel.DEBUG, `AddUserWorkout, return data:`, data);
