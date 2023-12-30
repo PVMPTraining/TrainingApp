@@ -79,16 +79,16 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 		? selectedBrandFoodData.product_name_en
 			? selectedBrandFoodData.product_name_en
 			: selectedBrandFoodData.product_name
-			? selectedBrandFoodData.product_name
-			: selectedBrandFoodData.abbreviated_product_name
-			? selectedBrandFoodData.abbreviated_product_name
-			: selectedBrandFoodData.generic_name_en
-			? selectedBrandFoodData.generic_name_en
-			: selectedBrandFoodData.generic_name_de
-			? selectedBrandFoodData.generic_name_de
-			: selectedBrandFoodData.generic_name_fr
-			? selectedBrandFoodData.generic_name_fr
-			: selectedBrandFoodData.generic_name
+				? selectedBrandFoodData.product_name
+				: selectedBrandFoodData.abbreviated_product_name
+					? selectedBrandFoodData.abbreviated_product_name
+					: selectedBrandFoodData.generic_name_en
+						? selectedBrandFoodData.generic_name_en
+						: selectedBrandFoodData.generic_name_de
+							? selectedBrandFoodData.generic_name_de
+							: selectedBrandFoodData.generic_name_fr
+								? selectedBrandFoodData.generic_name_fr
+								: selectedBrandFoodData.generic_name
 		: "";
 
 	const caloriePercentage = percentageCalculator(2500, nutrientValues["energy-kcal_100g"] as number);
