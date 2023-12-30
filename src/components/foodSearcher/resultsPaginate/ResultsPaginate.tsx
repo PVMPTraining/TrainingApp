@@ -10,7 +10,13 @@ const ResultsPaginate: FC<ResultsPaginateProps> = ({}) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const { coreFoodData, brandFoodData, chosenFoodCategory, keywordValue, activePaginatePage } = useSelector((state: RootState) => state.foodFetch);
 
-	const pageCount = coreFoodData ? coreFoodData.totalPages : brandFoodData ? brandFoodData.page_count : 0;
+	const brandFoodDataPageCount = brandFoodData
+		? brandFoodData?.count / 50 - Math.floor(brandFoodData?.count / 50) >= 0.5
+			? Math.round(brandFoodData?.count / 50)
+			: Math.floor(brandFoodData?.count / 50) + 1
+		: 0;
+
+	const pageCount = coreFoodData ? coreFoodData.totalPages : brandFoodData ? brandFoodDataPageCount : 0;
 
 	const pageChangeFetchHandler = (targetPage: number) => {
 		if (chosenFoodCategory === "core") {
@@ -20,6 +26,8 @@ const ResultsPaginate: FC<ResultsPaginateProps> = ({}) => {
 			dispatch(fetchBrandedFood({ keywordValue: keywordValue, page: targetPage + 1 }));
 		}
 	};
+
+	console.log(coreFoodData, brandFoodData);
 
 	return (
 		<>

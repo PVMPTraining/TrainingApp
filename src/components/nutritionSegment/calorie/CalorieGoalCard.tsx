@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { Button } from "../../UI/Button/Button";
 
-const percentageCalculator = (calorie: number, value: number) => {
-	const percentage = ((value / calorie) * 100).toFixed(2);
+export const percentageCalculator = (goal: number, value: number) => {
+	const percentage = ((value / goal) * 100).toFixed(2);
 
-	return Number(percentage);
+	return Number(percentage) > 0 ? Number(percentage) : 0;
 };
 
 interface CalorieGoalCardProps {}
@@ -20,12 +20,7 @@ const CalorieGoalCard: FC<CalorieGoalCardProps> = ({}) => {
 
 	return (
 		<>
-			<p className="font-bold text-sm p-2">Change layout</p>
 			<div className="flex flex-col gap-3 bg-black py-3 px-1">
-				<div className="flex items-center justify-between">
-					<p>TODAY</p>
-					<Button className="text-white">Change day</Button>
-				</div>
 				<p className="font-bold text-xl">Calories</p>
 				<div>
 					<div className="flex items-center gap-3">

@@ -4,9 +4,10 @@ import { RootState } from "@/src/utils/redux/store";
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import CoreFoodDetails from "@/src/components/foodSearcher/foodDetails/CoreFoodDetails";
+import BrandFoodDetails from "@/src/components/foodSearcher/foodDetails/BrandFoodDetails";
 
 const FoodDetailsPage: FC = () => {
-	const { keywordValue } = useSelector((state: RootState) => state.foodFetch);
+	const { keywordValue, coreFoodData } = useSelector((state: RootState) => state.foodFetch);
 
 	{
 		/* const calories =
@@ -203,7 +204,7 @@ const FoodDetailsPage: FC = () => {
 	return (
 		<>
 			<Link href={"/nutrition/tools"}>Back {keywordValue} search results</Link>
-			<CoreFoodDetails />
+			{coreFoodData ? <CoreFoodDetails /> : <BrandFoodDetails />}
 		</>
 	);
 };

@@ -123,6 +123,7 @@ export type FoodFetchDataTypes = {
 };
 
 type BrandFoodNutrimentTypes = {
+	[index: string]: number | string;
 	carbohydrates: number;
 	carbohydrates_100g: number;
 	carbohydrates_serving: number;
