@@ -2,10 +2,10 @@ import React, { FC, HTMLAttributes } from "react";
 
 interface LabelsProps extends HTMLAttributes<HTMLElement> {
 	input: React.ReactNode;
-	topLeftLabel?: string;
-	topRightLabel?: string;
-	bottomLeftLabel?: string;
-	bottomRightLabel?: string;
+	topLeftLabel?: string | React.ReactNode;
+	topRightLabel?: string | React.ReactNode;
+	bottomLeftLabel?: string | React.ReactNode;
+	bottomRightLabel?: string | React.ReactNode;
 }
 
 export const Labels: FC<LabelsProps> = ({ className, input, topLeftLabel, topRightLabel, bottomLeftLabel, bottomRightLabel }) => {

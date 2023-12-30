@@ -4,10 +4,14 @@ import { FC } from "react";
 
 // Next
 import NavLayout from "@/src/layouts/NavLayout";
-import { Card, CardBody } from "@/src/components/UI/Card/Card";
+import { CardBody } from "@/src/components/UI/Card/Card";
 import { Button } from "@/src/components/UI/Button/Button";
+import { useRouter } from "next/navigation";
+import { recipesPagePath } from "@/src/pathmap/pathmap";
 
 const HomePage: FC = () => {
+	const router = useRouter();
+
 	const partialBlur: React.CSSProperties = {
 		position: "absolute",
 		top: 0,
@@ -26,25 +30,32 @@ const HomePage: FC = () => {
 		<NavLayout
 			header={<div>Home</div>}
 			content={
-				<div className="flex-grow flex flex-col gap-4 m-4 w-full">
+				<div className="flex-grow flex flex-col gap-4 m-4">
 					<div className="mx-2">
 						<h1 className="text-4xl font-bold">Welcome to Name!</h1>
 						<h2 className="text-2xl">Get ready for a killer day!</h2>
 					</div>
-					<div className="flex flex-wrap gap-2 w-full justify-center">
-						<Button className="bg-[url(https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-cover bg-center card-compact h-48 w-[48%] items-start px-0 text-start font-normal overflow-hidden relative">
-							<div style={partialBlur}></div>
-							<CardBody className="relative z-10">
-								<span className="text-xl text-shadow-lg shadow-black">Recepies</span>
-							</CardBody>
-						</Button>
-						<Button className="bg-[url(https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-cover bg-center card-compact h-48 w-[48%] items-start px-0 overflow-hidden relative text-start font-normal">
-							<div style={partialBlur}></div>
-							<CardBody className="relative z-10">
-								<span className="text-xl text-shadow-lg shadow-black">Workout</span>
-							</CardBody>
-						</Button>
-						<Button className="bg-[url(https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-cover bg-center card-compact h-48 w-[98%] items-start px-0 text-start font-normal overflow-hidden relative">
+					<div className="flex flex-col gap-2">
+						<div className="grid grid-cols-1 xs:grid-cols-2 gap-2 w-full justify-center">
+							<Button
+								className="bg-[url(https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-cover bg-center card-compact h-48 items-start px-0 text-start font-normal overflow-hidden relative"
+								onClick={() => {
+									router.push(recipesPagePath);
+								}}
+							>
+								<div style={partialBlur}></div>
+								<CardBody className="relative z-10">
+									<span className="text-xl text-shadow-lg shadow-black">Recipes</span>
+								</CardBody>
+							</Button>
+							<Button className="bg-[url(https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-cover bg-center card-compact h-48 items-start px-0 overflow-hidden relative text-start font-normal">
+								<div style={partialBlur}></div>
+								<CardBody className="relative z-10">
+									<span className="text-xl text-shadow-lg shadow-black">Workout</span>
+								</CardBody>
+							</Button>
+						</div>
+						<Button className="bg-[url(https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-cover bg-center card-compact h-48 items-start px-0 text-start font-normal overflow-hidden relative">
 							<div style={partialBlur}></div>
 							<CardBody className="relative z-10">
 								<span className="text-xl text-shadow-lg shadow-black">Workout Programs</span>
@@ -54,20 +65,20 @@ const HomePage: FC = () => {
 					<div>
 						<h1 className="text-2xl font-bold mx-2">Trackers</h1>
 					</div>
-					<div className="flex flex-wrap gap-2 w-full justify-center">
-						<Button className="bg-[url()] bg-cover bg-center card-compact h-48 w-[31%] items-start px-0 text-start font-normal overflow-hidden relative">
+					<div className="grid grid-cols-1 xs:grid-cols-3 gap-2 w-full justify-center">
+						<Button className="bg-[url()] bg-cover bg-center card-compact h-48 items-start px-0 text-start font-normal overflow-hidden relative">
 							<div style={partialBlur}></div>
 							<CardBody className="relative z-10">
 								<span className="text-xl text-shadow-lg shadow-black">Water</span>
 							</CardBody>
 						</Button>
-						<Button className="bg-[url()] bg-cover bg-center card-compact h-48 w-[31%] items-start px-0 overflow-hidden relative text-start font-normal">
+						<Button className="bg-[url()] bg-cover bg-center card-compact h-48 items-start px-0 overflow-hidden relative text-start font-normal">
 							<div style={partialBlur}></div>
 							<CardBody className="relative z-10">
 								<span className="text-xl text-shadow-lg shadow-black">Sleep</span>
 							</CardBody>
 						</Button>
-						<Button className="bg-[url()] bg-cover bg-center card-compact h-48 w-[31%] items-start px-0 overflow-hidden relative text-start font-normal">
+						<Button className="bg-[url()] bg-cover bg-center card-compact h-48 items-start px-0 overflow-hidden relative text-start font-normal">
 							<div style={partialBlur}></div>
 							<CardBody className="relative z-10">
 								<span className="text-xl text-shadow-lg shadow-black">Weight</span>

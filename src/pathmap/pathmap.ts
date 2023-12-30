@@ -32,3 +32,6 @@ export const nutritionToolsPagePath: string = "/nutrition/tools";
 // Tools Pages
 export const toolsHomePagePath: string = "/tools";
 export const toolsFavoritesPagePath: string = "/tools/favorites";
+
+// Recipes Page
+export const recipesPagePath: string = "/recipes";
