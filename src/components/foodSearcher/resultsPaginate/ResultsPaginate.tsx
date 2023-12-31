@@ -27,8 +27,6 @@ const ResultsPaginate: FC<ResultsPaginateProps> = ({}) => {
 		}
 	};
 
-	console.log(coreFoodData, brandFoodData);
-
 	return (
 		<>
 			<ReactPaginate

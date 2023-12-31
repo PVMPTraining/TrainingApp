@@ -19,7 +19,7 @@ const BrandFoodDetailCard: FC<BrandFoodDetailCardProps> = ({ food }) => {
 
 	return (
 		<div>
-			<div className="fixed flex flex-col z-50 gap-3 top-[60%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-black text-white w-80 h-auto rounded-md p-3">
+			<div className="fixed flex flex-col z-50 gap-3 top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] bg-black text-white w-80 h-auto rounded-md p-3 ">
 				<button
 					className="self-end text-xl"
 					onClick={(e) => {
@@ -28,22 +28,21 @@ const BrandFoodDetailCard: FC<BrandFoodDetailCardProps> = ({ food }) => {
 				>
 					X
 				</button>
-				<div className="self-center">
+				<div className="self-center h-[140px]">
 					{food.image_small_url ? (
 						<img
 							// src={food.image_front_small_url ? food.image_front_small_url : food.image_ingredients_ingredients_url}
 							src={food.image_small_url}
 							loading="lazy"
-							style={{ objectFit: "contain", width: "auto", height: "auto" }}
+							style={{ objectFit: "contain", width: "100%", height: "100%" }}
 						/>
 					) : (
 						<div className="w-full h-[186px] bg-white"></div>
 					)}
 				</div>
-
-				<p className="text-xl font-normal">
-					<p className="text-xl">
-						{food.brands ? food.brands + " - " : ""}
+				<p>
+					<p>
+						<strong className="tracking-tighter">{food.brands ? food.brands + " - " : ""}</strong>
 						{/* {food.generic_name_en
 											? food.generic_name_en
 											: food.generic_name_de
@@ -55,21 +54,21 @@ const BrandFoodDetailCard: FC<BrandFoodDetailCardProps> = ({ food }) => {
 						{food.product_name_en
 							? food.product_name_en
 							: food.product_name
-								? food.product_name
-								: food.abbreviated_product_name
-									? food.abbreviated_product_name
-									: food.generic_name_en
-										? food.generic_name_en
-										: food.generic_name_de
-											? food.generic_name_de
-											: food.generic_name_fr
-												? food.generic_name_fr
-												: food.generic_name}
+							? food.product_name
+							: food.abbreviated_product_name
+							? food.abbreviated_product_name
+							: food.generic_name_en
+							? food.generic_name_en
+							: food.generic_name_de
+							? food.generic_name_de
+							: food.generic_name_fr
+							? food.generic_name_fr
+							: food.generic_name}
 					</p>
 				</p>
 				<p>Nutrition Information based on 100 gr</p>
 				<p>Energy: {food.nutriments["energy-kcal_100g"]} kcal</p>
-				<p>Carbohydrate: {food.nutriments.carbohydrates_100g}g</p>
+				<p>Carbohydrate: {food.nutriments.carbohydrates_100g.toFixed(2)}g</p>
 				<p>Fat: {food.nutriments.fat_100g}g</p>
 				<p></p>
 				<Link

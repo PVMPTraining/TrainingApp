@@ -18,12 +18,14 @@ const SearchInput: FC<SearchInputProps> = ({}) => {
 		dispatch(setKeywordValue(e.target.value));
 	};
 
-	const debouncedSearchHandler = useCallback(
-		debounce((value: string) => {
-			dispatch(setKeywordValue(value));
-		}, 350),
-		[]
-	);
+	// const debouncedSearchHandler = useCallback(
+	// 	debounce((value: string) => {
+	// 		dispatch(setKeywordValue(value));
+	// 	}, 350),
+	// 	[]
+	// );
+
+	console.log(keywordValue);
 
 	const fetchHandler = () => {
 		if (keywordValue.trim() === "") return;
@@ -53,9 +55,10 @@ const SearchInput: FC<SearchInputProps> = ({}) => {
 				<Input
 					className="bg-black text-white border-2 placeholder:text-white pr-7"
 					innerRef={searchRef}
-					// value={keywordValue}
+					value={keywordValue}
 					placeholder="Food name"
-					onChange={(e) => debouncedSearchHandler(e.target.value)}
+					// onChange={(e) => debouncedSearchHandler(e.target.value)}
+					onChange={(e) => keywordChangeHandler(e)}
 					// onKeyDown={(e) => {
 					// 	if (e.key === "Enter") {
 					// 		foodFetchHandler();

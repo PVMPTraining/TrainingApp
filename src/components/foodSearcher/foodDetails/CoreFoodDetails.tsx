@@ -86,7 +86,7 @@ const CoreFoodDetails: FC<CoreFoodDetailsProps> = ({}) => {
 			<div className="w-full flex flex-col">
 				<p>Daily goal achievement percentage with this</p>
 				<div className="flex flex-wrap gap-5 items-center justify-center w-full mt-2">
-					<div className="flex flex-col text-center w-[35%]">
+					<div className="flex flex-col text-center w-[40%]">
 						<p>Calorie</p>
 						<div className="w-full bg-red-500 h-2 rounded-md">
 							<div className="bg-blue-500 h-full max-w-[100%] rounded-md" style={{ width: caloriePercentage + "%" }}></div>
@@ -96,7 +96,7 @@ const CoreFoodDetails: FC<CoreFoodDetailsProps> = ({}) => {
 							<p>of 2500 kcal</p>
 						</div>
 					</div>
-					<div className="flex flex-col text-center w-[35%]">
+					<div className="flex flex-col text-center w-[40%]">
 						<p>Protein</p>
 						<div className="w-full bg-red-500 h-2 rounded-md">
 							<div className="bg-blue-500 h-full max-w-[100%] rounded-md" style={{ width: proteinPercentage + "%" }}></div>
@@ -106,7 +106,7 @@ const CoreFoodDetails: FC<CoreFoodDetailsProps> = ({}) => {
 							<p>of 150 gram</p>
 						</div>
 					</div>
-					<div className="flex flex-col text-center w-[35%]">
+					<div className="flex flex-col text-center w-[40%]">
 						<p>Carbohydrate</p>
 						<div className="w-full bg-red-500 h-2 rounded-md">
 							<div className="bg-blue-500 h-full max-w-[100%] rounded-md" style={{ width: carbohydratePercentage + "%" }}></div>
@@ -116,7 +116,7 @@ const CoreFoodDetails: FC<CoreFoodDetailsProps> = ({}) => {
 							<p>of 370 gram</p>
 						</div>
 					</div>
-					<div className="flex flex-col text-center w-[35%]">
+					<div className="flex flex-col text-center w-[40%]">
 						<p>Fat</p>
 						<div className="w-full bg-red-500 h-2 rounded-md">
 							<div className="bg-blue-500 h-full max-w-[100%] rounded-md" style={{ width: fatPercentage + "%" }}></div>

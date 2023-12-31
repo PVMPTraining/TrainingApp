@@ -201,9 +201,11 @@ const FoodDetailsPage: FC = () => {
 
 	// const fatIntakePercentage = ((currentBrandFoodData.nutriments.fat_100g / 60) * 100).toFixed(2);
 
+	console.log(keywordValue);
+
 	return (
 		<>
-			<Link href={"/nutrition/tools"}>Back {keywordValue} search results</Link>
+			<Link href={"/nutrition/tools"}>Back to {keywordValue} search results</Link>
 			{coreFoodData ? <CoreFoodDetails /> : <BrandFoodDetails />}
 		</>
 	);

@@ -11,7 +11,7 @@ const BrandFoodWrapper: FC<BrandFoodWrapperProps> = ({}) => {
 	const { brandFoodData } = useSelector((state: RootState) => state.foodFetch);
 
 	return (
-		<div className="flex flex-col gap-5 mt-5 relative max-w-xs">
+		<div className="flex gap-2 gap-y-10 mt-5 relative flex-wrap justify-center">
 			{brandFoodData && brandFoodData.products?.length >= 1 && brandFoodData.products.map((food) => <BrandFoodCard key={food._id} food={food} />)}
 		</div>
 	);

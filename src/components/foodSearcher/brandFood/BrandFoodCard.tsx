@@ -5,6 +5,22 @@ import { AppDispatch, RootState } from "@/src/utils/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { BrandFoodSearchResultTypes } from "@/src/types/types";
 import { setChosenBrandFood } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
+import Link from "next/link";
+
+// This function is might be good or not i don't know actually, i saw same brand names has repetition like rügenwalder, rügenwalder... like 6 times i decided to write this function
+const brandNameRepetitionPreventer = (name: string) => {
+	const nameSplit = name.split(", ");
+	const nameSet = new Set(nameSplit);
+	const nameWithoutRepetition = Array.from(nameSet).join(", ");
+
+	return nameWithoutRepetition;
+};
+
+const brandServingSizeValueAdjuster = (value: string) => {
+	const adjustedValue = value.replace(" ", "");
+
+	return adjustedValue;
+};
 
 interface BrandFoodCardProps {
 	food: BrandFoodSearchResultTypes;
@@ -19,66 +35,61 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 	};
 
 	return (
-		<div>
-			<div
-				key={food._id}
-				className={`bg-black text-white p-2 rounded-md flex flex-col gap-5 justify-between relative ${
-					food.product_name_en
-						? food.product_name_en
-						: food.product_name
-							? food.product_name
-							: food.abbreviated_product_name
-								? food.abbreviated_product_name
-								: food.generic_name_en
-									? food.generic_name_en
-									: food.generic_name_de
-										? food.generic_name_de
-										: food.generic_name_fr
-											? food.generic_name_fr
-											: food.generic_name
-												? food.generic_name
-												: "hidden"
-				}`}
-				onClick={() => selectBrandFoodHandler(food)}
-			>
-				<div className="flex flex-col">
-					<div className="self-center">
-						{food.image_small_url ? (
-							<img
-								// src={food.image_front_small_url ? food.image_front_small_url : food.image_ingredients_ingredients_url}
-								src={food.image_small_url}
-								loading="lazy"
-								style={{ objectFit: "contain", width: "auto", height: "auto" }}
-							/>
-						) : (
-							<div className="w-full h-[186px] bg-white"></div>
-						)}
-					</div>
-					<p className="text-xl">
-						{food.brands ? food.brands + " - " : ""}
-						{/* {food.generic_name_en
-											? food.generic_name_en
-											: food.generic_name_de
-											? food.generic_name_de
-											: food.generic_name_fr
-											? food.generic_name_fr
-											: food.generic_name} */}
-						{/* {food.abbreviated_product_name} */}
+		<div
+			key={food._id}
+			className={`bg-black text-white p-2 rounded-md flex flex-col gap-4 justify-between relative w-[165px] ${
+				food.product_name_en
+					? food.product_name_en
+					: food.product_name
+					? food.product_name
+					: food.abbreviated_product_name
+					? food.abbreviated_product_name
+					: food.generic_name_en
+					? food.generic_name_en
+					: food.generic_name_de
+					? food.generic_name_de
+					: food.generic_name_fr
+					? food.generic_name_fr
+					: food.generic_name
+					? food.generic_name
+					: "hidden"
+			}`}
+			onClick={() => selectBrandFoodHandler(food)}
+		>
+			<div className="flex flex-col justify-between gap-2 h-full">
+				<div className="self-center h-[150px]">
+					{food.image_small_url ? (
+						<img src={food.image_small_url} loading="lazy" style={{ objectFit: "contain", width: "100%", height: "100%" }} />
+					) : (
+						<img
+							src={"/assets/no-image-icon.png"}
+							className="w-full h-[186px] bg-white"
+							loading="lazy"
+							style={{ objectFit: "contain", width: "100%", height: "100%" }}
+						/>
+					)}
+				</div>
+				<p className="text-center">
+					<strong className="text-lg">{food.brands ? brandNameRepetitionPreventer(food.brands) : ""}</strong>
+					<br />
+					<span className="tracking-tighter text-left">
 						{food.product_name_en
 							? food.product_name_en
 							: food.product_name
-								? food.product_name
-								: food.abbreviated_product_name
-									? food.abbreviated_product_name
-									: food.generic_name_en
-										? food.generic_name_en
-										: food.generic_name_de
-											? food.generic_name_de
-											: food.generic_name_fr
-												? food.generic_name_fr
-												: food.generic_name}
-					</p>
-					<p className="mt-2">
+							? food.product_name
+							: food.abbreviated_product_name
+							? food.abbreviated_product_name
+							: food.generic_name_en
+							? food.generic_name_en
+							: food.generic_name_de
+							? food.generic_name_de
+							: food.generic_name_fr
+							? food.generic_name_fr
+							: food.generic_name}
+					</span>
+				</p>
+				<div className="space-y-2">
+					<p>
 						Nutrition score:{" "}
 						{food.nutrition_grades ? (
 							<strong
@@ -86,13 +97,13 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 									food.nutrition_grades === "a"
 										? "text-green-500"
 										: food.nutrition_grades === "b"
-											? "text-green-300"
-											: food.nutrition_grades === "c"
-												? "text-yellow-400"
-												: food.nutrition_grades === "d"
-													? "text-orange-400"
-													: "text-red-500"
-								} text-xl`}
+										? "text-green-300"
+										: food.nutrition_grades === "c"
+										? "text-yellow-400"
+										: food.nutrition_grades === "d"
+										? "text-orange-400"
+										: "text-red-500"
+								}`}
 							>
 								{food.nutrition_grades.toUpperCase()}
 							</strong>
@@ -100,30 +111,81 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 							"?"
 						)}
 					</p>
-					{/* <p className="text-base text-gray-300">
-										{food.foodNutrients
-											?.filter(
-												(nutrient) =>
-													nutrient.nutrientName.includes("Energy") ||
-													(nutrient.nutrientName.includes("Energy") && nutrient.nutrientName.includes("General"))
-											)
-											.find((energy) => energy.unitName === "KCAL")?.value ?? 0}{" "}
-										kcal, 100g
-									</p> */}
-					<button
-						// onClick={() => {
-						// 	foodDetailModalShowHandler(food);
-						// }}
-						className="self-start mt-5 rounded-md font-bold"
-					>
-						See food details
-					</button>
+					<p className="text-sm tracking-tighter text-green-400">
+						Service size{" "}
+						{food.serving_size && (food.nutriments["energy-kcal_serving"] || food.nutriments["energy-kj_serving"])
+							? brandServingSizeValueAdjuster(food.serving_size)
+							: "100g"}{" "}
+					</p>
+					<p>
+						Energy:{" "}
+						{food.serving_size
+							? food.nutriments["energy-kcal_serving"]
+								? food.nutriments["energy-kcal_serving"].toFixed(1) + " kcal"
+								: food.nutriments["energy-kj_serving"]
+								? (food.nutriments["energy-kj_serving"] / 4.184).toFixed(1) + " kcal"
+								: (food.nutriments["energy-kj_100g"] / 4.184).toFixed(1) + " kcal"
+							: food.nutriments["energy-kcal_100g"].toFixed(1) + " kcal"}
+					</p>
+					<p>
+						Protein:{" "}
+						{food.serving_size
+							? food.nutriments.proteins_serving
+								? food.nutriments.proteins_serving.toFixed(1) + " g"
+								: food.nutriments.proteins_100g
+								? food.nutriments.proteins_100g.toFixed(1) + " g"
+								: "-"
+							: food.nutriments.proteins_100g
+							? food.nutriments.proteins_100g.toFixed(1) + " g"
+							: "-"}
+					</p>
+					<p>
+						Carbohydrate:{" "}
+						{food.serving_size
+							? food.nutriments.carbohydrates_serving
+								? food.nutriments.carbohydrates_serving.toFixed(1) + " g"
+								: food.nutriments.carbohydrates_100g
+								? food.nutriments.carbohydrates_100g.toFixed(1) + " g"
+								: "-"
+							: food.nutriments.carbohydrates_100g
+							? food.nutriments.carbohydrates_100g.toFixed(1) + " g"
+							: "-"}
+					</p>
+					<p>
+						Fat:{" "}
+						{food.serving_size
+							? food.nutriments.fat_serving
+								? food.nutriments.fat_serving.toFixed(1) + " g"
+								: food.nutriments.fat_100g
+								? food.nutriments.fat_100g.toFixed(1) + " g"
+								: "-"
+							: food.nutriments.fat_100g
+							? food.nutriments.fat_100g.toFixed(1) + " g"
+							: "-"}
+					</p>
 				</div>
-				<Button className="bg-white text-black self-center rounded-md font-bold" onClick={(e) => e.stopPropagation()}>
-					Add to diet
-				</Button>
-				{selectedBrandFoodData?._id === food._id && <BrandFoodDetailCard food={food} />}
+				<div className="flex flex-col items-center gap-2">
+					<Link
+						href={`/nutrition/tools/${food._id}}`}
+						className="bg-white text-black self-center btn"
+						onClick={() => dispatch(setChosenBrandFood(food))}
+					>
+						See all details
+					</Link>
+					{/* <button
+					// onClick={() => {
+					// 	foodDetailModalShowHandler(food);
+					// }}
+					className="self-start rounded-md font-bold"
+				>
+					Go to all details
+				</button> */}
+					<Button className="bg-white text-black rounded-md font-bold" onClick={(e) => e.stopPropagation()}>
+						Add to diary
+					</Button>
+				</div>
 			</div>
+			{/* {selectedBrandFoodData?._id === food._id && <BrandFoodDetailCard food={food} />} */}
 		</div>
 	);
 };

@@ -257,6 +257,7 @@ export type BrandFoodSearchResultTypes = {
 	image_small_url: string;
 	image_thumb_url: string;
 	nutrition_grades: string;
+	serving_size: string;
 };
 
 export type BrandFoodFetchDataTypes = {
