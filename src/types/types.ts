@@ -26,54 +26,6 @@ export interface Database {
 	};
 }
 
-export enum EXERCISE_TYPE {
-	Compound,
-	Cardio,
-	Isolation,
-	Stretching,
-	Calisthenics,
-	Plyometrics
-}
-
-export interface ExerciseData {
-	id: string;
-	created_at: string;
-	name: string;
-	alternate_name: string[];
-	primary_muscles: string[];
-	secondary_muscles: string[];
-	description: string;
-	proper_form: string;
-	modifications: string[];
-	load: string;
-	volume: string;
-	progression: string;
-	rest_period: string;
-	precautions: string[];
-	common_mistakes: string[];
-	risks: string[];
-	mandatory_equipment: string[];
-	optional_equipment: string[];
-	alternative_exercises: string[];
-	exercise_type: EXERCISE_TYPE;
-}
-
-export interface RecipesData {
-	id: string;
-	created_at: string;
-	name: string;
-	diet_type: string[];
-	free_from: string[];
-	high_content: string[];
-	low_content: string[];
-	cuisine_type: string[];
-	meal_type: string[];
-	fitness_goal: string[];
-	special_features: string[];
-	skill_level: string[];
-	equipment: string[];
-}
-
 type FoodAggregationsTypes = {
 	dataType: {
 		Branded: number;

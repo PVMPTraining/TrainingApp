@@ -10,7 +10,7 @@ interface LabelsProps extends HTMLAttributes<HTMLElement> {
 
 export const Labels: FC<LabelsProps> = ({ className, input, topLeftLabel, topRightLabel, bottomLeftLabel, bottomRightLabel }) => {
 	return (
-		<label className={["form-control w-full", className].join(" ")}>
+		<div className={["form-control w-full", className].join(" ")}>
 			{(topLeftLabel || topRightLabel) && (
 				<div className="label">
 					{topLeftLabel && <span className="label-text">{topLeftLabel}</span>}
@@ -24,6 +24,6 @@ export const Labels: FC<LabelsProps> = ({ className, input, topLeftLabel, topRig
 					<span className="label-text-alt">{bottomRightLabel}</span>
 				</div>
 			)}
-		</label>
+		</div>
 	);
 };
