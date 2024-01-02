@@ -4,16 +4,16 @@ import { useState, useEffect } from "react";
 
 import { GetRecipes } from "src/utils/helpers/supabase";
 import { Log, LogLevel } from "src/utils/helpers/debugLog";
-import { RecipesData } from "@/src/types/types";
+import { RecipesData } from "@/src/types/supabaseDataTypes";
 
-export const useFetchUserExercsiseDatabase = () => {
+export const useFetchRecipes = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [recipes, setRecpies] = useState<RecipesData[]>([]);
 
 	useEffect(() => {
 		const fetchPosts = async () => {
 			const recipes = await GetRecipes();
-			Log(LogLevel.DEBUG, `useFetchUserExercsiseDatabase:`, recipes);
+			Log(LogLevel.DEBUG, `useFetchRecipes:`, recipes);
 			if (recipes) {
 				setRecpies(recipes);
 			}

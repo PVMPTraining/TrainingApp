@@ -3,6 +3,7 @@ import { Button } from "@/src/components/UI/Button/Button";
 import { Labels } from "@/src/components/UI/Labels/Labels";
 import { FC, HTMLAttributes, useState } from "react";
 import { CheckboxState, ThreeStateCheckbox } from "@/src/components/UI/ThreeStateCheckbox/ThreeStateCheckbox";
+import { FilterObject, FilterType } from "@/src/components/filter/Filters";
 
 interface FilterCheckboxGroupProps extends HTMLAttributes<HTMLElement> {
 	topLeftLabel?: string | React.ReactNode;
@@ -10,7 +11,7 @@ interface FilterCheckboxGroupProps extends HTMLAttributes<HTMLElement> {
 	bottomLeftLabel?: string | React.ReactNode;
 	bottomRightLabel?: string | React.ReactNode;
 	options: string[];
-	selectionCallback: (prevValue: any) => void;
+	selectionCallback: (prevValue: (prevValue: FilterObject[]) => FilterObject[]) => void;
 }
 
 export const FilterCheckboxGroup: FC<FilterCheckboxGroupProps> = ({
@@ -48,21 +49,21 @@ export const FilterCheckboxGroup: FC<FilterCheckboxGroupProps> = ({
 										onChangeCallback={(state) => {
 											switch (state) {
 												case CheckboxState.NotChecked:
-													selectionCallback((prevValue: any[]) => {
+													selectionCallback((prevValue: FilterObject[]) => {
 														prevValue.filter((equipment) => equipment.name !== option);
 														return [];
 													});
 													break;
 												case CheckboxState.Include:
-													selectionCallback((prevValue: any[]) => {
+													selectionCallback((prevValue: FilterObject[]) => {
 														const updatedValue = prevValue.filter((equipment) => equipment.name !== option);
-														return [...updatedValue, { name: option, include: true }];
+														return [...updatedValue, { name: option, include: true, type: FilterType.Checkbox }];
 													});
 													break;
 												case CheckboxState.Exclude:
-													selectionCallback((prevValue: any[]) => {
+													selectionCallback((prevValue: FilterObject[]) => {
 														const updatedValue = prevValue.filter((equipment) => equipment.name !== option);
-														return [...updatedValue, { name: option, include: false }];
+														return [...updatedValue, { name: option, include: false, type: FilterType.Checkbox }];
 													});
 													break;
 											}

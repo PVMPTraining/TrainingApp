@@ -54,16 +54,16 @@ const BrandFoodDetailCard: FC<BrandFoodDetailCardProps> = ({ food }) => {
 						{food.product_name_en
 							? food.product_name_en
 							: food.product_name
-							? food.product_name
-							: food.abbreviated_product_name
-							? food.abbreviated_product_name
-							: food.generic_name_en
-							? food.generic_name_en
-							: food.generic_name_de
-							? food.generic_name_de
-							: food.generic_name_fr
-							? food.generic_name_fr
-							: food.generic_name}
+								? food.product_name
+								: food.abbreviated_product_name
+									? food.abbreviated_product_name
+									: food.generic_name_en
+										? food.generic_name_en
+										: food.generic_name_de
+											? food.generic_name_de
+											: food.generic_name_fr
+												? food.generic_name_fr
+												: food.generic_name}
 					</p>
 				</p>
 				<p>Nutrition Information based on 100 gr</p>

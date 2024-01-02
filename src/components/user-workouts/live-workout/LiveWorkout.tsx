@@ -12,7 +12,7 @@ import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { Input } from "@/src/components/UI/Input/Input";
 import { Modal } from "@/src/components/UI/Modal/Modal";
-import { ExerciseData } from "@/src/types/types";
+import { ExerciseData } from "@/src/types/supabaseDataTypes";
 import { formatTimeHHMMSS, convertSecondsToTime } from "@/src/utils/helpers/dateHelpers";
 
 enum workoutState {
