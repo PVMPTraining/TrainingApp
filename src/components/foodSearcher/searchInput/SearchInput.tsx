@@ -25,7 +25,7 @@ const SearchInput: FC<SearchInputProps> = ({}) => {
 	// 	[]
 	// );
 
-	console.log(keywordValue);
+	console.log(brandFoodData);
 
 	const fetchHandler = () => {
 		if (keywordValue.trim() === "") return;

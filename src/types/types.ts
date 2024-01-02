@@ -152,6 +152,7 @@ type BrandFoodNutrimentTypes = {
 	[index: string]: number | string;
 	carbohydrates: number;
 	carbohydrates_100g: number;
+	carbohydrates_prepared_serving: number;
 	carbohydrates_serving: number;
 	carbohydrates_unit: string;
 	carbohydrates_value: number;
@@ -162,12 +163,14 @@ type BrandFoodNutrimentTypes = {
 	"energy-kcal": number;
 	"energy-kcal_100g": number;
 	"energy-kcal_serving": number;
+	"energy-kcal_prepared_serving": number;
 	"energy-kcal_unit": string;
 	"energy-kcal_value": number;
 	"energy-kcal_value_computed": number;
 	"energy-kj": number;
 	"energy-kj_100g": number;
 	"energy-kj_serving": number;
+	"energy-kj_prepared_serving": number;
 	"energy-kj_unit": string;
 	"energy-kj_value": number;
 	"energy-kj_value_computed": number;
@@ -177,6 +180,7 @@ type BrandFoodNutrimentTypes = {
 	energy_value: number;
 	fat: number;
 	fat_100g: number;
+	fat_prepared_serving: number;
 	fat_serving: number;
 	fat_unit: string;
 	fat_value: number;
@@ -207,6 +211,7 @@ type BrandFoodNutrimentTypes = {
 	proteins: number;
 	proteins_100g: number;
 	proteins_serving: number;
+	proteins_prepared_serving: number;
 	proteins_unit: string;
 	proteins_value: number;
 	salt: number;
@@ -241,6 +246,7 @@ type BrandFoodIngredientsTypes = {
 }[];
 
 export type BrandFoodSearchResultTypes = {
+	completeness: number;
 	_id: string;
 	nutriments: BrandFoodNutrimentTypes;
 	ingredients: BrandFoodIngredientsTypes;
@@ -258,6 +264,7 @@ export type BrandFoodSearchResultTypes = {
 	image_thumb_url: string;
 	nutrition_grades: string;
 	serving_size: string;
+	serving_quantity: number;
 };
 
 export type BrandFoodFetchDataTypes = {

@@ -19,6 +19,7 @@ const getNutrientValue = (nutrient: string, unit: string, data: BrandFoodSearchR
 	switch (unit) {
 		case "g":
 		case "kcal":
+		case "kJ":
 			return nutrientData;
 		case "mg":
 			return (nutrientData as number) * 1000;
@@ -28,8 +29,13 @@ const getNutrientValue = (nutrient: string, unit: string, data: BrandFoodSearchR
 };
 
 const checkAndDisplayNutrientValue = (nutrient: string, nutrientValues: any, unit: string) => {
-	const value = nutrientValues[nutrient];
-	return value > 0 ? `${value} ${unit}` : "-";
+	let value = 0;
+	if (nutrient.includes("kj_100g") || nutrient.includes("kj_serving") || nutrient.includes("kj_prepared_serving")) {
+		value = nutrientValues[nutrient] / 4.184;
+	} else {
+		value = nutrientValues[nutrient];
+	}
+	return value > 0 ? `${value.toFixed(1)} ${unit}` : "-";
 };
 
 interface BrandFoodDetailsProps {}
@@ -43,23 +49,58 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 
 	const nutrientMapping = {
 		"energy-kcal_100g": "kcal",
+		"energy-kcal_serving": "kcal",
+		"energy-kcal_prepared_serving": "kcal",
+		"energy-kj_prepared_serving": "kcal",
+		"energy-kj_100g": "kJ",
+		"energy-kj_serving": "kJ",
 		carbohydrates_100g: "g",
+		carbohydrates_serving: "g",
+		carbohydrates_prepared_serving: "g",
 		sugars_100g: "g",
+		sugars_serving: "g",
+		sugars_prepared_serving: "g",
 		fiber_100g: "g",
+		fiber_serving: "g",
+		fiber_prepared_serving: "g",
 		fat_100g: "g",
+		fat_serving: "g",
+		fat_prepared_serving: "g",
 		"trans-fat_100g": "g",
+		"trans-fat_prepared_serving": "g",
+		"trans-fat_serving": "g",
 		"saturated-fat_100g": "g",
+		"saturated-fat_prepared_serving": "g",
+		"saturated-fat_serving": "g",
 		cholesterol_100g: "g",
+		cholesterol_serving: "mg",
+		cholesterol_prepared_serving: "mg",
 		proteins_100g: "g",
+		proteins_serving: "g",
+		proteins_prepared_serving: "g",
 		"omega-3-fat_100g": "g",
 		caffeine_100g: "g",
 		iron_100g: "mg",
+		iron_serving: "mg",
+		iron_prepared_serving: "mg",
 		magnesium_100g: "mg",
+		magnesium_serving: "mg",
+		magnesium_prepared_serving: "mg",
 		potassium_100g: "mg",
+		potassium_serving: "mg",
+		potassium_prepared_serving: "mg",
 		zinc_100g: "mg",
+		zinc_serving: "mg",
+		zinc_prepared_serving: "mg",
 		salt_100g: "g",
+		salt_serving: "g",
+		salt_prepared_serving: "g",
 		sodium_100g: "mg",
+		sodium_serving: "mg",
+		sodium_prepared_serving: "mg",
 		calcium_100g: "mg",
+		calcium_serving: "mg",
+		calcium_prepared_serving: "mg",
 		"vitamin-d_100g": "µg",
 		"vitamin-b12_100g": "µg",
 		"vitamin-b6_100g": "mg",
@@ -79,22 +120,74 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 		? selectedBrandFoodData.product_name_en
 			? selectedBrandFoodData.product_name_en
 			: selectedBrandFoodData.product_name
-				? selectedBrandFoodData.product_name
-				: selectedBrandFoodData.abbreviated_product_name
-					? selectedBrandFoodData.abbreviated_product_name
-					: selectedBrandFoodData.generic_name_en
-						? selectedBrandFoodData.generic_name_en
-						: selectedBrandFoodData.generic_name_de
-							? selectedBrandFoodData.generic_name_de
-							: selectedBrandFoodData.generic_name_fr
-								? selectedBrandFoodData.generic_name_fr
-								: selectedBrandFoodData.generic_name
+			? selectedBrandFoodData.product_name
+			: selectedBrandFoodData.abbreviated_product_name
+			? selectedBrandFoodData.abbreviated_product_name
+			: selectedBrandFoodData.generic_name_en
+			? selectedBrandFoodData.generic_name_en
+			: selectedBrandFoodData.generic_name_de
+			? selectedBrandFoodData.generic_name_de
+			: selectedBrandFoodData.generic_name_fr
+			? selectedBrandFoodData.generic_name_fr
+			: selectedBrandFoodData.generic_name
 		: "";
 
-	const caloriePercentage = percentageCalculator(2500, nutrientValues["energy-kcal_100g"] as number);
-	const proteinPercentage = percentageCalculator(150, nutrientValues["proteins_100g"] as number);
-	const carbohydratePercentage = percentageCalculator(370, nutrientValues["carbohydrates_100g"] as number);
-	const fatPercentage = percentageCalculator(72, nutrientValues["fat_100g"] as number);
+	const caloriePercentage = percentageCalculator(
+		2500,
+		selectedBrandFoodData?.serving_size || selectedBrandFoodData?.serving_quantity
+			? selectedBrandFoodData.nutriments["energy-kcal_serving"]
+				? selectedBrandFoodData.nutriments["energy-kcal_serving"]
+				: selectedBrandFoodData.nutriments["energy-kj_serving"]
+				? selectedBrandFoodData.nutriments["energy-kj_serving"] / 4.184
+				: selectedBrandFoodData.nutriments["energy-kcal_prepared_serving"]
+				? selectedBrandFoodData.nutriments["energy-kcal_prepared_serving"]
+				: selectedBrandFoodData.nutriments["energy-kj_prepared_serving"]
+				? selectedBrandFoodData.nutriments["energy-kj_prepared_serving"] / 4.184
+				: selectedBrandFoodData.nutriments["energy-kj_100g"] / 4.184
+			: (selectedBrandFoodData?.nutriments["energy-kcal_100g"] as number)
+	);
+	const proteinPercentage = percentageCalculator(
+		150,
+		selectedBrandFoodData?.serving_quantity || selectedBrandFoodData?.serving_size
+			? selectedBrandFoodData.nutriments.proteins_serving
+				? selectedBrandFoodData.nutriments.proteins_serving
+				: selectedBrandFoodData.nutriments.proteins_100g
+				? selectedBrandFoodData.nutriments.proteins_100g
+				: selectedBrandFoodData.nutriments.proteins_prepared_serving
+				? selectedBrandFoodData.nutriments.proteins_prepared_serving
+				: 0
+			: selectedBrandFoodData?.nutriments.proteins_100g
+			? (selectedBrandFoodData.nutriments.proteins_100g as number)
+			: 0
+	);
+	const carbohydratePercentage = percentageCalculator(
+		370,
+		selectedBrandFoodData?.serving_quantity || selectedBrandFoodData?.serving_size
+			? selectedBrandFoodData.nutriments.carbohydrates_serving
+				? selectedBrandFoodData.nutriments.carbohydrates_serving
+				: selectedBrandFoodData.nutriments.carbohydrates_100g
+				? selectedBrandFoodData.nutriments.carbohydrates_100g
+				: selectedBrandFoodData.nutriments.carbohydrates_prepared_serving
+				? selectedBrandFoodData.nutriments.carbohydrates_prepared_serving
+				: 0
+			: selectedBrandFoodData?.nutriments.carbohydrates_100g
+			? (selectedBrandFoodData.nutriments.carbohydrates_100g as number)
+			: 0
+	);
+	const fatPercentage = percentageCalculator(
+		72,
+		selectedBrandFoodData?.serving_quantity || selectedBrandFoodData?.serving_size
+			? selectedBrandFoodData.nutriments.fat_serving
+				? (selectedBrandFoodData.nutriments.fat_serving as number)
+				: selectedBrandFoodData.nutriments.fat_100g
+				? (selectedBrandFoodData.nutriments.fat_100g as number)
+				: selectedBrandFoodData.nutriments.fat_prepared_serving
+				? (selectedBrandFoodData.nutriments.fat_prepared_serving as number)
+				: 0
+			: selectedBrandFoodData?.nutriments.fat_100g
+			? (selectedBrandFoodData.nutriments.fat_100g as number)
+			: 0
+	);
 
 	console.log(nutrientValues, selectedBrandFoodData);
 
@@ -102,25 +195,163 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 		<div className="mt-5 divide-y-2 space-y-2">
 			<p className="text-2xl font-bold">{brandName + " - " + productName}</p>
 			<Button>Add meal</Button>
-			<p className="border-none">Serving size 100 grams</p>
-			<p>Calorie: {checkAndDisplayNutrientValue("energy-kcal_100g", nutrientValues, "kcal")}</p>
-			<p>Protein: {checkAndDisplayNutrientValue("proteins_100g", nutrientValues, "g")}</p>
+			<p className="border-none">
+				Serving size{" "}
+				{selectedBrandFoodData?.serving_quantity &&
+				(selectedBrandFoodData?.nutriments["energy-kcal_serving"] ||
+					selectedBrandFoodData?.nutriments["energy-kj_serving"] ||
+					selectedBrandFoodData?.nutriments["energy-kcal_prepared_serving"] ||
+					selectedBrandFoodData?.nutriments["energy-kj_prepared_serving"])
+					? selectedBrandFoodData?.serving_quantity + "g"
+					: selectedBrandFoodData?.serving_size && !selectedBrandFoodData?.serving_quantity
+					? selectedBrandFoodData?.serving_size
+					: selectedBrandFoodData?.nutriments["energy-kcal_100g"] || selectedBrandFoodData?.nutriments["energy-kj_100g"]
+					? "100g"
+					: "Unknown"}{" "}
+			</p>
+
+			<p>
+				Calorie:{" "}
+				{checkAndDisplayNutrientValue(
+					selectedBrandFoodData?.serving_size || selectedBrandFoodData?.serving_quantity
+						? selectedBrandFoodData.nutriments["energy-kcal_serving"]
+							? "energy-kcal_serving"
+							: selectedBrandFoodData.nutriments["energy-kj_serving"]
+							? "energy-kj_serving"
+							: selectedBrandFoodData.nutriments["energy-kcal_prepared_serving"]
+							? "energy-kcal_prepared_serving"
+							: selectedBrandFoodData.nutriments["energy-kj_prepared_serving"]
+							? "energy-kj_prepared_serving"
+							: "energy-kj_100g"
+						: selectedBrandFoodData?.nutriments["energy-kcal_100g"]
+						? "energy-kcal_100g"
+						: "energy-kj_100g",
+					nutrientValues,
+					"kcal"
+				)}
+			</p>
+			<p>
+				Protein:{" "}
+				{checkAndDisplayNutrientValue(
+					selectedBrandFoodData?.serving_size || selectedBrandFoodData?.serving_quantity
+						? selectedBrandFoodData.nutriments.proteins_serving
+							? "proteins_serving"
+							: selectedBrandFoodData.nutriments.proteins_prepared_serving
+							? "proteins_prepared_serving"
+							: "proteins_100g"
+						: selectedBrandFoodData?.nutriments.proteins_100g
+						? "proteins_100g"
+						: "",
+					nutrientValues,
+					"g"
+				)}
+			</p>
 			<div>
-				<p>Carbohydrate: {checkAndDisplayNutrientValue("carbohydrates_100g", nutrientValues, "g")}</p>
+				<p>
+					Carbohydrate:{" "}
+					{checkAndDisplayNutrientValue(
+						selectedBrandFoodData?.serving_size || selectedBrandFoodData?.serving_quantity
+							? selectedBrandFoodData.nutriments.carbohydrates_serving
+								? "carbohydrates_serving"
+								: selectedBrandFoodData.nutriments.carbohydrates_prepared_serving
+								? "carbohydrates_prepared_serving"
+								: "carbohydrates_100g"
+							: selectedBrandFoodData?.nutriments.carbohydrates_100g
+							? "carbohydrates_100g"
+							: "",
+						nutrientValues,
+						"g"
+					)}
+				</p>
 				<div className="ml-5">
-					<p>Fiber: {checkAndDisplayNutrientValue("fiber_100g", nutrientValues, "g")}</p>
-					<p>Sugars: {checkAndDisplayNutrientValue("sugars_100g", nutrientValues, "g")}</p>
+					<p>
+						Fiber:{" "}
+						{checkAndDisplayNutrientValue(
+							selectedBrandFoodData?.serving_size || selectedBrandFoodData?.serving_quantity
+								? selectedBrandFoodData.nutriments.fiber_serving
+									? "fiber_serving"
+									: selectedBrandFoodData.nutriments.fiber_prepared_serving
+									? "fiber_prepared_serving"
+									: "fiber_100g"
+								: selectedBrandFoodData?.nutriments.fiber_100g
+								? "fiber_100g"
+								: "",
+							nutrientValues,
+							"g"
+						)}
+					</p>
+					<p>
+						Sugars:{" "}
+						{checkAndDisplayNutrientValue(
+							selectedBrandFoodData?.serving_size || selectedBrandFoodData?.serving_quantity
+								? selectedBrandFoodData.nutriments.sugars_serving
+									? "sugars_serving"
+									: selectedBrandFoodData.nutriments.sugars_prepared_serving
+									? "sugars_prepared_serving"
+									: "sugars_100g"
+								: selectedBrandFoodData?.nutriments.sugars_100g
+								? "sugars_100g"
+								: "",
+							nutrientValues,
+							"g"
+						)}
+					</p>
 				</div>
 			</div>
 			<div>
-				<p>Fat: {checkAndDisplayNutrientValue("fat_100g", nutrientValues, "g")}</p>
+				<p>
+					Fat:{" "}
+					{checkAndDisplayNutrientValue(
+						selectedBrandFoodData?.serving_size || selectedBrandFoodData?.serving_quantity
+							? selectedBrandFoodData.nutriments.fat_serving
+								? "fat_serving"
+								: selectedBrandFoodData.nutriments.fat_prepared_serving
+								? "fat_prepared_serving"
+								: "fat_100g"
+							: selectedBrandFoodData?.nutriments.fat_100g
+							? "fat_100g"
+							: "",
+						nutrientValues,
+						"g"
+					)}
+				</p>
 				<div className="ml-5">
-					<p>Saturated fat: {checkAndDisplayNutrientValue("saturated-fat_100g", nutrientValues, "g")}</p>
+					<p>
+						Saturated fat:{" "}
+						{checkAndDisplayNutrientValue(
+							selectedBrandFoodData?.serving_size || selectedBrandFoodData?.serving_quantity
+								? selectedBrandFoodData.nutriments["saturated-fat_serving"]
+									? "saturated-fat_serving"
+									: selectedBrandFoodData.nutriments["saturated-fat_prepared_serving"]
+									? "saturated-fat_prepared_serving"
+									: "saturated-fat_100g"
+								: selectedBrandFoodData?.nutriments["saturated-fat_100g"]
+								? "saturated-fat_100g"
+								: "",
+							nutrientValues,
+							"g"
+						)}
+					</p>
 					<p>Trans fat: {checkAndDisplayNutrientValue("trans-fat_100g", nutrientValues, "g")}</p>
 					<p>Cholesterol: {checkAndDisplayNutrientValue("cholesterol_100g", nutrientValues, "g")}</p>
 				</div>
 			</div>
-			<p>Salt: {checkAndDisplayNutrientValue("salt_100g", nutrientValues, "g")}</p>
+			<p>
+				Salt:{" "}
+				{checkAndDisplayNutrientValue(
+					selectedBrandFoodData?.serving_size || selectedBrandFoodData?.serving_quantity
+						? selectedBrandFoodData.nutriments.salt_serving
+							? "salt_serving"
+							: selectedBrandFoodData.nutriments.salt_prepared_serving
+							? "salt_prepared_serving"
+							: "salt_100g"
+						: selectedBrandFoodData?.nutriments.salt_100g
+						? "salt_100g"
+						: "",
+					nutrientValues,
+					"g"
+				)}
+			</p>
 			<p>Caffeine: {checkAndDisplayNutrientValue("caffeine_100g", nutrientValues, "g")}</p>
 			<div className="w-full flex flex-col">
 				<p>Daily goal achievement percentage with this</p>
@@ -178,7 +409,22 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 			<p>Iron: {checkAndDisplayNutrientValue("iron_100g", nutrientValues, "mg")}</p>
 			<p>Potassium: {checkAndDisplayNutrientValue("potassium_100g", nutrientValues, "mg")}</p>
 			<p>Magnesium: {checkAndDisplayNutrientValue("magnesium_100g", nutrientValues, "mg")}</p>
-			<p>Sodium: {checkAndDisplayNutrientValue("sodium_100g", nutrientValues, "mg")}</p>
+			<p>
+				Sodium:{" "}
+				{checkAndDisplayNutrientValue(
+					selectedBrandFoodData?.serving_size || selectedBrandFoodData?.serving_quantity
+						? selectedBrandFoodData.nutriments.sodium_serving
+							? "sodium_serving"
+							: selectedBrandFoodData.nutriments.sodium_prepared_serving
+							? "sodium_prepared_serving"
+							: "sodium_100g"
+						: selectedBrandFoodData?.nutriments.sodium_100g
+						? "sodium_100g"
+						: "",
+					nutrientValues,
+					"g"
+				)}
+			</p>
 			<p>Zinc: {checkAndDisplayNutrientValue("zinc_100g", nutrientValues, "mg")}</p>
 		</div>
 	);

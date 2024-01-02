@@ -1,5 +1,5 @@
 import { AppDispatch, RootState } from "@/src/utils/redux/store";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../../UI/Button/Button";
 import BrandFoodCard from "./BrandFoodCard";
@@ -8,11 +8,33 @@ interface BrandFoodWrapperProps {}
 
 const BrandFoodWrapper: FC<BrandFoodWrapperProps> = ({}) => {
 	const dispatch = useDispatch<AppDispatch>();
-	const { brandFoodData } = useSelector((state: RootState) => state.foodFetch);
+	const { brandFoodData, isSearched } = useSelector((state: RootState) => state.foodFetch);
+
+	const filteredBrandFoodData = useMemo(() => {
+		return brandFoodData?.products.filter(
+			(product) =>
+				+product.completeness >= 0.6 &&
+				(product.serving_quantity || product.serving_size) &&
+				(product.nutriments["energy-kcal_serving"] ||
+					product.nutriments["energy-kj_serving"] ||
+					product.nutriments["energy-kcal_prepared_serving"] ||
+					product.nutriments["energy-kj_prepared_serving"] ||
+					product.nutriments["energy-kcal_100g"] ||
+					product.nutriments["energy-kj_100g"])
+		);
+	}, [brandFoodData]);
+
+	console.log(isSearched);
 
 	return (
 		<div className="flex gap-2 gap-y-10 mt-5 relative flex-wrap justify-center">
-			{brandFoodData && brandFoodData.products?.length >= 1 && brandFoodData.products.map((food) => <BrandFoodCard key={food._id} food={food} />)}
+			{isSearched && filteredBrandFoodData ? (
+				filteredBrandFoodData.length >= 1 ? (
+					filteredBrandFoodData.map((food) => <BrandFoodCard key={food._id} food={food} />)
+				) : (
+					<p className="text-center">There is no result to show for this page try another page or another keyword</p>
+				)
+			) : null}
 		</div>
 	);
 };

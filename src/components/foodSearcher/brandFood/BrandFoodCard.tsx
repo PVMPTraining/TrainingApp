@@ -7,14 +7,41 @@ import { BrandFoodSearchResultTypes } from "@/src/types/types";
 import { setChosenBrandFood } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
 import Link from "next/link";
 
+// çerezya keyword causing problem.
+
 // This function is might be good or not i don't know actually, i saw same brand names has repetition like rügenwalder, rügenwalder... like 6 times i decided to write this function
 const brandNameRepetitionPreventer = (name: string) => {
-	const nameSplit = name.split(", ");
+	const nameSplit = name.split(",").map((brand) => brand.trim());
 	const nameSet = new Set(nameSplit);
 	const nameWithoutRepetition = Array.from(nameSet).join(", ");
 
 	return nameWithoutRepetition;
 };
+
+const nutritionValueReceiver = (food: BrandFoodSearchResultTypes, nutrition: string) => {
+	if (food.serving_size) {
+		return food.nutriments.nutrition_serving
+			? parseFloat(food.nutriments.carbohydrates_serving.toFixed(1))
+			: food.nutriments.carbohydrates_100g
+			? parseFloat(food.nutriments.carbohydrates_100g.toFixed(1))
+			: food.nutriments.carbohydrates_prepared_serving
+			? parseFloat(food.nutriments.carbohydrates_prepared_serving.toFixed(1))
+			: 0; // You can set a default value if needed
+	} else {
+		return food.nutriments.carbohydrates_100g ? parseFloat(food.nutriments.carbohydrates_100g.toFixed(1)) : 0; // You can set a default value if needed
+	}
+};
+
+// const brandTagsRepetitionRemover = (tags: string[]) => {
+// 	let uniqueBrands: string[] = [];
+// 	for (let brand of tags) {
+// 		if (!uniqueBrands.includes(brand)) {
+// 			uniqueBrands.push(brand);
+// 		}
+// 	}
+
+// 	return uniqueBrands.join(" ");
+// };
 
 const brandServingSizeValueAdjuster = (value: string) => {
 	const adjustedValue = value.replace(" ", "");
@@ -33,6 +60,8 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 	const selectBrandFoodHandler = (food: BrandFoodSearchResultTypes) => {
 		dispatch(setChosenBrandFood(food));
 	};
+
+	console.log(selectedBrandFoodData);
 
 	return (
 		<div
@@ -69,7 +98,8 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 						/>
 					)}
 				</div>
-				<p className="text-center">
+				<p className="text-center max-w-[140px] break-words">
+					{/* brandNameRepetitionPreventer(food.brands) */}
 					<strong className="text-lg">{food.brands ? brandNameRepetitionPreventer(food.brands) : ""}</strong>
 					<br />
 					<span className="tracking-tighter text-left">
@@ -112,55 +142,81 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 						)}
 					</p>
 					<p className="text-sm tracking-tighter text-green-400">
-						Service size{" "}
-						{food.serving_size && (food.nutriments["energy-kcal_serving"] || food.nutriments["energy-kj_serving"])
-							? brandServingSizeValueAdjuster(food.serving_size)
-							: "100g"}{" "}
+						Serving size{" "}
+						{food.serving_quantity &&
+						(food.nutriments["energy-kcal_serving"] ||
+							food.nutriments["energy-kj_serving"] ||
+							food.nutriments["energy-kcal_prepared_serving"] ||
+							food.nutriments["energy-kj_prepared_serving"])
+							? food.serving_quantity + "g"
+							: food.serving_size && !food.serving_quantity
+							? food.serving_size
+							: food.nutriments["energy-kcal_100g"] || food.nutriments["energy-kj_100g"]
+							? "100g"
+							: "Unknown"}{" "}
 					</p>
 					<p>
 						Energy:{" "}
-						{food.serving_size
+						{(food.serving_quantity || food.serving_size) &&
+						(food.nutriments["energy-kcal_serving"] ||
+							food.nutriments["energy-kj_serving"] ||
+							food.nutriments["energy-kcal_prepared_serving"] ||
+							food.nutriments["energy-kj_prepared_serving"])
 							? food.nutriments["energy-kcal_serving"]
 								? food.nutriments["energy-kcal_serving"].toFixed(1) + " kcal"
 								: food.nutriments["energy-kj_serving"]
 								? (food.nutriments["energy-kj_serving"] / 4.184).toFixed(1) + " kcal"
+								: food.nutriments["energy-kcal_prepared_serving"]
+								? food.nutriments["energy-kcal_prepared_serving"].toFixed(1) + " kcal"
+								: food.nutriments["energy-kj_prepared_serving"]
+								? (food.nutriments["energy-kj_prepared_serving"] / 4.184).toFixed(1) + " kcal"
 								: (food.nutriments["energy-kj_100g"] / 4.184).toFixed(1) + " kcal"
-							: food.nutriments["energy-kcal_100g"].toFixed(1) + " kcal"}
+							: food.nutriments["energy-kcal_100g"]
+							? food.nutriments["energy-kcal_100g"].toFixed(1) + " kcal"
+							: food.nutriments["energy-kj_100g"]
+							? (+food.nutriments["energy-kj_100g"] / 4.184).toFixed(1) + " kcal"
+							: "-"}
 					</p>
 					<p>
 						Protein:{" "}
-						{food.serving_size
+						{food.serving_quantity || food.serving_size
 							? food.nutriments.proteins_serving
-								? food.nutriments.proteins_serving.toFixed(1) + " g"
+								? food.nutriments.proteins_serving.toFixed(1) + "g"
 								: food.nutriments.proteins_100g
-								? food.nutriments.proteins_100g.toFixed(1) + " g"
+								? food.nutriments.proteins_100g.toFixed(1) + "g"
+								: food.nutriments.proteins_prepared_serving
+								? food.nutriments.proteins_prepared_serving.toFixed(1) + "g"
 								: "-"
 							: food.nutriments.proteins_100g
-							? food.nutriments.proteins_100g.toFixed(1) + " g"
+							? food.nutriments.proteins_100g.toFixed(1) + "g"
 							: "-"}
 					</p>
 					<p>
 						Carbohydrate:{" "}
 						{food.serving_size
 							? food.nutriments.carbohydrates_serving
-								? food.nutriments.carbohydrates_serving.toFixed(1) + " g"
+								? food.nutriments.carbohydrates_serving.toFixed(1) + "g"
 								: food.nutriments.carbohydrates_100g
-								? food.nutriments.carbohydrates_100g.toFixed(1) + " g"
+								? food.nutriments.carbohydrates_100g.toFixed(1) + "g"
+								: food.nutriments.carbohydrates_prepared_serving
+								? food.nutriments.carbohydrates_prepared_serving.toFixed(1) + "g"
 								: "-"
 							: food.nutriments.carbohydrates_100g
-							? food.nutriments.carbohydrates_100g.toFixed(1) + " g"
+							? food.nutriments.carbohydrates_100g.toFixed(1) + "g"
 							: "-"}
 					</p>
 					<p>
 						Fat:{" "}
 						{food.serving_size
 							? food.nutriments.fat_serving
-								? food.nutriments.fat_serving.toFixed(1) + " g"
+								? food.nutriments.fat_serving.toFixed(1) + "g"
 								: food.nutriments.fat_100g
-								? food.nutriments.fat_100g.toFixed(1) + " g"
+								? food.nutriments.fat_100g.toFixed(1) + "g"
+								: food.nutriments.fat_prepared_serving
+								? food.nutriments.fat_prepared_serving.toFixed(1) + "g"
 								: "-"
 							: food.nutriments.fat_100g
-							? food.nutriments.fat_100g.toFixed(1) + " g"
+							? food.nutriments.fat_100g.toFixed(1) + "g"
 							: "-"}
 					</p>
 				</div>
