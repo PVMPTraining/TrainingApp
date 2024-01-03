@@ -3,7 +3,6 @@ import { FC, useEffect } from "react";
 
 // Next
 import { useRouter } from "next/navigation";
-import { on } from "events";
 
 import { authPagePath } from "src/pathmap/pathmap";
 

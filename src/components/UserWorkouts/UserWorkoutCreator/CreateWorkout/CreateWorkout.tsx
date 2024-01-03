@@ -1,6 +1,6 @@
 import { FC, InputHTMLAttributes } from "react";
 import { Button } from "@/src/components/UI/Button/Button";
-import { CreateExercise } from "src/components/user-workouts/user-workout-creator/create-exercise/CreateExercise";
+import { CreateExercise } from "src/components/UserWorkouts/UserWorkoutCreator/CreateExercise/CreateExercise";
 import { Workout } from "@/src/types/fitnessTypes";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
 import { Input } from "@/src/components/UI/Input/Input";

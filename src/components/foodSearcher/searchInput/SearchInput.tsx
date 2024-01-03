@@ -1,10 +1,9 @@
 import { FC, useCallback, useRef } from "react";
-import { Button } from "../../UI/Button/Button";
-import { Input } from "../../UI/Input/Input";
+import { Button } from "@/src/components/UI/Button/Button";
+import { Input } from "@/src/components/UI/Input/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/src/utils/redux/store";
 import { fetchBrandedFood, fetchCoreFood, setActivePaginatePage, setKeywordValue } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
-import debounce from "debounce";
 
 interface SearchInputProps {}
 

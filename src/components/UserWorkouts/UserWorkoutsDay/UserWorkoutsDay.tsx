@@ -3,8 +3,8 @@
 import useFetchLoggedUserWorkouts from "@/src/utils/hooks/useFetchLoggedUserWorkouts";
 import { useRouter } from "next/navigation";
 import { FC, ButtonHTMLAttributes, Key, useState, useEffect } from "react";
-import { Card, CardBody } from "src/components/UI/Card/Card";
-import { Button } from "../../UI/Button/Button";
+import { Card, CardBody } from "@/src/components/UI/Card/Card";
+import { Button } from "@/src/components/UI/Button/Button";
 import { timedWorkout } from "@/src/types/fitnessTypes";
 import { formatLongDate } from "@/src/utils/helpers/dateHelpers";
 

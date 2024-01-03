@@ -1,24 +1,12 @@
 "use client";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC } from "react";
 
-import Link from "next/link";
-
-import { Input } from "@/src/components/UI/Input/Input";
-import { Button } from "@/src/components/UI/Button/Button";
-
-import { useDispatch, useSelector } from "react-redux";
-import { setKeywordValue, fetchBrandedFood } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
-import { AppDispatch, RootState } from "@/src/utils/redux/store";
-import { BrandFoodSearchResultTypes, FoodSearchResultTypes } from "@/src/types/types";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/utils/redux/store";
 import { FaSpinner } from "react-icons/fa";
-import ReactPaginate from "react-paginate";
-import CategoryButtons from "./categoryButtons/CategoryButtons";
-import CoreFoodWrapper from "./coreFood/CoreFoodWrapper";
-import SearchInput from "./searchInput/SearchInput";
-import BrandFoodWrapper from "./brandFood/BrandFoodWrapper";
-import { useScrollPosition } from "@/src/utils/hooks/useScrollPosition";
-import SearchInputWrapper from "./searchInput/SearchInputWrapper";
-import ResultsPaginate from "./resultsPaginate/ResultsPaginate";
+import CoreFoodWrapper from "@/src/components/FoodSearcher/CoreFood/CoreFoodWrapper";
+import BrandFoodWrapper from "@/src/components/FoodSearcher/BrandFood/BrandFoodWrapper";
+import SearchInputWrapper from "@/src/components/FoodSearcher/SearchInput/SearchInputWrapper";
 
 // For olive oil they didn't provide a calorie value need to calculate with formula
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import { LoggedWorkoutEditor } from "@/src/components/user-workouts/logged-workout-editor/LoggedWorkoutEditor";
+import { LoggedWorkoutEditor } from "@/src/components/UserWorkouts/LoggedWorkoutEditor/LoggedWorkoutEditor";
 import { useSearchParams } from "next/navigation";
 import NavLayout from "@/src/layouts/NavLayout";
 

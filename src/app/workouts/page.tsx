@@ -6,7 +6,7 @@ import { FC, useState } from "react";
 import NavLayout from "@/src/layouts/NavLayout";
 import { Button } from "@/src/components/UI/Button/Button";
 import { CardBody } from "@/src/components/UI/Card/Card";
-import { SearchBarWithFilter } from "@/src/components/search-bar/SeacrhBarWithFilter";
+import { SearchBarWithFilter } from "@/src/components/SearchBar/SeacrhBarWithFilter";
 
 const WorkoutsPage: FC = () => {
 	const partialBlur: React.CSSProperties = {

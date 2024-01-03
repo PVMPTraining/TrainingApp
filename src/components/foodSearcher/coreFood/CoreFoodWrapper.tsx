@@ -1,7 +1,7 @@
 import { AppDispatch, RootState } from "@/src/utils/redux/store";
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CoreFoodCard from "./CoreFoodCard";
+import CoreFoodCard from "@/src/components/FoodSearcher/CoreFood/CoreFoodCard";
 
 interface CoreFoodWrapperProps {}
 

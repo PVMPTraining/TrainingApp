@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button } from "../../UI/Button/Button";
+import { Button } from "@/src/components/UI/Button/Button";
 
 export const percentageCalculator = (goal: number, value: number) => {
 	const percentage = ((value / goal) * 100).toFixed(2);

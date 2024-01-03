@@ -1,5 +1,5 @@
-import { BottomNav } from "@/src/components/bottom-nav/BottomNav";
-import { PageHeader } from "@/src/components/page-header/PageHeader";
+import { BottomNav } from "@/src/components/BottomNav/BottomNav";
+import { PageHeader } from "@/src/components/PageHeader/PageHeader";
 import React, { ReactNode } from "react";
 
 type BottomNavProps = {

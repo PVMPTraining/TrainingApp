@@ -1,9 +1,9 @@
 import React, { FC, HTMLAttributes, useEffect, useState } from "react";
 import { enumStringArray } from "@/src/utils/helpers/functions";
 import { Toggle } from "@/src/components/UI/Toggle/Toggle";
-import { VisualMuscleSelector } from "@/src/components/visual-muscle-selector/VisualMuscleSelector";
+import { VisualMuscleSelector } from "@/src/components/VisualMuscleSelector/VisualMuscleSelector";
 import { MUSCLE } from "@/src/types/supabase/exerciseData";
-import { LabelsDropdown } from "../../UI/Labels/LabelsDropdown";
+import { LabelsDropdown } from "@/src/components/UI/Labels/LabelsDropdown";
 
 interface FilterVisualMuscleSelectorProps extends HTMLAttributes<HTMLElement> {
 	onChangeCallback: (selectedMuscles: string[]) => void;

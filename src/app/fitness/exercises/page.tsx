@@ -3,12 +3,12 @@
 import { FC, useState } from "react";
 import { useFetchExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 import { Button } from "@/src/components/UI/Button/Button";
-import { Exercise } from "@/src/components/exercise/exercise";
+import { Exercise } from "@/src/components/Exercise/exercise";
 import { EXERCISE_TYPE, ExerciseData, MANDATORY_EQUIPMENT } from "@/src/types/supabase/exerciseData";
 import { Modal } from "@/src/components/UI/Modal/Modal";
-import { FilterType } from "@/src/components/filter/Filters";
+import { FilterType } from "@/src/components/Filter/Filters";
 import NavLayout from "@/src/layouts/NavLayout";
-import { SearchBarWithFilter } from "@/src/components/search-bar/SeacrhBarWithFilter";
+import { SearchBarWithFilter } from "@/src/components/SearchBar/SeacrhBarWithFilter";
 
 const ExercisesPage: FC = () => {
 	const { isLoading, exercises } = useFetchExercsiseDatabase();

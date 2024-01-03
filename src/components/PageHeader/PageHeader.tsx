@@ -1,7 +1,6 @@
 "use client";
 
 import { accountPagePath } from "@/src/pathmap/pathmap";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC, ButtonHTMLAttributes, ReactNode } from "react";
 import { FaChevronLeft, FaUser } from "react-icons/fa";

@@ -4,7 +4,7 @@ import { Button } from "@/src/components/UI/Button/Button";
 import { Field, FieldArray, FormikErrors, FormikTouched } from "formik"; // Import Field and FieldArray from Formik
 import { Exercise, Workout } from "@/src/types/fitnessTypes";
 import { ExerciseData } from "@/src/types/supabase/exerciseData";
-import { ComboBox } from "@/src/components/UI/combobox/combobox";
+import { ComboBox } from "@/src/components/UI/ComboBox/ComboBox";
 import { useFetchExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 
 interface CreateExerciseProps extends InputHTMLAttributes<HTMLInputElement> {

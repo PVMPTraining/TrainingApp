@@ -3,7 +3,7 @@ import { Button } from "@/src/components/UI/Button/Button";
 import { Labels } from "@/src/components/UI/Labels/Labels";
 import { FC, HTMLAttributes, useState } from "react";
 import { CheckboxState, ThreeStateCheckbox } from "@/src/components/UI/ThreeStateCheckbox/ThreeStateCheckbox";
-import { FilterObject, FilterType } from "@/src/components/filter/Filters";
+import { FilterObject, FilterType } from "@/src/components/Filter/Filters";
 import { LabelsDropdown } from "@/src/components/UI/Labels/LabelsDropdown";
 
 interface FilterCheckboxGroupProps extends HTMLAttributes<HTMLElement> {

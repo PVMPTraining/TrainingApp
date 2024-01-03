@@ -1,7 +1,7 @@
 import React, { FC, HTMLAttributes, useEffect, useState } from "react";
-import { SearchBar } from "./SearchBar";
-import { Filters } from "../filter/Filters";
-import { Button } from "../UI/Button/Button";
+import { SearchBar } from "@/src/components/SearchBar/SearchBar";
+import { Filters } from "@/src/components/Filter/Filters";
+import { Button } from "@/src/components/UI/Button/Button";
 import { FaFilter } from "react-icons/fa";
 
 interface SearchBarWithFilterProps extends HTMLAttributes<HTMLElement> {

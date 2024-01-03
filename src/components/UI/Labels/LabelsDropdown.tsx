@@ -1,7 +1,7 @@
 import React, { FC, HTMLAttributes, useState } from "react";
-import { Button } from "../Button/Button";
+import { Button } from "@/src/components/UI/Button/Button";
 import { FaChevronDown } from "react-icons/fa";
-import { Labels } from "./Labels";
+import { Labels } from "@/src/components/UI/Labels/Labels";
 
 interface LabelsDropdownProps extends HTMLAttributes<HTMLElement> {
 	input: React.ReactNode;

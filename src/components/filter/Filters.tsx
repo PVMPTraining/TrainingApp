@@ -1,9 +1,9 @@
 import React, { FC, HTMLAttributes, useEffect, useMemo, useState } from "react";
-import { FilterCheckboxGroup } from "@/src/components/filter/FilterCheckboxGroup/FilterCheckboxGroup";
+import { FilterCheckboxGroup } from "@/src/components/Filter/FilterCheckboxGroup/FilterCheckboxGroup";
 import { enumStringArray } from "@/src/utils/helpers/functions";
 import { Labels } from "@/src/components/UI/Labels/Labels";
 import { DualRangeSlider } from "@/src/components/UI/DualRangeSlider/DualRangeSlider";
-import { FilterVisualMuscleSelector } from "./visual-muscle-selector-group/FilterVisualMuscleSelector";
+import { FilterVisualMuscleSelector } from "@/src/components/Filter/FilterVisualMuscleSelector/FilterVisualMuscleSelector";
 
 export enum FilterType {
 	Checkbox,

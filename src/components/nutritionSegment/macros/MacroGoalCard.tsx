@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button } from "../../UI/Button/Button";
+import { Button } from "@/src/components/UI/Button/Button";
 
 interface MacroGoalCardProps {}
 

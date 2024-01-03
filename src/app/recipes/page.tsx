@@ -6,7 +6,7 @@ import { FC, useEffect, useState } from "react";
 import NavLayout from "@/src/layouts/NavLayout";
 import { Button } from "@/src/components/UI/Button/Button";
 import { CardBody } from "@/src/components/UI/Card/Card";
-import { FilterType } from "@/src/components/filter/Filters";
+import { FilterType } from "@/src/components/Filter/Filters";
 import { useFetchRecipes } from "@/src/utils/hooks/useFetchRecipes";
 import {
 	DIET_TYPE,
@@ -22,7 +22,7 @@ import {
 	SPECIAL_FEATURES
 } from "@/src/types/supabase/recipesData";
 import { LuVegan } from "react-icons/lu";
-import { SearchBarWithFilter } from "@/src/components/search-bar/SeacrhBarWithFilter";
+import { SearchBarWithFilter } from "@/src/components/SearchBar/SeacrhBarWithFilter";
 import { GetImageURLFromBucket } from "@/src/utils/helpers/supabase";
 import { formatStringToLowerCaseSpacesToUnderscores } from "@/src/utils/helpers/functions";
 

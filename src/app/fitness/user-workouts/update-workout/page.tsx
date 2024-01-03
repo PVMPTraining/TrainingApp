@@ -1,7 +1,6 @@
 "use client";
 
-import { CreateWorkout } from "@/src/components/user-workouts/user-workout-creator/create-workout/CreateWorkout";
-import { Workout } from "@/src/types/fitnessTypes";
+import { CreateWorkout } from "@/src/components/UserWorkouts/UserWorkoutCreator/CreateWorkout/CreateWorkout";
 import { UpdateUserWorkout } from "@/src/utils/helpers/supabase";
 import { useSearchParams } from "next/navigation";
 import { FC } from "react";

@@ -1,7 +1,7 @@
 "use client";
 import { FC } from "react";
 
-import FoodSearcher from "@/src/components/foodSearcher/FoodSearcher";
+import FoodSearcher from "@/src/components/FoodSearcher/FoodSearcher";
 import NavLayout from "@/src/layouts/NavLayout";
 
 const NutritionToolsPage: FC = () => {

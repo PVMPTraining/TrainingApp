@@ -7,9 +7,8 @@ import { Button } from "@/src/components/UI/Button/Button";
 import { useRouter } from "next/navigation";
 import { nutritionToolsPagePath } from "@/src/pathmap/pathmap";
 import NavLayout from "@/src/layouts/NavLayout";
-import CalorieGoalCard from "@/src/components/nutritionSegment/calorie/CalorieGoalCard";
-import CalorieCalculator from "@/src/components/calorie-calculator/CalorieCalculator";
-import MacroGoalCard from "@/src/components/nutritionSegment/macros/MacroGoalCard";
+import CalorieGoalCard from "@/src/components/NutritionSegment/Calorie/CalorieGoalCard";
+import MacroGoalCard from "@/src/components/NutritionSegment/Macros/MacroGoalCard";
 
 const NutritionPage: FC = () => {
 	const router = useRouter();

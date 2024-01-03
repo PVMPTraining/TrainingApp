@@ -3,7 +3,7 @@ import { Input } from "@/src/components/UI/Input/Input";
 import { useFetchExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 import { timedWorkout } from "@/src/types/fitnessTypes";
 import { ExerciseData } from "@/src/types/supabase/exerciseData";
-import { ComboBox } from "@/src/components/UI/combobox/combobox";
+import { ComboBox } from "@/src/components/UI/ComboBox/ComboBox";
 import { FaChevronUp } from "react-icons/fa";
 import { Button } from "@/src/components/UI/Button/Button";
 

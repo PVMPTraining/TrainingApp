@@ -1,6 +1,6 @@
 "use client";
 
-import UserWorkoutsList from "@/src/components/user-workouts/user-workout-list/UserWorkoutsList";
+import UserWorkoutsList from "@/src/components/UserWorkouts/UserWorkoutList/UserWorkoutsList";
 import { FC } from "react";
 
 const UserWorkoutsPage: FC = () => {

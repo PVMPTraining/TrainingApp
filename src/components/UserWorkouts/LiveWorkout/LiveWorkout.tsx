@@ -5,7 +5,7 @@ import { Workout, timedExercise, timedSets, timedWorkout } from "@/src/types/fit
 import { useFetchExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 import { AddLoggedWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 import { FC, useState, useEffect, Key, HTMLAttributes } from "react";
-import { ComboBox } from "@/src/components/UI/combobox/combobox";
+import { ComboBox } from "@/src/components/UI/ComboBox/ComboBox";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
 import { Button } from "@/src/components/UI/Button/Button";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";

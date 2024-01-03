@@ -3,7 +3,7 @@
 import { fitnessHomePagePath, homePagePath, nutritionHomePagePath } from "@/src/pathmap/pathmap";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FC, ButtonHTMLAttributes, useState, useEffect } from "react";
+import { FC, ButtonHTMLAttributes } from "react";
 import { FaDumbbell, FaHome } from "react-icons/fa";
 import { FaBowlFood } from "react-icons/fa6";
 
