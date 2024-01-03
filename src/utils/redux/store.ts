@@ -2,13 +2,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import foodFetchReducer from "./slices/foodFetch/foodFetchSlice";
+import { languageSilce } from "./slices/Language/LanguageSlice";
 
 /**
  * The Redux store for the application.
  */
 const store = configureStore({
 	reducer: {
-		foodFetch: foodFetchReducer
+		foodFetch: foodFetchReducer,
+		language: languageSilce.reducer
 	}
 });
 
