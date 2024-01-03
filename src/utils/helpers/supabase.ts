@@ -302,3 +302,21 @@ export const DeleteKeywordFromUserHistory = async (id: string, keywordToDelete: 
 
 	await supabase.from(users).update({ foodSearch_keyword_history: updatedHistory }).eq(id_column, id);
 };
+
+export const GetImageURLFromBucket = async (bucketName: string, imageName: string) => {
+	try {
+		console.log(`${imageName}.png`);
+		const { data, error } = await supabase.storage.from(bucketName).createSignedUrl(`${imageName}.png`, 60); // 60 seconds expiration
+
+		if (error) {
+			throw error;
+		}
+
+		// Return the signed URL to the client
+		console.log(data.signedUrl);
+		return data.signedUrl;
+	} catch (error) {
+		console.error("Error retrieving private image:", error);
+		// Handle the error appropriately
+	}
+};
