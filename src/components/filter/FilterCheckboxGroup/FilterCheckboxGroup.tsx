@@ -4,10 +4,10 @@ import { Labels } from "@/src/components/UI/Labels/Labels";
 import { FC, HTMLAttributes, useState } from "react";
 import { CheckboxState, ThreeStateCheckbox } from "@/src/components/UI/ThreeStateCheckbox/ThreeStateCheckbox";
 import { FilterObject, FilterType } from "@/src/components/filter/Filters";
+import { LabelsDropdown } from "@/src/components/UI/Labels/LabelsDropdown";
 
 interface FilterCheckboxGroupProps extends HTMLAttributes<HTMLElement> {
 	topLeftLabel?: string | React.ReactNode;
-	topRightLabel?: string | React.ReactNode;
 	bottomLeftLabel?: string | React.ReactNode;
 	bottomRightLabel?: string | React.ReactNode;
 	options: string[];
@@ -16,32 +16,17 @@ interface FilterCheckboxGroupProps extends HTMLAttributes<HTMLElement> {
 
 export const FilterCheckboxGroup: FC<FilterCheckboxGroupProps> = ({
 	topLeftLabel,
-	topRightLabel,
 	bottomLeftLabel,
 	bottomRightLabel,
 	options,
 	selectionCallback
 }: FilterCheckboxGroupProps) => {
-	const [dropdownToggle, setDropdownToggle] = useState(false);
-
 	return (
-		<Labels
+		<LabelsDropdown
 			topLeftLabel={topLeftLabel}
-			topRightLabel={
-				<Button
-					onClick={(e) => {
-						e.preventDefault(); // Prevent default form submission behavior
-						setDropdownToggle((prevValue) => !prevValue);
-					}}
-					className="btn-xs"
-				>
-					{!dropdownToggle && <FaChevronDown />}
-					{dropdownToggle && <FaChevronDown className="transform rotate-180" />}
-				</Button>
-			}
 			input={
 				<>
-					<div className={["grid grid-cols-1 xs:grid-cols-2 gap-1 m-2", dropdownToggle ? "" : "hidden"].join(" ")}>
+					<div className={["grid grid-cols-1 xs:grid-cols-2 gap-1 m-2"].join(" ")}>
 						{options.map((option, i) => (
 							<div key={i} className="flex items-center gap-2 justify-start">
 								<ThreeStateCheckbox
