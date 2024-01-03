@@ -19,6 +19,8 @@ import BrandFoodWrapper from "./brandFood/BrandFoodWrapper";
 import { useScrollPosition } from "@/src/utils/hooks/useScrollPosition";
 import SearchInputWrapper from "./searchInput/SearchInputWrapper";
 import ResultsPaginate from "./resultsPaginate/ResultsPaginate";
+import { GetUserHistory, GetUserID } from "@/src/utils/helpers/supabase";
+import UserFoodSearchHistory from "./userSearchHistory/UserFoodSearchHistory";
 
 // For olive oil they didn't provide a calorie value need to calculate with formula
 
@@ -84,6 +86,7 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 					<BrandFoodWrapper />
 				</>
 			)}
+			<UserFoodSearchHistory />
 		</div>
 	);
 };

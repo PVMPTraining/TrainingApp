@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/src/utils/redux/store";
 import { fetchBrandedFood, fetchCoreFood, setActivePaginatePage, setKeywordValue } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
 import debounce from "debounce";
+import { AddKeywordToUserHistory, GetUserID } from "@/src/utils/helpers/supabase";
+import { timeStamp } from "console";
 
 interface SearchInputProps {}
 
@@ -25,9 +27,7 @@ const SearchInput: FC<SearchInputProps> = ({}) => {
 	// 	[]
 	// );
 
-	console.log(brandFoodData);
-
-	const fetchHandler = () => {
+	const fetchHandler = async () => {
 		if (keywordValue.trim() === "") return;
 
 		if (chosenFoodCategory === "core") {
@@ -40,6 +40,7 @@ const SearchInput: FC<SearchInputProps> = ({}) => {
 			dispatch(fetchBrandedFood({ keywordValue: keywordValue, page: 1 }));
 			dispatch(setActivePaginatePage(0));
 		}
+		await AddKeywordToUserHistory((await GetUserID()) as string, { keyword: keywordValue, category: chosenFoodCategory, timestamp: Date.now() });
 	};
 
 	const clearSearchInputValueHandler = () => {

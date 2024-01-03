@@ -24,8 +24,6 @@ const BrandFoodWrapper: FC<BrandFoodWrapperProps> = ({}) => {
 		);
 	}, [brandFoodData]);
 
-	console.log(isSearched);
-
 	return (
 		<div className="flex gap-2 gap-y-10 mt-5 relative flex-wrap justify-center">
 			{isSearched && filteredBrandFoodData ? (

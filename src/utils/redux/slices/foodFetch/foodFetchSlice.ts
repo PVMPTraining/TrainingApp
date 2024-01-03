@@ -75,6 +75,19 @@ const foodSlice = createSlice({
 			// 	keywordValue: action.payload
 			// };
 			state.keywordValue = action.payload;
+			state.lastSearchedBrandKeywordValue = "";
+			state.lastSearchedCoreKeywordValue = "";
+			if (state.brandFoodData) {
+				state.brandFoodData = null;
+				state.isSearched = false;
+			}
+			if (state.coreFoodData) {
+				state.coreFoodData = null;
+				state.isSearched = false;
+			}
+		},
+		setLastKeywordReset: (state, action) => {
+			(state.lastSearchedBrandKeywordValue = ""), (state.lastSearchedCoreKeywordValue = "");
 		},
 		setChosenCoreFood: (state, action) => {
 			state.selectedCoreFoodData = action.payload;

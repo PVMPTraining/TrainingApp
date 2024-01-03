@@ -15,11 +15,13 @@ const exercise_database_table: string = "exercise_database";
 const recipes_table: string = "recipes";
 const user_favorite_exercises_table: string = "user_favorite_exercises";
 const user_logged_workouts_table: string = "user_logged_workouts";
+const users: string = "users";
 
 // Column Constants
 const id_column: string = "id";
 const workouts_column = "workouts";
 const exercises_column = "exercises";
+const foodSearch_keyword_history_column = "foodSearch_keyword_history";
 
 // All Constant
 const all = "*";
@@ -236,4 +238,30 @@ export const AddLoggedWorkout = async (id: string, workout: any) => {
 	if (error) {
 		Log(LogLevel.ERROR, `AddUserWorkout, error: ${error}`);
 	}
+};
+
+export const GetUserHistory = async (id: string) => {
+	const { data: user_history, error } = await supabase.from(users).select(foodSearch_keyword_history_column).eq(id_column, id);
+
+	if (error) return error;
+	if (user_history) return user_history[0].foodSearch_keyword_history;
+	else return null;
+};
+
+export const AddKeywordToUserHistory = async (id: string, keyword: { keyword: string; category: string; timestamp: number }) => {
+	const userHistory = await GetUserHistory(id);
+	userHistory.push(keyword);
+
+	await supabase.from(users).update({ foodSearch_keyword_history: userHistory }).eq(id_column, id);
+};
+
+// Even i checked timestamp for filter its deleting the same keywords i'll look again
+
+export const DeleteKeywordFromUserHistory = async (id: string, keywordToDelete: { keyword: string; category: string; timestamp: number }) => {
+	const userHistory = await GetUserHistory(id);
+
+	// Filter out the keyword to delete
+	const updatedHistory = userHistory.filter((keyword) => keyword.timestamp !== keywordToDelete.timestamp);
+
+	await supabase.from(users).update({ foodSearch_keyword_history: updatedHistory }).eq(id_column, id);
 };

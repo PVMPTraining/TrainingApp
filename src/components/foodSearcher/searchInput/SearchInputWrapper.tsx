@@ -9,7 +9,7 @@ import ResultsPaginate from "../resultsPaginate/ResultsPaginate";
 interface SearchInputWrapperProps {}
 
 const SearchInputWrapper: FC<SearchInputWrapperProps> = ({}) => {
-	const { selectedBrandFoodData, isLoading } = useSelector((state: RootState) => state.foodFetch);
+	const { selectedBrandFoodData, isLoading, brandFoodData, coreFoodData } = useSelector((state: RootState) => state.foodFetch);
 	// const { scrollDirection, setIsModalOpen } = useScrollPosition();
 
 	return (
@@ -24,26 +24,28 @@ const SearchInputWrapper: FC<SearchInputWrapperProps> = ({}) => {
 				<CategoryButtons />
 			</div>
 			{!isLoading ? <ResultsPaginate /> : null}
-			<div className="flex flex-col gap-2">
-				<p className="font-bold">
-					Filter <strong>this page</strong> results based by their nutrition score
-				</p>
-				<select
-					// value={selectedNutritionScoreForFilter}
-					className="select select-ghost w-full max-w-xs"
-					// onChange={(e) => {
-					// 	setSelectedNutritionScoreForFilter(e.target.value);
-					// }}
-				>
-					<option value="">All</option>
-					<option value="a">A</option>
-					<option value="b">B</option>
-					<option value="c">C</option>
-					<option value="d">D</option>
-					<option value="e">E</option>
-					<option value="unknown">Unknown</option>
-				</select>
-			</div>
+			{brandFoodData ? (
+				<div className="flex flex-col gap-2">
+					<p className="font-bold">
+						Filter <strong>this page</strong> results based by their nutrition score
+					</p>
+					<select
+						// value={selectedNutritionScoreForFilter}
+						className="select select-ghost w-full max-w-xs"
+						// onChange={(e) => {
+						// 	setSelectedNutritionScoreForFilter(e.target.value);
+						// }}
+					>
+						<option value="">All</option>
+						<option value="a">A</option>
+						<option value="b">B</option>
+						<option value="c">C</option>
+						<option value="d">D</option>
+						<option value="e">E</option>
+						<option value="unknown">Unknown</option>
+					</select>
+				</div>
+			) : null}
 			{/* <div className="flex flex-col gap-4">
 				<ReactPaginate
 					breakLabel="..."

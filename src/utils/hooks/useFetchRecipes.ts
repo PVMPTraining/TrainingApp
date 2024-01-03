@@ -8,14 +8,14 @@ import { RecipesData } from "@/src/types/supabaseDataTypes";
 
 export const useFetchRecipes = () => {
 	const [isLoading, setIsLoading] = useState(true);
-	const [recipes, setRecpies] = useState<RecipesData[]>([]);
+	const [recipes, setRecipes] = useState<RecipesData[]>([]);
 
 	useEffect(() => {
 		const fetchPosts = async () => {
 			const recipes = await GetRecipes();
 			Log(LogLevel.DEBUG, `useFetchRecipes:`, recipes);
 			if (recipes) {
-				setRecpies(recipes);
+				setRecipes(recipes);
 			}
 			setIsLoading(false);
 		};

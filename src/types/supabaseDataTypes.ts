@@ -184,3 +184,9 @@ export interface RecipesData {
 	skill_level: SKILL_LEVEL[];
 	equipment: EQUIPMENT[];
 }
+
+export type HistoryData = {
+	keyword: string;
+	category: string;
+	timestamp: number;
+}[];
