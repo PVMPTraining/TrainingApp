@@ -87,10 +87,9 @@ export const Filters: FC<FiltersProps> = ({ listToFilter, filterOptions, filterC
 	return (
 		<>
 			{filterOptions.map((option, i) => (
-				<>
+				<React.Fragment key={i}>
 					{option.type === FilterType.Checkbox && (
 						<FilterCheckboxGroup
-							key={i}
 							topLeftLabel={option.topLeftLabel}
 							bottomLeftLabel={option.bottomLeftLabel}
 							bottomRightLabel={option.bottomRightLabel}
@@ -118,7 +117,6 @@ export const Filters: FC<FiltersProps> = ({ listToFilter, filterOptions, filterC
 					)}
 					{option.type === FilterType.DualRangeSlider && (
 						<Labels
-							key={i}
 							topLeftLabel={option.topLeftLabel}
 							input={
 								<DualRangeSlider
@@ -148,7 +146,7 @@ export const Filters: FC<FiltersProps> = ({ listToFilter, filterOptions, filterC
 							}}
 						/>
 					)}
-				</>
+				</React.Fragment>
 			))}
 		</>
 	);

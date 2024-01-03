@@ -92,9 +92,10 @@ const RecepiesPage: FC = () => {
 					/>
 					<div className="flex flex-col gap-2">
 						<div className="grid grid-cols-1 xs:grid-cols-2 gap-2 w-full justify-center">
-							{recipesSearchResults.map((recipe) => {
+							{recipesSearchResults.map((recipe, i) => {
 								return (
 									<Button
+										key={i}
 										className={`bg-cover bg-center card-compact h-40 items-start px-0 text-start font-normal overflow-hidden relative`}
 										style={{ backgroundImage: `url(${bgImages[recipe.name]})` }}
 										onClick={() => {
