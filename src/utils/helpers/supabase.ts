@@ -3,7 +3,8 @@
 // Supabase
 import { createBrowserClient } from "@supabase/ssr";
 import { LogLevel, Log } from "./debugLog";
-import { ExerciseData, RecipesData } from "@/src/types/supabaseDataTypes";
+import { RecipeData } from "@/src/types/supabase/recipesData";
+import { ExerciseData } from "@/src/types/supabase/exerciseData";
 import { Json } from "@/src/types/types";
 import { Workout } from "@/src/types/fitnessTypes";
 
@@ -113,7 +114,7 @@ export const GetRecipes = async () => {
 		throw error;
 	}
 
-	return (recipes as RecipesData[]) || [];
+	return (recipes as RecipeData[]) || [];
 };
 
 /**

@@ -1,45 +1,3 @@
-export enum EXERCISE_TYPE {
-	Compound,
-	Cardio,
-	Isolation,
-	Stretching,
-	Calisthenics,
-	Plyometrics
-}
-
-export enum MANDATORY_EQUIPMENT {
-	Barbell,
-	Dumbbell,
-	Machine,
-	Bodyweight,
-	ResistanceBand,
-	Kettlebell,
-	Other
-}
-
-export interface ExerciseData {
-	id: string;
-	created_at: string;
-	name: string;
-	alternate_name: string[];
-	primary_muscles: string[];
-	secondary_muscles: string[];
-	description: string;
-	proper_form: string;
-	modifications: string[];
-	load: string;
-	volume: string;
-	progression: string;
-	rest_period: string;
-	precautions: string[];
-	common_mistakes: string[];
-	risks: string[];
-	mandatory_equipment: MANDATORY_EQUIPMENT[];
-	optional_equipment: string[];
-	alternative_exercises: string[];
-	exercise_type: EXERCISE_TYPE;
-}
-
 export enum DIET_TYPE {
 	Keto,
 	Pescatarian,
@@ -169,7 +127,7 @@ export enum SEASONAL {
 	"Winter"
 }
 
-export interface RecipesData {
+export interface RecipeData {
 	id: string;
 	created_at: string;
 	name: string;
@@ -183,4 +141,5 @@ export interface RecipesData {
 	special_features: SPECIAL_FEATURES[];
 	skill_level: SKILL_LEVEL[];
 	equipment: EQUIPMENT[];
+	calories: number;
 }
