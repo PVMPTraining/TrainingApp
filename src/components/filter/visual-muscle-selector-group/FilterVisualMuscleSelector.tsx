@@ -1,8 +1,5 @@
 import React, { FC, HTMLAttributes, useEffect, useState } from "react";
 import { enumStringArray } from "@/src/utils/helpers/functions";
-import { Labels } from "@/src/components/UI/Labels/Labels";
-import { Button } from "@/src/components/UI/Button/Button";
-import { FaChevronDown } from "react-icons/fa";
 import { Toggle } from "@/src/components/UI/Toggle/Toggle";
 import { VisualMuscleSelector } from "@/src/components/visual-muscle-selector/VisualMuscleSelector";
 import { MUSCLE } from "@/src/types/supabase/exerciseData";

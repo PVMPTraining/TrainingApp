@@ -1,14 +1,13 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 
 // Next
 import NavLayout from "@/src/layouts/NavLayout";
 import { Button } from "@/src/components/UI/Button/Button";
 import { CardBody } from "@/src/components/UI/Card/Card";
-import { FilterType, Filters } from "@/src/components/filter/Filters";
+import { FilterType } from "@/src/components/filter/Filters";
 import { useFetchRecipes } from "@/src/utils/hooks/useFetchRecipes";
-import { SearchBar } from "@/src/components/search-bar/SearchBar";
 import {
 	DIET_TYPE,
 	FREE_FROM,
