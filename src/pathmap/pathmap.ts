@@ -35,3 +35,6 @@ export const toolsFavoritesPagePath: string = "/tools/favorites";
 
 // Recipes Page
 export const recipesPagePath: string = "/recipes";
+
+// Workouts Page
+export const workoutsPagePath: string = "/workouts";

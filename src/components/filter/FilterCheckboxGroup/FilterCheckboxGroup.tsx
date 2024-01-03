@@ -41,39 +41,37 @@ export const FilterCheckboxGroup: FC<FilterCheckboxGroupProps> = ({
 			}
 			input={
 				<>
-					{dropdownToggle && (
-						<div className="grid grid-cols-1 xs:grid-cols-2 gap-1 m-2">
-							{options.map((option, i) => (
-								<div key={i} className="flex items-center gap-2 justify-start">
-									<ThreeStateCheckbox
-										onChangeCallback={(state) => {
-											switch (state) {
-												case CheckboxState.NotChecked:
-													selectionCallback((prevValue: FilterObject[]) => {
-														prevValue.filter((equipment) => equipment.name !== option);
-														return [];
-													});
-													break;
-												case CheckboxState.Include:
-													selectionCallback((prevValue: FilterObject[]) => {
-														const updatedValue = prevValue.filter((equipment) => equipment.name !== option);
-														return [...updatedValue, { name: option, include: true, type: FilterType.Checkbox }];
-													});
-													break;
-												case CheckboxState.Exclude:
-													selectionCallback((prevValue: FilterObject[]) => {
-														const updatedValue = prevValue.filter((equipment) => equipment.name !== option);
-														return [...updatedValue, { name: option, include: false, type: FilterType.Checkbox }];
-													});
-													break;
-											}
-										}}
-									/>
-									<div className="text-xs">{option}</div>
-								</div>
-							))}
-						</div>
-					)}
+					<div className={["grid grid-cols-1 xs:grid-cols-2 gap-1 m-2", dropdownToggle ? "" : "hidden"].join(" ")}>
+						{options.map((option, i) => (
+							<div key={i} className="flex items-center gap-2 justify-start">
+								<ThreeStateCheckbox
+									onChangeCallback={(state) => {
+										switch (state) {
+											case CheckboxState.NotChecked:
+												selectionCallback((prevValue: FilterObject[]) => {
+													prevValue.filter((equipment) => equipment.name !== option);
+													return [];
+												});
+												break;
+											case CheckboxState.Include:
+												selectionCallback((prevValue: FilterObject[]) => {
+													const updatedValue = prevValue.filter((equipment) => equipment.name !== option);
+													return [...updatedValue, { name: option, include: true, type: FilterType.Checkbox }];
+												});
+												break;
+											case CheckboxState.Exclude:
+												selectionCallback((prevValue: FilterObject[]) => {
+													const updatedValue = prevValue.filter((equipment) => equipment.name !== option);
+													return [...updatedValue, { name: option, include: false, type: FilterType.Checkbox }];
+												});
+												break;
+										}
+									}}
+								/>
+								<div className="text-xs">{option}</div>
+							</div>
+						))}
+					</div>
 				</>
 			}
 			bottomLeftLabel={bottomLeftLabel}

@@ -1,14 +1,8 @@
 "use client";
 
-import { FC, useState } from "react";
-import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
-import { Card, CardBody } from "@/src/components/UI/Card/Card";
-import { Input } from "@/src/components/UI/Input/Input";
+import { FC } from "react";
 import { Button } from "@/src/components/UI/Button/Button";
 import { useRouter } from "next/navigation";
-import { Exercise } from "@/src/components/exercise/exercise";
-import { ExerciseData } from "@/src/types/types";
-import Fuse from "fuse.js";
 import { liveWorkoutPagePath } from "@/src/pathmap/pathmap";
 
 const LogWorkoutPage: FC = () => {
