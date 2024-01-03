@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 // Next
 import NavLayout from "@/src/layouts/NavLayout";
@@ -23,6 +23,8 @@ import {
 } from "@/src/types/supabase/recipesData";
 import { LuVegan } from "react-icons/lu";
 import { SearchBarWithFilter } from "@/src/components/search-bar/SeacrhBarWithFilter";
+import { GetImageURLFromBucket } from "@/src/utils/helpers/supabase";
+import { formatStringToLowerCaseSpacesToUnderscores } from "@/src/utils/helpers/functions";
 
 const RecepiesPage: FC = () => {
 	const partialBlur: React.CSSProperties = {
@@ -46,6 +48,21 @@ const RecepiesPage: FC = () => {
 	const [selectedRecipe, setSelectedRecipe] = useState<RecipeData>({} as RecipeData);
 	const [recpieFullScreen, setRecpieFullScreen] = useState<boolean>(false);
 
+	const [bgImages, setBgImages] = useState<{ [key: string]: string | undefined }>({});
+
+	useEffect(() => {
+		const fetchImages = async () => {
+			const newBgImages: { [key: string]: string | undefined } = {};
+			for (const recipe of recipesSearchResults) {
+				const imageUrl = await GetImageURLFromBucket("recipe_cover_pics", formatStringToLowerCaseSpacesToUnderscores(recipe.name));
+				newBgImages[recipe.name] = imageUrl;
+			}
+			setBgImages(newBgImages);
+		};
+
+		fetchImages();
+	}, [recipesSearchResults]);
+
 	const filterOptions = [
 		{ topLeftLabel: "Diet Type", options: DIET_TYPE, dataKey: "diet_type", type: FilterType.Checkbox },
 		{ topLeftLabel: "Free from", options: FREE_FROM, dataKey: "free_from", type: FilterType.Checkbox },
@@ -64,7 +81,7 @@ const RecepiesPage: FC = () => {
 
 	return (
 		<NavLayout
-			header={<div>Recipies</div>}
+			header={<div>Recipes</div>}
 			content={
 				<div className="flex-grow flex flex-col gap-4 m-4">
 					<SearchBarWithFilter
@@ -78,7 +95,8 @@ const RecepiesPage: FC = () => {
 							{recipesSearchResults.map((recipe) => {
 								return (
 									<Button
-										className="bg-[url(https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-cover bg-center card-compact h-40 items-start px-0 text-start font-normal overflow-hidden relative"
+										className={`bg-cover bg-center card-compact h-40 items-start px-0 text-start font-normal overflow-hidden relative`}
+										style={{ backgroundImage: `url(${bgImages[recipe.name]})` }}
 										onClick={() => {
 											setRecpieFullScreen(true);
 											setSelectedRecipe(recipe);
@@ -104,7 +122,10 @@ const RecepiesPage: FC = () => {
 					</div>
 					{recpieFullScreen && (
 						<div className="fixed h-screen w-screen z-50 top-0 left-0 flex flex-col">
-							<div className="bg-[url(https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-cover bg-center h-96 overflow-hidden relative">
+							<div
+								className={`bg-cover bg-center h-96 overflow-hidden relative`}
+								style={{ backgroundImage: `url(${bgImages[selectedRecipe.name]})` }}
+							>
 								<div style={partialBlur}></div>
 								<div className="relative p-8 flex">
 									<span className="text-2xl text-shadow-lg shadow-black">{selectedRecipe.name}</span>
