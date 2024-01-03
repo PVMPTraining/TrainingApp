@@ -7,3 +7,7 @@ export const enumStringArray = (e: { [key: string]: any }): string[] => {
 		.filter((key) => isNaN(Number(e[key])))
 		.map((key) => e[key]);
 };
+
+export const formatStringToLowerCaseSpacesToUnderscores = (str: string): string => {
+	return str.toLowerCase().replace(/\s/g, "_");
+};

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { GetExercises, GetUserID, GetUserWorkouts } from "src/utils/helpers/supabase";
+import { GetExercises, GetExercisesCount, GetExercisesForPage, GetUserID, GetUserWorkouts } from "src/utils/helpers/supabase";
 import { Log, LogLevel } from "src/utils/helpers/debugLog";
 import { ExerciseData } from "@/src/types/supabase/exerciseData";
 
@@ -10,16 +10,15 @@ import { ExerciseData } from "@/src/types/supabase/exerciseData";
  * Custom hook to fetch user workouts.
  * @returns An object containing isLoading flag and userWorkouts array.
  */
-export const useFetchExercsiseDatabase = () => {
+export const useFetchExerciseCount = () => {
 	const [isLoading, setIsLoading] = useState(true);
-	const [exercises, setExercises] = useState<ExerciseData[]>([]);
+	const [exerciseCount, setExercises] = useState<number>(0);
 
 	useEffect(() => {
 		const fetchPosts = async () => {
-			const exercises = await GetExercises();
-			Log(LogLevel.DEBUG, `useFetchUserExercsiseDatabase:`, exercises);
-			if (exercises) {
-				setExercises(exercises);
+			const exerciseCount = await GetExercisesCount();
+			if (exerciseCount) {
+				setExercises(exerciseCount);
 			}
 			setIsLoading(false);
 		};
@@ -27,5 +26,5 @@ export const useFetchExercsiseDatabase = () => {
 		fetchPosts();
 	}, []);
 
-	return { isLoading, exercises };
+	return { isLoading, exerciseCount };
 };

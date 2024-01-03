@@ -102,6 +102,42 @@ export const GetExercises = async () => {
 	return (exercises as ExerciseData[]) || [];
 };
 
+/**
+ * Retrieves exercises from the exercise_database table.
+ * @returns An array of exercises.
+ */
+export const GetExercisesCount = async () => {
+	const { data, error } = await supabase.from(exercise_database_table).select("count(*)");
+	if (data) {
+		Log(LogLevel.DEBUG, `GetExercisesCount, count:`, data);
+	}
+
+	if (error) {
+		Log(LogLevel.ERROR, `GetExercisesCount, error:`, error);
+		throw error;
+	}
+
+	return (data?.[0]?.count as unknown as number) || 0;
+};
+
+export const GetExercisesForPage = async (pageNumber: number, resultsPerPage: number) => {
+	const { data: exercises, error } = await supabase
+		.from(exercise_database_table)
+		.select(all)
+		.range(resultsPerPage * pageNumber - resultsPerPage, resultsPerPage * pageNumber);
+
+	if (exercises) {
+		Log(LogLevel.DEBUG, `GetExercises, exercises:`, exercises);
+	}
+
+	if (error) {
+		Log(LogLevel.ERROR, `GetExercises, error:`, error);
+		throw error;
+	}
+
+	return (exercises as ExerciseData[]) || [];
+};
+
 export const GetRecipes = async () => {
 	const { data: recipes, error } = await supabase.from(recipes_table).select(all);
 
@@ -236,5 +272,23 @@ export const AddLoggedWorkout = async (id: string, workout: any) => {
 
 	if (error) {
 		Log(LogLevel.ERROR, `AddUserWorkout, error: ${error}`);
+	}
+};
+
+export const GetImageURLFromBucket = async (bucketName: string, imageName: string) => {
+	try {
+		console.log(`${imageName}.png`);
+		const { data, error } = await supabase.storage.from(bucketName).createSignedUrl(`${imageName}.png`, 60); // 60 seconds expiration
+
+		if (error) {
+			throw error;
+		}
+
+		// Return the signed URL to the client
+		console.log(data.signedUrl);
+		return data.signedUrl;
+	} catch (error) {
+		console.error("Error retrieving private image:", error);
+		// Handle the error appropriately
 	}
 };
