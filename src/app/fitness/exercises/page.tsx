@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
+import { useFetchExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 import { Button } from "@/src/components/UI/Button/Button";
 import { Exercise } from "@/src/components/exercise/exercise";
 import { EXERCISE_TYPE, ExerciseData, MANDATORY_EQUIPMENT } from "@/src/types/supabase/exerciseData";
@@ -11,7 +11,7 @@ import NavLayout from "@/src/layouts/NavLayout";
 import { SearchBarWithFilter } from "@/src/components/search-bar/SeacrhBarWithFilter";
 
 const ExercisesPage: FC = () => {
-	const { isLoading, exercises } = useFetchUserExercsiseDatabase();
+	const { isLoading, exercises } = useFetchExercsiseDatabase();
 
 	// State to control whether the modal is open or not
 	const [isModalOpen, setIsModalOpen] = useState(false);

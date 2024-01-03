@@ -3,9 +3,9 @@ import { Input } from "@/src/components/UI/Input/Input";
 import { Button } from "@/src/components/UI/Button/Button";
 import { Field, FieldArray, FormikErrors, FormikTouched } from "formik"; // Import Field and FieldArray from Formik
 import { Exercise, Workout } from "@/src/types/fitnessTypes";
-import { ExerciseData } from "@/src/types/types";
-import { ComboBox } from "@/src/components/UI/ComboBox/combobox";
-import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
+import { ExerciseData } from "@/src/types/supabase/exerciseData";
+import { ComboBox } from "@/src/components/UI/combobox/combobox";
+import { useFetchExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 
 interface CreateExerciseProps extends InputHTMLAttributes<HTMLInputElement> {
 	deleteCallback: () => void;
@@ -16,7 +16,7 @@ interface CreateExerciseProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export const CreateExercise: FC<CreateExerciseProps> = ({ deleteCallback, exercise, index, touched, errors }) => {
-	const { isLoading, exercises } = useFetchUserExercsiseDatabase();
+	const { isLoading, exercises } = useFetchExercsiseDatabase();
 
 	return (
 		<div className="flex flex-col gap-4 p-4 rounded bg-base-300">

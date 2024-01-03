@@ -1,9 +1,9 @@
 import React, { FC, InputHTMLAttributes, useState } from "react";
 import { Input } from "@/src/components/UI/Input/Input";
-import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
+import { useFetchExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 import { timedWorkout } from "@/src/types/fitnessTypes";
-import { ExerciseData } from "@/src/types/types";
-import { ComboBox } from "@/src/components/UI/ComboBox/combobox";
+import { ExerciseData } from "@/src/types/supabase/exerciseData";
+import { ComboBox } from "@/src/components/UI/combobox/combobox";
 import { FaChevronUp } from "react-icons/fa";
 import { Button } from "@/src/components/UI/Button/Button";
 
@@ -13,7 +13,7 @@ interface LoggedWorkoutEditorProps extends InputHTMLAttributes<HTMLInputElement>
 
 export const LoggedWorkoutEditor: FC<LoggedWorkoutEditorProps> = ({ loggedUserWorkouts }) => {
 	const [workout, setWorkout] = useState<timedWorkout>(loggedUserWorkouts);
-	const { isLoading, exercises } = useFetchUserExercsiseDatabase();
+	const { isLoading, exercises } = useFetchExercsiseDatabase();
 
 	const updateSet = (exerciseIndex: number, setIndex: number, key: string, value: number) => {
 		const updatedWorkout = { ...workout };

@@ -2,17 +2,17 @@
 
 import React from "react";
 import { Workout, timedExercise, timedSets, timedWorkout } from "@/src/types/fitnessTypes";
-import { useFetchUserExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
+import { useFetchExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 import { AddLoggedWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 import { FC, useState, useEffect, Key, HTMLAttributes } from "react";
-import { ComboBox } from "@/src/components/UI/ComboBox/combobox";
+import { ComboBox } from "@/src/components/UI/combobox/combobox";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
 import { Button } from "@/src/components/UI/Button/Button";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { Field, FieldArray, Form, Formik } from "formik";
 import { Input } from "@/src/components/UI/Input/Input";
 import { Modal } from "@/src/components/UI/Modal/Modal";
-import { ExerciseData } from "@/src/types/supabaseDataTypes";
+import { ExerciseData } from "@/src/types/supabase/exerciseData";
 import { formatTimeHHMMSS, convertSecondsToTime } from "@/src/utils/helpers/dateHelpers";
 
 enum workoutState {
@@ -71,7 +71,7 @@ interface LiveWorkoutProps extends HTMLAttributes<HTMLElement> {
 }
 
 export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
-	const { isLoading, exercises } = useFetchUserExercsiseDatabase();
+	const { isLoading, exercises } = useFetchExercsiseDatabase();
 
 	// Workout state
 	const [currentWorkoutState, setWorkoutStateInternal] = useState<workoutState>(workoutState.NOT_STARTED);
