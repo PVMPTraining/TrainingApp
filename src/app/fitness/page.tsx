@@ -13,11 +13,11 @@ import {
 	workoutPagePath
 } from "@/src/pathmap/pathmap";
 import NavLayout from "@/src/layouts/NavLayout";
-import { UserWorkoutsDay } from "@/src/components/user-workouts/user-workouts-day/UserWorkoutsDay";
-import { UserWorkoutsCalendar } from "@/src/components/user-workouts/user-workouts-calendar/UserWorkoutsCalendar";
+import { UserWorkoutsDay } from "@/src/components/UserWorkouts/UserWorkoutsDay/UserWorkoutsDay";
+import { UserWorkoutsCalendar } from "@/src/components/UserWorkouts/UserWorkoutsCalendar/UserWorkoutsCalendar";
 import { FaDumbbell } from "react-icons/fa";
 import { Modal } from "@/src/components/UI/Modal/Modal";
-import { WorkoutHistoryWidget } from "@/src/components/user-workouts/workout-widgets/workout-history-widget/WorkoutHistoryWidget";
+import { WorkoutHistoryWidget } from "@/src/components/UserWorkouts/WorkoutWidgets/WorkoutHistoryWidget/WorkoutHistoryWidget";
 
 const FitnessPage: FC = () => {
 	const router = useRouter();

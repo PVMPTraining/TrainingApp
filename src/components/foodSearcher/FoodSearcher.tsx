@@ -1,15 +1,8 @@
 "use client";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC } from "react";
 
-import Link from "next/link";
-
-import { Input } from "@/src/components/UI/Input/Input";
-import { Button } from "@/src/components/UI/Button/Button";
-
-import { useDispatch, useSelector } from "react-redux";
-import { setKeywordValue, fetchBrandedFood } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
-import { AppDispatch, RootState } from "@/src/utils/redux/store";
-import { BrandFoodSearchResultTypes, FoodSearchResultTypes } from "@/src/types/types";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/utils/redux/store";
 import { FaSpinner } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import CategoryButtons from "./categoryButtons/CategoryButtons";

@@ -1,10 +1,9 @@
 import { FC } from "react";
-import SearchInput from "./SearchInput";
-import CategoryButtons from "../categoryButtons/CategoryButtons";
-import { useScrollPosition } from "@/src/utils/hooks/useScrollPosition";
 import { RootState } from "@/src/utils/redux/store";
 import { useSelector } from "react-redux";
-import ResultsPaginate from "../resultsPaginate/ResultsPaginate";
+import SearchInput from "@/src/components/FoodSearcher/SearchInput/SearchInput";
+import CategoryButtons from "@/src/components/FoodSearcher/CategoryButtons/CategoryButtons";
+import ResultsPaginate from "@/src/components/FoodSearcher/ResultsPaginate/ResultsPaginate";
 
 interface SearchInputWrapperProps {}
 

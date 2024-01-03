@@ -3,8 +3,8 @@ import { FC } from "react";
 import { RootState } from "@/src/utils/redux/store";
 import { useSelector } from "react-redux";
 import Link from "next/link";
-import CoreFoodDetails from "@/src/components/foodSearcher/foodDetails/CoreFoodDetails";
-import BrandFoodDetails from "@/src/components/foodSearcher/foodDetails/BrandFoodDetails";
+import CoreFoodDetails from "@/src/components/FoodSearcher/FoodDetails/CoreFoodDetails";
+import BrandFoodDetails from "@/src/components/FoodSearcher/FoodDetails/BrandFoodDetails";
 
 const FoodDetailsPage: FC = () => {
 	const { keywordValue, coreFoodData } = useSelector((state: RootState) => state.foodFetch);

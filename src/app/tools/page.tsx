@@ -1,7 +1,7 @@
 "use client";
 import { FC, useState } from "react";
-import BodyFatCalculator from "@/src/components/body-fat/BodyFatCalculator";
-import CalorieCalculator from "@/src/components/calorie-calculator/CalorieCalculator";
+import BodyFatCalculator from "@/src/components/BodyFat/BodyFatCalculator";
+import CalorieCalculator from "@/src/components/CalorieCalculator/CalorieCalculator";
 import Link from "next/link";
 import { toolsFavoritesPagePath } from "@/src/pathmap/pathmap";
 

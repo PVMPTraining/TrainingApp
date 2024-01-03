@@ -1,8 +1,7 @@
 import { AppDispatch, RootState } from "@/src/utils/redux/store";
 import { FC, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "../../UI/Button/Button";
-import BrandFoodCard from "./BrandFoodCard";
+import BrandFoodCard from "@/src/components/FoodSearcher/BrandFood/BrandFoodCard";
 
 interface BrandFoodWrapperProps {}
 

@@ -1,4 +1,4 @@
-import { ExerciseData } from "@/src/types/types";
+import { ExerciseData } from "@/src/types/supabase/exerciseData";
 import { FC, ButtonHTMLAttributes } from "react";
 
 interface ExerciseProps extends ButtonHTMLAttributes<HTMLButtonElement> {

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Button } from "../../UI/Button/Button";
+import { Button } from "@/src/components/UI/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/src/utils/redux/store";
 import { setChosenFoodCategory } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";

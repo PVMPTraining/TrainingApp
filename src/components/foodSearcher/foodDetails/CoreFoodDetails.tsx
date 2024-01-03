@@ -2,8 +2,8 @@ import { FC } from "react";
 import { RootState } from "@/src/utils/redux/store";
 import { useSelector } from "react-redux";
 import { FoodSearchResultTypes } from "@/src/types/types";
-import { Button } from "../../UI/Button/Button";
-import { percentageCalculator } from "../../nutritionSegment/calorie/CalorieGoalCard";
+import { Button } from "@/src/components/UI/Button/Button";
+import { percentageCalculator } from "@/src/components/NutritionSegment/Calorie/CalorieGoalCard";
 
 const findNutrientValue = (food: FoodSearchResultTypes | null, nutrientName: string, unitName: string) => {
 	const nutrient = food?.foodNutrients.find(({ nutrientName: name, unitName: unit }) => name === nutrientName && unit === unitName);

@@ -16,14 +16,14 @@ export const signupPagePath: string = "/auth/signup";
 
 // Fitness Pages
 export const fitnessHomePagePath: string = "/fitness";
-export const workoutPagePath: string = "/fitness/user-workouts";
+export const workoutPagePath: string = "/fitness/userWorkouts";
 export const exercisePagePath: string = "/fitness/exercises";
-export const logWorkoutPagePath: string = "/fitness/log-workout";
+export const logWorkoutPagePath: string = "/fitness/logWorkout";
 export const fitnessToolsPagePath: string = "/fitness/tools";
-export const workoutHistoryPagePath: string = "/fitness/workout-history";
-export const liveWorkoutPagePath: string = "/fitness/log-workout/live";
-export const newWorkoutPagePath: string = "/fitness/user-workouts/new-workout";
-export const updateWorkoutPagePath: string = "/fitness/user-workouts/update-workout";
+export const workoutHistoryPagePath: string = "/fitness/workoutHistory";
+export const liveWorkoutPagePath: string = "/fitness/logWorkout/live";
+export const newWorkoutPagePath: string = "/fitness/userWorkouts/newWorkout";
+export const updateWorkoutPagePath: string = "/fitness/userWorkouts/updateWorkout";
 
 // Nutrition Pages
 export const nutritionHomePagePath: string = "/nutrition";
@@ -35,3 +35,6 @@ export const toolsFavoritesPagePath: string = "/tools/favorites";
 
 // Recipes Page
 export const recipesPagePath: string = "/recipes";
+
+// Workouts Page
+export const workoutsPagePath: string = "/workouts";

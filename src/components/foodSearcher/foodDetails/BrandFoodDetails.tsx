@@ -2,8 +2,8 @@ import { BrandFoodSearchResultTypes } from "@/src/types/types";
 import { RootState } from "@/src/utils/redux/store";
 import { FC } from "react";
 import { useSelector } from "react-redux";
-import { percentageCalculator } from "../../nutritionSegment/calorie/CalorieGoalCard";
-import { Button } from "../../UI/Button/Button";
+import { percentageCalculator } from "@/src/components/NutritionSegment/Calorie/CalorieGoalCard";
+import { Button } from "@/src/components/UI/Button/Button";
 
 // const findNutrientValue = (food: BrandFoodSearchResultTypes | null, nutrientName: string, unitName: string) => {
 // 	const keys = Object.keys(food?.nutriments);
@@ -120,16 +120,16 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 		? selectedBrandFoodData.product_name_en
 			? selectedBrandFoodData.product_name_en
 			: selectedBrandFoodData.product_name
-			? selectedBrandFoodData.product_name
-			: selectedBrandFoodData.abbreviated_product_name
-			? selectedBrandFoodData.abbreviated_product_name
-			: selectedBrandFoodData.generic_name_en
-			? selectedBrandFoodData.generic_name_en
-			: selectedBrandFoodData.generic_name_de
-			? selectedBrandFoodData.generic_name_de
-			: selectedBrandFoodData.generic_name_fr
-			? selectedBrandFoodData.generic_name_fr
-			: selectedBrandFoodData.generic_name
+				? selectedBrandFoodData.product_name
+				: selectedBrandFoodData.abbreviated_product_name
+					? selectedBrandFoodData.abbreviated_product_name
+					: selectedBrandFoodData.generic_name_en
+						? selectedBrandFoodData.generic_name_en
+						: selectedBrandFoodData.generic_name_de
+							? selectedBrandFoodData.generic_name_de
+							: selectedBrandFoodData.generic_name_fr
+								? selectedBrandFoodData.generic_name_fr
+								: selectedBrandFoodData.generic_name
 		: "";
 
 	const caloriePercentage = percentageCalculator(
@@ -138,12 +138,12 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 			? selectedBrandFoodData.nutriments["energy-kcal_serving"]
 				? selectedBrandFoodData.nutriments["energy-kcal_serving"]
 				: selectedBrandFoodData.nutriments["energy-kj_serving"]
-				? selectedBrandFoodData.nutriments["energy-kj_serving"] / 4.184
-				: selectedBrandFoodData.nutriments["energy-kcal_prepared_serving"]
-				? selectedBrandFoodData.nutriments["energy-kcal_prepared_serving"]
-				: selectedBrandFoodData.nutriments["energy-kj_prepared_serving"]
-				? selectedBrandFoodData.nutriments["energy-kj_prepared_serving"] / 4.184
-				: selectedBrandFoodData.nutriments["energy-kj_100g"] / 4.184
+					? selectedBrandFoodData.nutriments["energy-kj_serving"] / 4.184
+					: selectedBrandFoodData.nutriments["energy-kcal_prepared_serving"]
+						? selectedBrandFoodData.nutriments["energy-kcal_prepared_serving"]
+						: selectedBrandFoodData.nutriments["energy-kj_prepared_serving"]
+							? selectedBrandFoodData.nutriments["energy-kj_prepared_serving"] / 4.184
+							: selectedBrandFoodData.nutriments["energy-kj_100g"] / 4.184
 			: (selectedBrandFoodData?.nutriments["energy-kcal_100g"] as number)
 	);
 	const proteinPercentage = percentageCalculator(
@@ -152,13 +152,13 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 			? selectedBrandFoodData.nutriments.proteins_serving
 				? selectedBrandFoodData.nutriments.proteins_serving
 				: selectedBrandFoodData.nutriments.proteins_100g
-				? selectedBrandFoodData.nutriments.proteins_100g
-				: selectedBrandFoodData.nutriments.proteins_prepared_serving
-				? selectedBrandFoodData.nutriments.proteins_prepared_serving
-				: 0
+					? selectedBrandFoodData.nutriments.proteins_100g
+					: selectedBrandFoodData.nutriments.proteins_prepared_serving
+						? selectedBrandFoodData.nutriments.proteins_prepared_serving
+						: 0
 			: selectedBrandFoodData?.nutriments.proteins_100g
-			? (selectedBrandFoodData.nutriments.proteins_100g as number)
-			: 0
+				? (selectedBrandFoodData.nutriments.proteins_100g as number)
+				: 0
 	);
 	const carbohydratePercentage = percentageCalculator(
 		370,
@@ -166,13 +166,13 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 			? selectedBrandFoodData.nutriments.carbohydrates_serving
 				? selectedBrandFoodData.nutriments.carbohydrates_serving
 				: selectedBrandFoodData.nutriments.carbohydrates_100g
-				? selectedBrandFoodData.nutriments.carbohydrates_100g
-				: selectedBrandFoodData.nutriments.carbohydrates_prepared_serving
-				? selectedBrandFoodData.nutriments.carbohydrates_prepared_serving
-				: 0
+					? selectedBrandFoodData.nutriments.carbohydrates_100g
+					: selectedBrandFoodData.nutriments.carbohydrates_prepared_serving
+						? selectedBrandFoodData.nutriments.carbohydrates_prepared_serving
+						: 0
 			: selectedBrandFoodData?.nutriments.carbohydrates_100g
-			? (selectedBrandFoodData.nutriments.carbohydrates_100g as number)
-			: 0
+				? (selectedBrandFoodData.nutriments.carbohydrates_100g as number)
+				: 0
 	);
 	const fatPercentage = percentageCalculator(
 		72,
@@ -180,13 +180,13 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 			? selectedBrandFoodData.nutriments.fat_serving
 				? (selectedBrandFoodData.nutriments.fat_serving as number)
 				: selectedBrandFoodData.nutriments.fat_100g
-				? (selectedBrandFoodData.nutriments.fat_100g as number)
-				: selectedBrandFoodData.nutriments.fat_prepared_serving
-				? (selectedBrandFoodData.nutriments.fat_prepared_serving as number)
-				: 0
+					? (selectedBrandFoodData.nutriments.fat_100g as number)
+					: selectedBrandFoodData.nutriments.fat_prepared_serving
+						? (selectedBrandFoodData.nutriments.fat_prepared_serving as number)
+						: 0
 			: selectedBrandFoodData?.nutriments.fat_100g
-			? (selectedBrandFoodData.nutriments.fat_100g as number)
-			: 0
+				? (selectedBrandFoodData.nutriments.fat_100g as number)
+				: 0
 	);
 
 	console.log(nutrientValues, selectedBrandFoodData);
@@ -204,10 +204,10 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 					selectedBrandFoodData?.nutriments["energy-kj_prepared_serving"])
 					? selectedBrandFoodData?.serving_quantity + "g"
 					: selectedBrandFoodData?.serving_size && !selectedBrandFoodData?.serving_quantity
-					? selectedBrandFoodData?.serving_size
-					: selectedBrandFoodData?.nutriments["energy-kcal_100g"] || selectedBrandFoodData?.nutriments["energy-kj_100g"]
-					? "100g"
-					: "Unknown"}{" "}
+						? selectedBrandFoodData?.serving_size
+						: selectedBrandFoodData?.nutriments["energy-kcal_100g"] || selectedBrandFoodData?.nutriments["energy-kj_100g"]
+							? "100g"
+							: "Unknown"}{" "}
 			</p>
 
 			<p>
@@ -217,15 +217,15 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 						? selectedBrandFoodData.nutriments["energy-kcal_serving"]
 							? "energy-kcal_serving"
 							: selectedBrandFoodData.nutriments["energy-kj_serving"]
-							? "energy-kj_serving"
-							: selectedBrandFoodData.nutriments["energy-kcal_prepared_serving"]
-							? "energy-kcal_prepared_serving"
-							: selectedBrandFoodData.nutriments["energy-kj_prepared_serving"]
-							? "energy-kj_prepared_serving"
-							: "energy-kj_100g"
+								? "energy-kj_serving"
+								: selectedBrandFoodData.nutriments["energy-kcal_prepared_serving"]
+									? "energy-kcal_prepared_serving"
+									: selectedBrandFoodData.nutriments["energy-kj_prepared_serving"]
+										? "energy-kj_prepared_serving"
+										: "energy-kj_100g"
 						: selectedBrandFoodData?.nutriments["energy-kcal_100g"]
-						? "energy-kcal_100g"
-						: "energy-kj_100g",
+							? "energy-kcal_100g"
+							: "energy-kj_100g",
 					nutrientValues,
 					"kcal"
 				)}
@@ -237,11 +237,11 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 						? selectedBrandFoodData.nutriments.proteins_serving
 							? "proteins_serving"
 							: selectedBrandFoodData.nutriments.proteins_prepared_serving
-							? "proteins_prepared_serving"
-							: "proteins_100g"
+								? "proteins_prepared_serving"
+								: "proteins_100g"
 						: selectedBrandFoodData?.nutriments.proteins_100g
-						? "proteins_100g"
-						: "",
+							? "proteins_100g"
+							: "",
 					nutrientValues,
 					"g"
 				)}
@@ -254,11 +254,11 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 							? selectedBrandFoodData.nutriments.carbohydrates_serving
 								? "carbohydrates_serving"
 								: selectedBrandFoodData.nutriments.carbohydrates_prepared_serving
-								? "carbohydrates_prepared_serving"
-								: "carbohydrates_100g"
+									? "carbohydrates_prepared_serving"
+									: "carbohydrates_100g"
 							: selectedBrandFoodData?.nutriments.carbohydrates_100g
-							? "carbohydrates_100g"
-							: "",
+								? "carbohydrates_100g"
+								: "",
 						nutrientValues,
 						"g"
 					)}
@@ -271,11 +271,11 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 								? selectedBrandFoodData.nutriments.fiber_serving
 									? "fiber_serving"
 									: selectedBrandFoodData.nutriments.fiber_prepared_serving
-									? "fiber_prepared_serving"
-									: "fiber_100g"
+										? "fiber_prepared_serving"
+										: "fiber_100g"
 								: selectedBrandFoodData?.nutriments.fiber_100g
-								? "fiber_100g"
-								: "",
+									? "fiber_100g"
+									: "",
 							nutrientValues,
 							"g"
 						)}
@@ -287,11 +287,11 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 								? selectedBrandFoodData.nutriments.sugars_serving
 									? "sugars_serving"
 									: selectedBrandFoodData.nutriments.sugars_prepared_serving
-									? "sugars_prepared_serving"
-									: "sugars_100g"
+										? "sugars_prepared_serving"
+										: "sugars_100g"
 								: selectedBrandFoodData?.nutriments.sugars_100g
-								? "sugars_100g"
-								: "",
+									? "sugars_100g"
+									: "",
 							nutrientValues,
 							"g"
 						)}
@@ -306,11 +306,11 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 							? selectedBrandFoodData.nutriments.fat_serving
 								? "fat_serving"
 								: selectedBrandFoodData.nutriments.fat_prepared_serving
-								? "fat_prepared_serving"
-								: "fat_100g"
+									? "fat_prepared_serving"
+									: "fat_100g"
 							: selectedBrandFoodData?.nutriments.fat_100g
-							? "fat_100g"
-							: "",
+								? "fat_100g"
+								: "",
 						nutrientValues,
 						"g"
 					)}
@@ -323,11 +323,11 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 								? selectedBrandFoodData.nutriments["saturated-fat_serving"]
 									? "saturated-fat_serving"
 									: selectedBrandFoodData.nutriments["saturated-fat_prepared_serving"]
-									? "saturated-fat_prepared_serving"
-									: "saturated-fat_100g"
+										? "saturated-fat_prepared_serving"
+										: "saturated-fat_100g"
 								: selectedBrandFoodData?.nutriments["saturated-fat_100g"]
-								? "saturated-fat_100g"
-								: "",
+									? "saturated-fat_100g"
+									: "",
 							nutrientValues,
 							"g"
 						)}
@@ -343,11 +343,11 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 						? selectedBrandFoodData.nutriments.salt_serving
 							? "salt_serving"
 							: selectedBrandFoodData.nutriments.salt_prepared_serving
-							? "salt_prepared_serving"
-							: "salt_100g"
+								? "salt_prepared_serving"
+								: "salt_100g"
 						: selectedBrandFoodData?.nutriments.salt_100g
-						? "salt_100g"
-						: "",
+							? "salt_100g"
+							: "",
 					nutrientValues,
 					"g"
 				)}
@@ -416,11 +416,11 @@ const BrandFoodDetails: FC<BrandFoodDetailsProps> = ({}) => {
 						? selectedBrandFoodData.nutriments.sodium_serving
 							? "sodium_serving"
 							: selectedBrandFoodData.nutriments.sodium_prepared_serving
-							? "sodium_prepared_serving"
-							: "sodium_100g"
+								? "sodium_prepared_serving"
+								: "sodium_100g"
 						: selectedBrandFoodData?.nutriments.sodium_100g
-						? "sodium_100g"
-						: "",
+							? "sodium_100g"
+							: "",
 					nutrientValues,
 					"g"
 				)}
