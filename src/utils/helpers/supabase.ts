@@ -298,7 +298,7 @@ export const DeleteKeywordFromUserHistory = async (id: string, keywordToDelete: 
 	const userHistory = await GetUserHistory(id);
 
 	// Filter out the keyword to delete
-	const updatedHistory = userHistory.filter((keyword) => keyword.timestamp !== keywordToDelete.timestamp);
+	const updatedHistory = userHistory.filter((keyword: { timestamp: number }) => keyword.timestamp !== keywordToDelete.timestamp);
 
 	await supabase.from(users).update({ foodSearch_keyword_history: updatedHistory }).eq(id_column, id);
 };
