@@ -7,7 +7,9 @@ import { Button } from "@/src/components/UI/Button/Button";
 
 import { useRouter } from "next/navigation";
 import { rootPagePath } from "@/src/pathmap/pathmap";
+
 import NavLayout from "@/src/layouts/NavLayout";
+import { LanguageSelector } from "@/src/components/LanguageSelector/LanguageSelector";
 
 const AccountPage = () => {
 	const router = useRouter();
@@ -23,6 +25,7 @@ const AccountPage = () => {
 			header={<div>Account</div>}
 			content={
 				<div className="flex-grow flex flex-col m-4">
+					<LanguageSelector />
 					<div>{userID}</div>
 					<Button className="bg-error" onClick={handleSignOut}>
 						<span className="text-lg">Sign Out</span>
