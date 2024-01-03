@@ -7,7 +7,7 @@ import { FaSpinner } from "react-icons/fa";
 import CoreFoodWrapper from "@/src/components/FoodSearcher/CoreFood/CoreFoodWrapper";
 import BrandFoodWrapper from "@/src/components/FoodSearcher/BrandFood/BrandFoodWrapper";
 import SearchInputWrapper from "@/src/components/FoodSearcher/SearchInput/SearchInputWrapper";
-import UserFoodSearchHistory from "@/src/components/FoodSearcher/userSearchHistory/UserFoodSearchHistory";
+import UserFoodSearchHistory from "@/src/components/FoodSearcher/UserSearchHistory/UserFoodSearchHistory";
 
 // For olive oil they didn't provide a calorie value need to calculate with formula
 
