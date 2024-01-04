@@ -30,12 +30,12 @@ const HomePage: FC = () => {
 
 	return (
 		<NavLayout
-			header={<div>{strings.home}</div>}
+			header={<div>{strings.homePage.home}</div>}
 			content={
 				<div className="flex-grow flex flex-col gap-4 m-4">
 					<div className="mx-2">
-						<h1 className="text-4xl font-bold">{strings.welcome}</h1>
-						<h2 className="text-2xl">{strings.getReady}</h2>
+						<h1 className="text-4xl font-bold">{strings.homePage.welcome}</h1>
+						<h2 className="text-2xl">{strings.homePage.getReady}</h2>
 					</div>
 					<div className="flex flex-col gap-2">
 						<div className="grid grid-cols-1 xs:grid-cols-2 gap-2 w-full justify-center">
@@ -47,7 +47,7 @@ const HomePage: FC = () => {
 							>
 								<div style={partialBlur}></div>
 								<CardBody className="relative z-10">
-									<span className="text-xl text-shadow-lg shadow-black">{strings.recipes}</span>
+									<span className="text-xl text-shadow-lg shadow-black">{strings.homePage.recipes}</span>
 								</CardBody>
 							</Button>
 							<Button
@@ -56,37 +56,37 @@ const HomePage: FC = () => {
 							>
 								<div style={partialBlur}></div>
 								<CardBody className="relative z-10">
-									<span className="text-xl text-shadow-lg shadow-black">{strings.workout}</span>
+									<span className="text-xl text-shadow-lg shadow-black">{strings.homePage.workout}</span>
 								</CardBody>
 							</Button>
 						</div>
 						<Button className="bg-[url(https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] bg-cover bg-center card-compact h-48 items-start px-0 text-start font-normal overflow-hidden relative">
 							<div style={partialBlur}></div>
 							<CardBody className="relative z-10">
-								<span className="text-xl text-shadow-lg shadow-black">{strings.workoutPrograms}</span>
+								<span className="text-xl text-shadow-lg shadow-black">{strings.homePage.workoutPrograms}</span>
 							</CardBody>
 						</Button>
 					</div>
 					<div>
-						<h1 className="text-2xl font-bold mx-2">{strings.trackers}</h1>
+						<h1 className="text-2xl font-bold mx-2">{strings.homePage.trackers}</h1>
 					</div>
 					<div className="grid grid-cols-1 xs:grid-cols-3 gap-2 w-full justify-center">
 						<Button className="bg-[url()] bg-cover bg-center card-compact h-48 items-start px-0 text-start font-normal overflow-hidden relative">
 							<div style={partialBlur}></div>
 							<CardBody className="relative z-10">
-								<span className="text-xl text-shadow-lg shadow-black">{strings.water}</span>
+								<span className="text-xl text-shadow-lg shadow-black">{strings.homePage.water}</span>
 							</CardBody>
 						</Button>
 						<Button className="bg-[url()] bg-cover bg-center card-compact h-48 items-start px-0 overflow-hidden relative text-start font-normal">
 							<div style={partialBlur}></div>
 							<CardBody className="relative z-10">
-								<span className="text-xl text-shadow-lg shadow-black">{strings.sleep}</span>
+								<span className="text-xl text-shadow-lg shadow-black">{strings.homePage.sleep}</span>
 							</CardBody>
 						</Button>
 						<Button className="bg-[url()] bg-cover bg-center card-compact h-48 items-start px-0 overflow-hidden relative text-start font-normal">
 							<div style={partialBlur}></div>
 							<CardBody className="relative z-10">
-								<span className="text-xl text-shadow-lg shadow-black">{strings.weight}</span>
+								<span className="text-xl text-shadow-lg shadow-black">{strings.homePage.weight}</span>
 							</CardBody>
 						</Button>
 					</div>

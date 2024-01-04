@@ -1,14 +1,21 @@
 {
 	"fr": {
-		"home": "Accueil",
-		"welcome": "Bienvenue sur Name!",
-		"getReady": "Préparez-vous pour une journée d'enfer!",
-		"recipes": "Recettes",
-		"workout": "Entraînement",
-		"workoutPrograms": "Programmes d'entraînement",
-		"trackers": "Trackers",
-		"water": "Eau",
-		"sleep": "Sommeil",
-		"weight": "Poids"
+		"homePage": {
+			"home": "Accueil",
+			"welcome": "Bienvenue sur Name!",
+			"getReady": "Préparez-vous pour une journée d'enfer!",
+			"recipes": "Recettes",
+			"workout": "Entraînement",
+			"workoutPrograms": "Programmes d'entraînement",
+			"trackers": "Trackers",
+			"water": "Eau",
+			"sleep": "Sommeil",
+			"weight": "Poids"
+		},
+		"accountPage": {
+			"account": "Compte",
+			"settings": "Paramètres",
+			"logout": "Déconnexion"
+		}
 	}
 }
