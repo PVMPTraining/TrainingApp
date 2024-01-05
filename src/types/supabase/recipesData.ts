@@ -143,9 +143,3 @@ export interface RecipeData {
 	equipment: EQUIPMENT[];
 	calories: number;
 }
-
-export type HistoryData = {
-	keyword: string;
-	category: string;
-	timestamp: number;
-}[];

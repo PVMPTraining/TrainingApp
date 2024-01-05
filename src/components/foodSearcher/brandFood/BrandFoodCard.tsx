@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BrandFoodSearchResultTypes } from "@/src/types/types";
 import { setChosenBrandFood } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
 import Link from "next/link";
+import { AddProductToUserHistory, GetUserID } from "@/src/utils/helpers/supabase";
 
 // çerezya keyword causing problem.
 
@@ -22,10 +23,10 @@ const nutritionValueReceiver = (food: BrandFoodSearchResultTypes, nutrition: str
 		return food.nutriments.nutrition_serving
 			? parseFloat(food.nutriments.carbohydrates_serving.toFixed(1))
 			: food.nutriments.carbohydrates_100g
-				? parseFloat(food.nutriments.carbohydrates_100g.toFixed(1))
-				: food.nutriments.carbohydrates_prepared_serving
-					? parseFloat(food.nutriments.carbohydrates_prepared_serving.toFixed(1))
-					: 0; // You can set a default value if needed
+			? parseFloat(food.nutriments.carbohydrates_100g.toFixed(1))
+			: food.nutriments.carbohydrates_prepared_serving
+			? parseFloat(food.nutriments.carbohydrates_prepared_serving.toFixed(1))
+			: 0; // You can set a default value if needed
 	} else {
 		return food.nutriments.carbohydrates_100g ? parseFloat(food.nutriments.carbohydrates_100g.toFixed(1)) : 0; // You can set a default value if needed
 	}
@@ -69,18 +70,18 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 				food.product_name_en
 					? food.product_name_en
 					: food.product_name
-						? food.product_name
-						: food.abbreviated_product_name
-							? food.abbreviated_product_name
-							: food.generic_name_en
-								? food.generic_name_en
-								: food.generic_name_de
-									? food.generic_name_de
-									: food.generic_name_fr
-										? food.generic_name_fr
-										: food.generic_name
-											? food.generic_name
-											: "hidden"
+					? food.product_name
+					: food.abbreviated_product_name
+					? food.abbreviated_product_name
+					: food.generic_name_en
+					? food.generic_name_en
+					: food.generic_name_de
+					? food.generic_name_de
+					: food.generic_name_fr
+					? food.generic_name_fr
+					: food.generic_name
+					? food.generic_name
+					: "hidden"
 			}`}
 			onClick={() => selectBrandFoodHandler(food)}
 		>
@@ -102,19 +103,19 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 					<strong className="text-lg">{food.brands ? brandNameRepetitionPreventer(food.brands) : ""}</strong>
 					<br />
 					<span className="tracking-tighter text-left">
-						{food.product_name_en
+						{food.product_name
+							? food.product_name
+							: food.product_name_en
 							? food.product_name_en
-							: food.product_name
-								? food.product_name
-								: food.abbreviated_product_name
-									? food.abbreviated_product_name
-									: food.generic_name_en
-										? food.generic_name_en
-										: food.generic_name_de
-											? food.generic_name_de
-											: food.generic_name_fr
-												? food.generic_name_fr
-												: food.generic_name}
+							: food.abbreviated_product_name
+							? food.abbreviated_product_name
+							: food.generic_name_en
+							? food.generic_name_en
+							: food.generic_name_de
+							? food.generic_name_de
+							: food.generic_name_fr
+							? food.generic_name_fr
+							: food.generic_name}
 					</span>
 				</p>
 				<div className="space-y-2">
@@ -126,12 +127,12 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 									food.nutrition_grades === "a"
 										? "text-green-500"
 										: food.nutrition_grades === "b"
-											? "text-green-300"
-											: food.nutrition_grades === "c"
-												? "text-yellow-400"
-												: food.nutrition_grades === "d"
-													? "text-orange-400"
-													: "text-red-500"
+										? "text-green-300"
+										: food.nutrition_grades === "c"
+										? "text-yellow-400"
+										: food.nutrition_grades === "d"
+										? "text-orange-400"
+										: "text-red-500"
 								}`}
 							>
 								{food.nutrition_grades.toUpperCase()}
@@ -149,81 +150,101 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 							food.nutriments["energy-kj_prepared_serving"])
 							? food.serving_quantity + "g"
 							: food.serving_size && !food.serving_quantity
-								? food.serving_size
-								: food.nutriments["energy-kcal_100g"] || food.nutriments["energy-kj_100g"]
-									? "100g"
-									: "Unknown"}{" "}
+							? food.serving_size
+							: food.nutriments["energy-kcal_100g"] || food.nutriments["energy-kj_100g"]
+							? "100g"
+							: "Unknown"}{" "}
 					</p>
 					<p>
-						Energy:{" "}
-						{(food.serving_quantity || food.serving_size) &&
-						(food.nutriments["energy-kcal_serving"] ||
-							food.nutriments["energy-kj_serving"] ||
-							food.nutriments["energy-kcal_prepared_serving"] ||
-							food.nutriments["energy-kj_prepared_serving"])
+						Calorie:{" "}
+						{food.serving_quantity ||
+						(food.serving_size &&
+							(food.nutriments["energy-kcal_serving"] ||
+								food.nutriments["energy-kj_serving"] ||
+								food.nutriments["energy-kcal_prepared_serving"] ||
+								food.nutriments["energy-kj_prepared_serving"]))
 							? food.nutriments["energy-kcal_serving"]
-								? food.nutriments["energy-kcal_serving"].toFixed(1) + " kcal"
+								? Number(food.nutriments["energy-kcal_serving"]).toFixed(1) + " kcal"
 								: food.nutriments["energy-kj_serving"]
-									? (food.nutriments["energy-kj_serving"] / 4.184).toFixed(1) + " kcal"
-									: food.nutriments["energy-kcal_prepared_serving"]
-										? food.nutriments["energy-kcal_prepared_serving"].toFixed(1) + " kcal"
-										: food.nutriments["energy-kj_prepared_serving"]
-											? (food.nutriments["energy-kj_prepared_serving"] / 4.184).toFixed(1) + " kcal"
-											: (food.nutriments["energy-kj_100g"] / 4.184).toFixed(1) + " kcal"
+								? (Number(food.nutriments["energy-kj_serving"]) / 4.184).toFixed(1) + " kcal"
+								: food.nutriments["energy-kcal_prepared_serving"]
+								? Number(food.nutriments["energy-kcal_prepared_serving"]).toFixed(1) + " kcal"
+								: food.nutriments["energy-kj_prepared_serving"]
+								? (Number(food.nutriments["energy-kj_prepared_serving"]) / 4.184).toFixed(1) + " kcal"
+								: (Number(food.nutriments["energy-kj_100g"]) / 4.184).toFixed(1) + " kcal"
 							: food.nutriments["energy-kcal_100g"]
-								? food.nutriments["energy-kcal_100g"].toFixed(1) + " kcal"
-								: food.nutriments["energy-kj_100g"]
-									? (+food.nutriments["energy-kj_100g"] / 4.184).toFixed(1) + " kcal"
-									: "-"}
+							? Number(food.nutriments["energy-kcal_100g"]).toFixed(1) + " kcal"
+							: food.nutriments["energy-kj_100g"]
+							? (Number(food.nutriments["energy-kj_100g"]) / 4.184).toFixed(1) + " kcal"
+							: "-"}
 					</p>
 					<p>
 						Protein:{" "}
 						{food.serving_quantity || food.serving_size
 							? food.nutriments.proteins_serving
-								? food.nutriments.proteins_serving.toFixed(1) + "g"
+								? Number(food.nutriments.proteins_serving).toFixed(1) + "g"
 								: food.nutriments.proteins_100g
-									? food.nutriments.proteins_100g.toFixed(1) + "g"
-									: food.nutriments.proteins_prepared_serving
-										? food.nutriments.proteins_prepared_serving.toFixed(1) + "g"
-										: "-"
+								? Number(food.nutriments.proteins_100g).toFixed(1) + "g"
+								: food.nutriments.proteins_prepared_serving
+								? Number(food.nutriments.proteins_prepared_serving).toFixed(1) + "g"
+								: "-"
 							: food.nutriments.proteins_100g
-								? food.nutriments.proteins_100g.toFixed(1) + "g"
-								: "-"}
+							? Number(food.nutriments.proteins_100g).toFixed(1) + "g"
+							: "-"}
 					</p>
 					<p>
 						Carbohydrate:{" "}
 						{food.serving_size
 							? food.nutriments.carbohydrates_serving
-								? food.nutriments.carbohydrates_serving.toFixed(1) + "g"
+								? Number(food.nutriments.carbohydrates_serving).toFixed(1) + "g"
 								: food.nutriments.carbohydrates_100g
-									? food.nutriments.carbohydrates_100g.toFixed(1) + "g"
-									: food.nutriments.carbohydrates_prepared_serving
-										? food.nutriments.carbohydrates_prepared_serving.toFixed(1) + "g"
-										: "-"
+								? Number(food.nutriments.carbohydrates_100g).toFixed(1) + "g"
+								: food.nutriments.carbohydrates_prepared_serving
+								? Number(food.nutriments.carbohydrates_prepared_serving).toFixed(1) + "g"
+								: "-"
 							: food.nutriments.carbohydrates_100g
-								? food.nutriments.carbohydrates_100g.toFixed(1) + "g"
-								: "-"}
+							? Number(food.nutriments.carbohydrates_100g).toFixed(1) + "g"
+							: "-"}
 					</p>
 					<p>
 						Fat:{" "}
 						{food.serving_size
 							? food.nutriments.fat_serving
-								? food.nutriments.fat_serving.toFixed(1) + "g"
+								? Number(food.nutriments.fat_serving).toFixed(1) + "g"
 								: food.nutriments.fat_100g
-									? food.nutriments.fat_100g.toFixed(1) + "g"
-									: food.nutriments.fat_prepared_serving
-										? food.nutriments.fat_prepared_serving.toFixed(1) + "g"
-										: "-"
+								? Number(food.nutriments.fat_100g).toFixed(1) + "g"
+								: food.nutriments.fat_prepared_serving
+								? Number(food.nutriments.fat_prepared_serving).toFixed(1) + "g"
+								: "-"
 							: food.nutriments.fat_100g
-								? food.nutriments.fat_100g.toFixed(1) + "g"
-								: "-"}
+							? Number(food.nutriments.fat_100g).toFixed(1) + "g"
+							: "-"}
 					</p>
 				</div>
 				<div className="flex flex-col items-center gap-2">
 					<Link
 						href={`/nutrition/tools/${food._id}}`}
 						className="bg-white text-black self-center btn"
-						onClick={() => dispatch(setChosenBrandFood(food))}
+						onClick={async () => {
+							dispatch(setChosenBrandFood(food));
+							await AddProductToUserHistory((await GetUserID()) as string, {
+								productName: food.product_name
+									? food.product_name
+									: food.product_name_en
+									? food.product_name_en
+									: food.abbreviated_product_name
+									? food.abbreviated_product_name
+									: food.generic_name_en
+									? food.generic_name_en
+									: food.generic_name_de
+									? food.generic_name_de
+									: food.generic_name_fr
+									? food.generic_name_fr
+									: food.generic_name,
+								category: "brand",
+								timestamp: Date.now()
+							});
+						}}
 					>
 						See all details
 					</Link>
