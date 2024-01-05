@@ -1,14 +1,21 @@
 {
 	"en": {
-		"home": "Home",
-		"welcome": "Welcome to Name!",
-		"getReady": "Get ready for a killer day!",
-		"recipes": "Recipes",
-		"workout": "Workouts",
-		"workoutPrograms": "Workout Programs",
-		"trackers": "Trackers",
-		"water": "Water",
-		"sleep": "Sleep",
-		"weight": "Weight"
+		"homePage": {
+			"home": "Home",
+			"welcome": "Welcome to Name!",
+			"getReady": "Get ready for a killer day!",
+			"recipes": "Recipes",
+			"workout": "Workouts",
+			"workoutPrograms": "Workout Programs",
+			"trackers": "Trackers",
+			"water": "Water",
+			"sleep": "Sleep",
+			"weight": "Weight"
+		},
+		"accountPage": {
+			"account": "Account",
+			"settings": "Settings",
+			"logout": "Logout"
+		}
 	}
 }

@@ -1,0 +1,21 @@
+{
+	"it": {
+		"homePage": {
+			"home": "Home",
+			"welcome": "Benvenuti in Nome!",
+			"getReady": "Preparati per una giornata fantastica!",
+			"recipes": "Ricette",
+			"workout": "Allenamenti",
+			"workoutPrograms": "Programmi di Allenamento",
+			"trackers": "Tracciamento",
+			"water": "Acqua",
+			"sleep": "Sonno",
+			"weight": "Peso"
+		},
+		"accountPage": {
+			"account": "Account",
+			"settings": "Impostazioni",
+			"logout": "Esci"
+		}
+	}
+}
