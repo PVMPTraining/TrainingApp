@@ -24,6 +24,7 @@ const id_column: string = "id";
 const workouts_column = "workouts";
 const exercises_column = "exercises";
 const foodSearch_keyword_history_column = "foodSearch_keyword_history";
+const foodSearch_product_history_column = "foodSearch_product_history";
 
 // All Constant
 const all = "*";
@@ -293,7 +294,7 @@ export const AddLoggedWorkout = async (id: string, workout: any) => {
 	}
 };
 
-export const GetUserHistory = async (id: string) => {
+export const GetUserKeywordHistory = async (id: string) => {
 	const { data: user_history, error } = await supabase.from(users).select(foodSearch_keyword_history_column).eq(id_column, id);
 
 	if (error) return error;
@@ -302,7 +303,7 @@ export const GetUserHistory = async (id: string) => {
 };
 
 export const AddKeywordToUserHistory = async (id: string, keyword: { keyword: string; category: string; timestamp: number }) => {
-	const userHistory = await GetUserHistory(id);
+	const userHistory = await GetUserKeywordHistory(id);
 	userHistory.push(keyword);
 
 	await supabase.from(users).update({ foodSearch_keyword_history: userHistory }).eq(id_column, id);
@@ -311,12 +312,36 @@ export const AddKeywordToUserHistory = async (id: string, keyword: { keyword: st
 // Even i checked timestamp for filter its deleting the same keywords i'll look again
 
 export const DeleteKeywordFromUserHistory = async (id: string, keywordToDelete: { keyword: string; category: string; timestamp: number }) => {
-	const userHistory = await GetUserHistory(id);
+	const userHistory = await GetUserKeywordHistory(id);
 
 	// Filter out the keyword to delete
 	const updatedHistory = userHistory.filter((keyword: { timestamp: number }) => keyword.timestamp !== keywordToDelete.timestamp);
 
 	await supabase.from(users).update({ foodSearch_keyword_history: updatedHistory }).eq(id_column, id);
+};
+
+export const GetUserProductHistory = async (id: string) => {
+	const { data: user_history, error } = await supabase.from(users).select(foodSearch_product_history_column).eq(id_column, id);
+
+	if (error) return error;
+	if (user_history) return user_history[0].foodSearch_product_history;
+	else return null;
+};
+
+export const AddProductToUserHistory = async (id: string, product: { productName: string; category: string; timestamp: number }) => {
+	const userHistory = await GetUserProductHistory(id);
+	userHistory.push(product);
+
+	await supabase.from(users).update({ foodSearch_product_history: userHistory }).eq(id_column, id);
+};
+
+export const DeleteProductFromUserHistory = async (id: string, productToDelete: { productName: string; category: string; timestamp: number }) => {
+	const userHistory = await GetUserProductHistory(id);
+
+	// Filter out the keyword to delete
+	const updatedHistory = userHistory.filter((product: { timestamp: number }) => product.timestamp !== productToDelete.timestamp);
+
+	await supabase.from(users).update({ foodSearch_product_history: updatedHistory }).eq(id_column, id);
 };
 
 export const GetImageURLFromBucket = async (bucketName: string, imageName: string) => {

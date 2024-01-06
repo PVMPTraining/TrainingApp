@@ -10,7 +10,7 @@ const CoreFoodWrapper: FC<CoreFoodWrapperProps> = ({}) => {
 	const { isLoading, coreFoodData, isSearched } = useSelector((state: RootState) => state.foodFetch);
 
 	return (
-		<div className="flex flex-col gap-5 mt-5 relative">
+		<div className="flex gap-2 gap-y-10 mt-5 relative flex-wrap justify-center">
 			{isSearched && coreFoodData ? (
 				coreFoodData.foods.length >= 1 ? (
 					coreFoodData.foods.map((food) => <CoreFoodCard key={food.fdcId} food={food} />)
