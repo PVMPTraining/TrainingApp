@@ -16,6 +16,19 @@
 			"account": "Account",
 			"settings": "Settings",
 			"logout": "Logout"
+		},
+		"recipes": {
+			"filterOptions": {
+				"dietType": {
+					"keto": "Keto",
+					"pescatarian": "Pescatarian",
+					"kosher": "Kosher",
+					"paleo": "Paleo",
+					"halal": "Halal",
+					"vegan": "Vegan",
+					"vegetarian": "Vegetarian"
+				}
+			}
 		}
 	}
 }

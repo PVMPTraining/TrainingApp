@@ -7,6 +7,7 @@ import { RecipeData } from "@/src/types/supabase/recipesData";
 import { ExerciseData } from "@/src/types/supabase/exerciseData";
 import { Json } from "@/src/types/types";
 import { Workout } from "@/src/types/fitnessTypes";
+import { getLocal } from "@/src/utils/localisation/localisation";
 
 const supabase = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
@@ -153,6 +154,21 @@ export const GetRecipes = async () => {
 	}
 
 	return (recipes as RecipeData[]) || [];
+};
+
+export const GetLocales = async (tableName: string, locale: string) => {
+	const { data: locales, error } = await supabase.from([tableName, "locales"].join("_")).select(`key, ${locale}`);
+
+	if (locales) {
+		Log(LogLevel.DEBUG, `GetLocales, locales:`, locales);
+	}
+
+	if (error) {
+		Log(LogLevel.ERROR, `GetLocales, error:`, error);
+		throw error;
+	}
+
+	return locales || [];
 };
 
 /**
@@ -316,3 +332,27 @@ export const GetImageURLFromBucket = async (bucketName: string, imageName: strin
 		console.error("Error retrieving private image:", error);
 	}
 };
+
+export const getColumnFromTable = async (tableName: string, columnName: string) => {
+	try {
+		const { data, error } = await supabase.from(tableName).select(columnName);
+
+		if (error) {
+			throw error;
+		}
+
+		const enumValues = data.map((row: any) => row[columnName]);
+		return enumValues;
+	} catch (error) {
+		console.error("Error fetching enum values:", error);
+		return [];
+	}
+};
+
+// // Example usage:
+// const tableName = "diet_types";
+// const columnName = "diet_type";
+
+// getColumnFromTable(tableName, columnName).then((enumValues) => {
+// 	console.log("Enum Values:", enumValues);
+// });

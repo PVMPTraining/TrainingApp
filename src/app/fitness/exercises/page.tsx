@@ -9,9 +9,12 @@ import { Modal } from "@/src/components/UI/Modal/Modal";
 import { FilterType } from "@/src/components/Filter/Filters";
 import NavLayout from "@/src/layouts/NavLayout";
 import { SearchBarWithFilter } from "@/src/components/SearchBar/SeacrhBarWithFilter";
+import { useFetchExerciseTypes, useFetchMandatoryEquipments } from "@/src/utils/hooks/supabaseDataTypes/supabaseDataTypeHooks";
 
 const ExercisesPage: FC = () => {
 	const { isLoading, exercises } = useFetchExercsiseDatabase();
+	const { isLoading: isLoadingExerciseTypes, data: ExerciseTypes } = useFetchExerciseTypes();
+	const { isLoading: isLoadingMandatoryEquipment, data: MandatoryEquipment } = useFetchMandatoryEquipments();
 
 	// State to control whether the modal is open or not
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,8 +23,8 @@ const ExercisesPage: FC = () => {
 	const [exercisesSearchResults, setExercisesSearchResults] = useState<ExerciseData[]>(exercises);
 
 	const filterOptions = [
-		{ topLeftLabel: "Exercise Type", options: EXERCISE_TYPE, dataKey: "exercise_type", type: FilterType.Checkbox },
-		{ topLeftLabel: "Required Equipment", options: MANDATORY_EQUIPMENT, dataKey: "mandatory_equipment", type: FilterType.Checkbox },
+		{ topLeftLabel: "Exercise Type", options: ExerciseTypes, dataKey: "exercise_type", type: FilterType.Checkbox },
+		{ topLeftLabel: "Required Equipment", options: MandatoryEquipment, dataKey: "mandatory_equipment", type: FilterType.Checkbox },
 		{ topLeftLabel: "Muscles", dataKey: "primary_muscles", type: FilterType.VisualMuscle }
 	];
 
