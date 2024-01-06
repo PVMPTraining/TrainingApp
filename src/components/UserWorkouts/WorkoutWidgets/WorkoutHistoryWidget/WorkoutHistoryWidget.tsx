@@ -34,7 +34,7 @@ export const WorkoutHistoryWidget: FC<WorkoutHistoryWidgetProps> = () => {
 						</Button>
 					</div>
 					{isLoading ? (
-						<p>Loading...</p>
+						<div className="skeleton w-full h-16"></div>
 					) : (
 						latestWorkouts.map((workout: timedWorkout, index: number) => (
 							<div className="bg-base-300 p-2 rounded" key={index}>

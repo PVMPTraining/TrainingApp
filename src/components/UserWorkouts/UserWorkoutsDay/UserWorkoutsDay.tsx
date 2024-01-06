@@ -32,40 +32,46 @@ export const UserWorkoutsDay: FC<UserWorkoutsDayProps> = ({ className, date }) =
 	return (
 		<div>
 			<div className="text-xl font-bold ml-2 mb-1">Workouts for {formatLongDate(date)}</div>
-			{selectedDateWorkouts && selectedDateWorkouts.length !== 0 && (
-				<Card className={["bg-base-200 card-compact", className].join(" ")}>
-					<CardBody>
-						<div className="bg-base-300 rounded-lg p-2">
-							{selectedDateWorkouts.map((workout: timedWorkout, index: Key | null | undefined) => {
-								return (
-									<div className="flex justify-between" key={index}>
-										<div>
-											<h2>{workout.name}</h2>
-											{workout.exercises.map((exercise, index) => {
-												return <div key={index}>{exercise.name}</div>;
-											})}
-										</div>
-										<Button
-											className="btn-sm bg-accent"
-											onClick={() => {
-												router.push("/fitness/log-workout/editor?workout=" + JSON.stringify(workout));
-											}}
-										>
-											<span className="text-black">Full View</span>
-										</Button>
-									</div>
-								);
-							})}
-						</div>
-					</CardBody>
-				</Card>
-			)}
-			{selectedDateWorkouts && selectedDateWorkouts.length === 0 && (
-				<Card className="bg-base-200">
-					<CardBody>
-						<div>No workouts logged today! It's time for a new one</div>
-					</CardBody>
-				</Card>
+			{isLoading ? (
+				<div className="skeleton w-full h-28"></div>
+			) : (
+				<>
+					{selectedDateWorkouts && selectedDateWorkouts.length !== 0 && (
+						<Card className={["bg-base-200 card-compact", className].join(" ")}>
+							<CardBody>
+								<div className="bg-base-300 rounded-lg p-2">
+									{selectedDateWorkouts.map((workout: timedWorkout, index: Key | null | undefined) => {
+										return (
+											<div className="flex justify-between" key={index}>
+												<div>
+													<h2>{workout.name}</h2>
+													{workout.exercises.map((exercise, index) => {
+														return <div key={index}>{exercise.name}</div>;
+													})}
+												</div>
+												<Button
+													className="btn-sm bg-accent"
+													onClick={() => {
+														router.push("/fitness/log-workout/editor?workout=" + JSON.stringify(workout));
+													}}
+												>
+													<span className="text-black">Full View</span>
+												</Button>
+											</div>
+										);
+									})}
+								</div>
+							</CardBody>
+						</Card>
+					)}
+					{selectedDateWorkouts && selectedDateWorkouts.length === 0 && (
+						<Card className="bg-base-200">
+							<CardBody>
+								<div>No workouts logged today! It's time for a new one</div>
+							</CardBody>
+						</Card>
+					)}
+				</>
 			)}
 		</div>
 	);
