@@ -23,3 +23,18 @@ export const Button: FC<ButtonProps> = ({ className, children, ...props }) => {
 		</button>
 	);
 };
+
+/**
+ * Renders a circular button.
+ *
+ * @component
+ * @param {ButtonProps} props - The button props.
+ * @returns {JSX.Element} - The rendered circular button.
+ */
+export const ButtonCircle: FC<ButtonProps> = ({ className, children, ...props }) => {
+	return (
+		<Button className={["btn-circle", className].join(" ")} {...props}>
+			{children}
+		</Button>
+	);
+};
