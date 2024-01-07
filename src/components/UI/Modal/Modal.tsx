@@ -17,9 +17,10 @@ export const Modal: FC<ModalProps> = ({ openModal, closeModalCallback, className
 		<>
 			{openModal && (
 				<dialog id="my_modal_1" className="modal" open>
-					<div className="modal-box">{children}</div>
+					<div className="modal-box border border-white">{children}</div>
 					<div className="modal-backdrop">
 						<button
+							className="backdrop-blur-sm"
 							onClick={() => {
 								closeModalCallback(false);
 								setIsModalOpen(false);

@@ -15,7 +15,14 @@
 		"accountPage": {
 			"account": "Compte",
 			"settings": "Paramètres",
-			"logout": "Déconnexion"
+			"logout": "Déconnexion",
+			"languageSelection": "Langues disponibles"
+		},
+		"recipes": {},
+		"languageSelector": {
+			"english": "English",
+			"french": "Français",
+			"italian": "Italiano"
 		}
 	}
 }

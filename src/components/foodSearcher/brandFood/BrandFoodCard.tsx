@@ -23,10 +23,10 @@ const nutritionValueReceiver = (food: BrandFoodSearchResultTypes, nutrition: str
 		return food.nutriments.nutrition_serving
 			? parseFloat(food.nutriments.carbohydrates_serving.toFixed(1))
 			: food.nutriments.carbohydrates_100g
-			? parseFloat(food.nutriments.carbohydrates_100g.toFixed(1))
-			: food.nutriments.carbohydrates_prepared_serving
-			? parseFloat(food.nutriments.carbohydrates_prepared_serving.toFixed(1))
-			: 0; // You can set a default value if needed
+				? parseFloat(food.nutriments.carbohydrates_100g.toFixed(1))
+				: food.nutriments.carbohydrates_prepared_serving
+					? parseFloat(food.nutriments.carbohydrates_prepared_serving.toFixed(1))
+					: 0; // You can set a default value if needed
 	} else {
 		return food.nutriments.carbohydrates_100g ? parseFloat(food.nutriments.carbohydrates_100g.toFixed(1)) : 0; // You can set a default value if needed
 	}
@@ -68,18 +68,18 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 				food.product_name_en
 					? food.product_name_en
 					: food.product_name
-					? food.product_name
-					: food.abbreviated_product_name
-					? food.abbreviated_product_name
-					: food.generic_name_en
-					? food.generic_name_en
-					: food.generic_name_de
-					? food.generic_name_de
-					: food.generic_name_fr
-					? food.generic_name_fr
-					: food.generic_name
-					? food.generic_name
-					: "hidden"
+						? food.product_name
+						: food.abbreviated_product_name
+							? food.abbreviated_product_name
+							: food.generic_name_en
+								? food.generic_name_en
+								: food.generic_name_de
+									? food.generic_name_de
+									: food.generic_name_fr
+										? food.generic_name_fr
+										: food.generic_name
+											? food.generic_name
+											: "hidden"
 			}`}
 			onClick={() => selectBrandFoodHandler(food)}
 		>
@@ -104,16 +104,16 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 						{food.product_name
 							? food.product_name
 							: food.product_name_en
-							? food.product_name_en
-							: food.abbreviated_product_name
-							? food.abbreviated_product_name
-							: food.generic_name_en
-							? food.generic_name_en
-							: food.generic_name_de
-							? food.generic_name_de
-							: food.generic_name_fr
-							? food.generic_name_fr
-							: food.generic_name}
+								? food.product_name_en
+								: food.abbreviated_product_name
+									? food.abbreviated_product_name
+									: food.generic_name_en
+										? food.generic_name_en
+										: food.generic_name_de
+											? food.generic_name_de
+											: food.generic_name_fr
+												? food.generic_name_fr
+												: food.generic_name}
 					</span>
 				</p>
 				<div className="space-y-2">
@@ -125,12 +125,12 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 									food.nutrition_grades === "a"
 										? "text-green-500"
 										: food.nutrition_grades === "b"
-										? "text-green-300"
-										: food.nutrition_grades === "c"
-										? "text-yellow-400"
-										: food.nutrition_grades === "d"
-										? "text-orange-400"
-										: "text-red-500"
+											? "text-green-300"
+											: food.nutrition_grades === "c"
+												? "text-yellow-400"
+												: food.nutrition_grades === "d"
+													? "text-orange-400"
+													: "text-red-500"
 								}`}
 							>
 								{food.nutrition_grades.toUpperCase()}
@@ -148,10 +148,10 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 							food.nutriments["energy-kj_prepared_serving"])
 							? food.serving_quantity + "g"
 							: food.serving_size && !food.serving_quantity
-							? food.serving_size
-							: food.nutriments["energy-kcal_100g"] || food.nutriments["energy-kj_100g"]
-							? "100g"
-							: "Unknown"}{" "}
+								? food.serving_size
+								: food.nutriments["energy-kcal_100g"] || food.nutriments["energy-kj_100g"]
+									? "100g"
+									: "Unknown"}{" "}
 					</p>
 					<p>
 						Calorie:{" "}
@@ -164,17 +164,17 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 							? food.nutriments["energy-kcal_serving"]
 								? Number(food.nutriments["energy-kcal_serving"]).toFixed(1) + " kcal"
 								: food.nutriments["energy-kj_serving"]
-								? (Number(food.nutriments["energy-kj_serving"]) / 4.184).toFixed(1) + " kcal"
-								: food.nutriments["energy-kcal_prepared_serving"]
-								? Number(food.nutriments["energy-kcal_prepared_serving"]).toFixed(1) + " kcal"
-								: food.nutriments["energy-kj_prepared_serving"]
-								? (Number(food.nutriments["energy-kj_prepared_serving"]) / 4.184).toFixed(1) + " kcal"
-								: (Number(food.nutriments["energy-kj_100g"]) / 4.184).toFixed(1) + " kcal"
+									? (Number(food.nutriments["energy-kj_serving"]) / 4.184).toFixed(1) + " kcal"
+									: food.nutriments["energy-kcal_prepared_serving"]
+										? Number(food.nutriments["energy-kcal_prepared_serving"]).toFixed(1) + " kcal"
+										: food.nutriments["energy-kj_prepared_serving"]
+											? (Number(food.nutriments["energy-kj_prepared_serving"]) / 4.184).toFixed(1) + " kcal"
+											: (Number(food.nutriments["energy-kj_100g"]) / 4.184).toFixed(1) + " kcal"
 							: food.nutriments["energy-kcal_100g"]
-							? Number(food.nutriments["energy-kcal_100g"]).toFixed(1) + " kcal"
-							: food.nutriments["energy-kj_100g"]
-							? (Number(food.nutriments["energy-kj_100g"]) / 4.184).toFixed(1) + " kcal"
-							: "-"}
+								? Number(food.nutriments["energy-kcal_100g"]).toFixed(1) + " kcal"
+								: food.nutriments["energy-kj_100g"]
+									? (Number(food.nutriments["energy-kj_100g"]) / 4.184).toFixed(1) + " kcal"
+									: "-"}
 					</p>
 					<p>
 						Protein:{" "}
@@ -182,13 +182,13 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 							? food.nutriments.proteins_serving
 								? Number(food.nutriments.proteins_serving).toFixed(1) + "g"
 								: food.nutriments.proteins_100g
-								? Number(food.nutriments.proteins_100g).toFixed(1) + "g"
-								: food.nutriments.proteins_prepared_serving
-								? Number(food.nutriments.proteins_prepared_serving).toFixed(1) + "g"
-								: "-"
+									? Number(food.nutriments.proteins_100g).toFixed(1) + "g"
+									: food.nutriments.proteins_prepared_serving
+										? Number(food.nutriments.proteins_prepared_serving).toFixed(1) + "g"
+										: "-"
 							: food.nutriments.proteins_100g
-							? Number(food.nutriments.proteins_100g).toFixed(1) + "g"
-							: "-"}
+								? Number(food.nutriments.proteins_100g).toFixed(1) + "g"
+								: "-"}
 					</p>
 					<p>
 						Carbohydrate:{" "}
@@ -196,13 +196,13 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 							? food.nutriments.carbohydrates_serving
 								? Number(food.nutriments.carbohydrates_serving).toFixed(1) + "g"
 								: food.nutriments.carbohydrates_100g
-								? Number(food.nutriments.carbohydrates_100g).toFixed(1) + "g"
-								: food.nutriments.carbohydrates_prepared_serving
-								? Number(food.nutriments.carbohydrates_prepared_serving).toFixed(1) + "g"
-								: "-"
+									? Number(food.nutriments.carbohydrates_100g).toFixed(1) + "g"
+									: food.nutriments.carbohydrates_prepared_serving
+										? Number(food.nutriments.carbohydrates_prepared_serving).toFixed(1) + "g"
+										: "-"
 							: food.nutriments.carbohydrates_100g
-							? Number(food.nutriments.carbohydrates_100g).toFixed(1) + "g"
-							: "-"}
+								? Number(food.nutriments.carbohydrates_100g).toFixed(1) + "g"
+								: "-"}
 					</p>
 					<p>
 						Fat:{" "}
@@ -210,13 +210,13 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 							? food.nutriments.fat_serving
 								? Number(food.nutriments.fat_serving).toFixed(1) + "g"
 								: food.nutriments.fat_100g
-								? Number(food.nutriments.fat_100g).toFixed(1) + "g"
-								: food.nutriments.fat_prepared_serving
-								? Number(food.nutriments.fat_prepared_serving).toFixed(1) + "g"
-								: "-"
+									? Number(food.nutriments.fat_100g).toFixed(1) + "g"
+									: food.nutriments.fat_prepared_serving
+										? Number(food.nutriments.fat_prepared_serving).toFixed(1) + "g"
+										: "-"
 							: food.nutriments.fat_100g
-							? Number(food.nutriments.fat_100g).toFixed(1) + "g"
-							: "-"}
+								? Number(food.nutriments.fat_100g).toFixed(1) + "g"
+								: "-"}
 					</p>
 				</div>
 				<div className="flex flex-col items-center gap-2">
@@ -229,16 +229,16 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 								productName: food.product_name
 									? food.product_name
 									: food.product_name_en
-									? food.product_name_en
-									: food.abbreviated_product_name
-									? food.abbreviated_product_name
-									: food.generic_name_en
-									? food.generic_name_en
-									: food.generic_name_de
-									? food.generic_name_de
-									: food.generic_name_fr
-									? food.generic_name_fr
-									: food.generic_name,
+										? food.product_name_en
+										: food.abbreviated_product_name
+											? food.abbreviated_product_name
+											: food.generic_name_en
+												? food.generic_name_en
+												: food.generic_name_de
+													? food.generic_name_de
+													: food.generic_name_fr
+														? food.generic_name_fr
+														: food.generic_name,
 								category: "brand",
 								timestamp: Date.now()
 							});

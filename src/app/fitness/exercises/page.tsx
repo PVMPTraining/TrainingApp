@@ -9,9 +9,15 @@ import { Modal } from "@/src/components/UI/Modal/Modal";
 import { FilterType } from "@/src/components/Filter/Filters";
 import NavLayout from "@/src/layouts/NavLayout";
 import { SearchBarWithFilter } from "@/src/components/SearchBar/SeacrhBarWithFilter";
+import { useFetchExerciseTypes, useFetchMandatoryEquipments } from "@/src/utils/hooks/supabaseDataTypes/supabaseDataTypeHooks";
+import { useLocalizedStrings } from "@/src/utils/localisation/localisation";
 
 const ExercisesPage: FC = () => {
+	const strings = useLocalizedStrings();
+
 	const { isLoading, exercises } = useFetchExercsiseDatabase();
+	const { isLoading: isLoadingExerciseTypes, data: ExerciseTypes } = useFetchExerciseTypes();
+	const { isLoading: isLoadingMandatoryEquipment, data: MandatoryEquipment } = useFetchMandatoryEquipments();
 
 	// State to control whether the modal is open or not
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,14 +26,14 @@ const ExercisesPage: FC = () => {
 	const [exercisesSearchResults, setExercisesSearchResults] = useState<ExerciseData[]>(exercises);
 
 	const filterOptions = [
-		{ topLeftLabel: "Exercise Type", options: EXERCISE_TYPE, dataKey: "exercise_type", type: FilterType.Checkbox },
-		{ topLeftLabel: "Required Equipment", options: MANDATORY_EQUIPMENT, dataKey: "mandatory_equipment", type: FilterType.Checkbox },
+		{ topLeftLabel: "Exercise Type", options: ExerciseTypes, dataKey: "exercise_type", type: FilterType.Checkbox },
+		{ topLeftLabel: "Required Equipment", options: MandatoryEquipment, dataKey: "mandatory_equipment", type: FilterType.Checkbox },
 		{ topLeftLabel: "Muscles", dataKey: "primary_muscles", type: FilterType.VisualMuscle }
 	];
 
 	return (
 		<NavLayout
-			header={<div>Exercises</div>}
+			header={<div>{strings.exercises.exercisesHeader}</div>}
 			content={
 				<div className="flex flex-col flex-grow justify-center gap-4 m-2">
 					<div>

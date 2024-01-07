@@ -25,8 +25,24 @@ import { LuVegan } from "react-icons/lu";
 import { SearchBarWithFilter } from "@/src/components/SearchBar/SeacrhBarWithFilter";
 import { GetImageURLFromBucket } from "@/src/utils/helpers/supabase";
 import { formatStringToLowerCaseSpacesToUnderscores } from "@/src/utils/helpers/functions";
+import {
+	useFetchCuisineTypes,
+	useFetchDietTypes,
+	useFetchEquipments,
+	useFetchFitnessGoals,
+	useFetchFreeFroms,
+	useFetchHighContents,
+	useFetchLowContents,
+	useFetchMealTypes,
+	useFetchSkillLevels,
+	useFetchSpecialFeatures
+} from "@/src/utils/hooks/supabaseDataTypes/supabaseDataTypeHooks";
+import { useLocalizedStrings } from "@/src/utils/localisation/localisation";
+import { string } from "yup";
 
 const RecepiesPage: FC = () => {
+	const strings = useLocalizedStrings();
+
 	const partialBlur: React.CSSProperties = {
 		position: "absolute",
 		top: -10,
@@ -42,6 +58,16 @@ const RecepiesPage: FC = () => {
 	};
 
 	const { isLoading, recipes } = useFetchRecipes();
+	const { isLoading: isLoadingDietTypes, data: dietTypes } = useFetchDietTypes();
+	const { isLoading: isLoadingFreeFroms, data: freeFroms } = useFetchFreeFroms();
+	const { isLoading: isLoadingHighContent, data: highContent } = useFetchHighContents();
+	const { isLoading: isLoadingLowContent, data: lowContent } = useFetchLowContents();
+	const { isLoading: isLoadingCuisineType, data: cuisineType } = useFetchCuisineTypes();
+	const { isLoading: isLoadingMealType, data: mealType } = useFetchMealTypes();
+	const { isLoading: isLoadingFitnessGoal, data: fitnessGoal } = useFetchFitnessGoals();
+	const { isLoading: isLoadingSpecialFeatures, data: specialFeatures } = useFetchSpecialFeatures();
+	const { isLoading: isLoadingSkillLevel, data: skillLevel } = useFetchSkillLevels();
+	const { isLoading: isLoadingEquipment, data: equipment } = useFetchEquipments();
 
 	const [recipesSearchResults, setRecipesSearchResults] = useState<RecipeData[]>([]);
 
@@ -64,24 +90,24 @@ const RecepiesPage: FC = () => {
 	}, [recipesSearchResults]);
 
 	const filterOptions = [
-		{ topLeftLabel: "Diet Type", options: DIET_TYPE, dataKey: "diet_type", type: FilterType.Checkbox },
-		{ topLeftLabel: "Free from", options: FREE_FROM, dataKey: "free_from", type: FilterType.Checkbox },
-		{ topLeftLabel: "Low in", options: LOW_CONTENT, dataKey: "low_content", type: FilterType.Checkbox },
-		{ topLeftLabel: "High in", options: HIGH_CONTENT, dataKey: "high_content", type: FilterType.Checkbox },
-		{ topLeftLabel: "Cuisine Type", options: CUISINE_TYPE, dataKey: "cuisine_type", type: FilterType.Checkbox },
-		{ topLeftLabel: "Meal Type", options: MEAL_TYPE, dataKey: "meal_type", type: FilterType.Checkbox },
-		{ topLeftLabel: "Fitness Goal", options: FITNESS_GOAL, dataKey: "fitness_goal", type: FilterType.Checkbox },
-		{ topLeftLabel: "Special Features", options: SPECIAL_FEATURES, dataKey: "special_features", type: FilterType.Checkbox },
-		{ topLeftLabel: "Skill Level", options: SKILL_LEVEL, dataKey: "skill_level", type: FilterType.Checkbox },
-		{ topLeftLabel: "Equipment", options: EQUIPMENT, dataKey: "equipment", type: FilterType.Checkbox },
-		// { topLeftLabel: "Seasonal", options: sesonal, dataKey: "seasonal" }
-		// { topLeftLabel: "Example", dataKey: "example", type: FilterType.RangeSlider },
+		{ topLeftLabel: "Diet Type", options: dietTypes, dataKey: "diet_type", type: FilterType.Checkbox },
+		{ topLeftLabel: "Free from", options: freeFroms, dataKey: "free_from", type: FilterType.Checkbox },
+		{ topLeftLabel: "High in", options: highContent, dataKey: "high_content", type: FilterType.Checkbox },
+		{ topLeftLabel: "Low in", options: lowContent, dataKey: "low_content", type: FilterType.Checkbox },
+		{ topLeftLabel: "Cuisine Type", options: cuisineType, dataKey: "cuisine_type", type: FilterType.Checkbox },
+		{ topLeftLabel: "Meal Type", options: mealType, dataKey: "meal_type", type: FilterType.Checkbox },
+		{ topLeftLabel: "Fitness Goal", options: fitnessGoal, dataKey: "fitness_goal", type: FilterType.Checkbox },
+		{ topLeftLabel: "Special Features", options: specialFeatures, dataKey: "special_feature", type: FilterType.Checkbox },
+		{ topLeftLabel: "Skill Level", options: skillLevel, dataKey: "skill_level", type: FilterType.Checkbox },
+		{ topLeftLabel: "Equipment", options: equipment, dataKey: "equipment", type: FilterType.Checkbox },
+		// // { topLeftLabel: "Seasonal", options: sesonal, dataKey: "seasonal" }
+		// // { topLeftLabel: "Example", dataKey: "example", type: FilterType.RangeSlider },
 		{ topLeftLabel: "Calorie Range", dataKey: "calories", type: FilterType.DualRangeSlider }
 	];
 
 	return (
 		<NavLayout
-			header={<div>Recipes</div>}
+			header={<div>{strings.recipes.recipesHeader}</div>}
 			content={
 				<div className="flex-grow flex flex-col gap-4 m-4">
 					<SearchBarWithFilter

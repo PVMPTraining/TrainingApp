@@ -23,6 +23,7 @@
 		"@reduxjs/toolkit": "^1.9.7",
 		"@supabase/ssr": "^0.0.10",
 		"@supabase/supabase-js": "^2.38.4",
+		"@types/webpack-env": "^1.18.4",
 		"axios": "^1.6.2",
 		"country-flag-icons": "^1.5.9",
 		"debounce": "^2.0.0",

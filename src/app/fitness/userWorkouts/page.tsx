@@ -6,7 +6,7 @@ import { FC } from "react";
 const UserWorkoutsPage: FC = () => {
 	return (
 		<div className="flex flex-col flex-wrap">
-			<UserWorkoutsList></UserWorkoutsList>
+			<UserWorkoutsList />
 		</div>
 	);
 };

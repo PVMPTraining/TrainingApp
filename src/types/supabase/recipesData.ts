@@ -131,15 +131,15 @@ export interface RecipeData {
 	id: string;
 	created_at: string;
 	name: string;
-	diet_type: DIET_TYPE[];
-	free_from: FREE_FROM[];
-	high_content: HIGH_CONTENT[];
-	low_content: LOW_CONTENT[];
-	cuisine_type: CUISINE_TYPE[];
-	meal_type: MEAL_TYPE[];
-	fitness_goal: FITNESS_GOAL[];
-	special_features: SPECIAL_FEATURES[];
-	skill_level: SKILL_LEVEL[];
-	equipment: EQUIPMENT[];
+	diet_type: string[];
+	free_from: string[];
+	high_content: string[];
+	low_content: string[];
+	cuisine_type: string[];
+	meal_type: string[];
+	fitness_goal: string[];
+	special_features: string[];
+	skill_level: string[];
+	equipment: string[];
 	calories: number;
 }

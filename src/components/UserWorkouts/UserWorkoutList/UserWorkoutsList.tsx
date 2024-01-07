@@ -6,6 +6,8 @@ import { Button } from "@/src/components/UI/Button/Button";
 import { useRouter } from "next/navigation";
 import NavLayout from "@/src/layouts/NavLayout";
 import { Modal } from "@/src/components/UI/Modal/Modal";
+import { useLocalizedStrings } from "@/src/utils/localisation/localisation";
+import { liveWorkoutPagePath, updateWorkoutPagePath } from "@/src/pathmap/pathmap";
 
 /**
  * Props for the UserWorkouts component.
@@ -17,6 +19,8 @@ interface UserWorkoutsListProps extends InputHTMLAttributes<HTMLInputElement> {}
  * @component
  */
 const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
+	const strings = useLocalizedStrings();
+
 	const { isLoading, userWorkouts } = useFetchUserWorkouts();
 	const router = useRouter();
 
@@ -30,15 +34,15 @@ const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
 
 	return (
 		<NavLayout
-			header={<div>Workouts</div>}
+			header={<div>{strings.UserWorkoutsList.header}</div>}
 			content={
 				<div className="flex flex-grow flex-col gap-4 m-2">
-					<div className="flex flex-wrap gap-2">
+					<div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
 						{userWorkouts.map((workout: Workout, index: number) => {
 							return (
 								<Button
 									key={index}
-									className="w-[49%] h-24 uppercase text-center m-0"
+									className="h-24 uppercase text-center m-0"
 									onClick={() => {
 										openModal();
 										setWorkout(workout);
@@ -55,24 +59,24 @@ const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
 							router.push("/fitness/user-workouts/new-workout");
 						}}
 					>
-						Add New Workout
+						{strings.UserWorkoutsList.addWorkoutButton}
 					</Button>
 					<Modal openModal={isModalOpen} closeModalCallback={setIsModalOpen}>
 						{workoutSelected && workoutSelected.exercises && (
 							<Card className="flex flex-col gap-4">
 								<Button
 									onClick={() => {
-										router.push("/fitness/log-workout/live?workout=" + JSON.stringify(workoutSelected));
+										router.push(`${liveWorkoutPagePath}?workout=${JSON.stringify(workoutSelected)}`);
 									}}
 								>
-									Start
+									{strings.UserWorkoutsList.startButton}
 								</Button>
 								<Button
 									onClick={() => {
-										router.push("/fitness/user-workouts/update-workout?workout=" + JSON.stringify(workoutSelected));
+										router.push(`${updateWorkoutPagePath}?workout=${JSON.stringify(workoutSelected)}`);
 									}}
 								>
-									Edit
+									{strings.UserWorkoutsList.editButton}
 								</Button>
 								{workoutSelected.name}
 								{workoutSelected.exercises.map((exercise: any, index: number) => {

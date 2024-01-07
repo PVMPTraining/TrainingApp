@@ -19,7 +19,7 @@ interface FiltersProps extends HTMLAttributes<HTMLElement> {
 		topRightLabel?: string | React.ReactNode;
 		bottomLeftLabel?: string | React.ReactNode;
 		bottomRightLabel?: string | React.ReactNode;
-		options?: object;
+		options?: any;
 		dataKey: string;
 		type: FilterType;
 	}[];
@@ -93,7 +93,8 @@ export const Filters: FC<FiltersProps> = ({ listToFilter, filterOptions, filterC
 							topLeftLabel={option.topLeftLabel}
 							bottomLeftLabel={option.bottomLeftLabel}
 							bottomRightLabel={option.bottomRightLabel}
-							options={enumStringArray(option.options ?? {})}
+							// options={enumStringArray(option.options ?? {})}
+							options={option.options}
 							selectionCallback={(updatedSelectedOptions: (prevValue: FilterObject[]) => FilterObject[]) =>
 								updateState(i, updatedSelectedOptions)
 							}
