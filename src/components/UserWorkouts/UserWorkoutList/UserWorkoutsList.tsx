@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import NavLayout from "@/src/layouts/NavLayout";
 import { Modal } from "@/src/components/UI/Modal/Modal";
 import { useLocalizedStrings } from "@/src/utils/localisation/localisation";
+import { liveWorkoutPagePath, updateWorkoutPagePath } from "@/src/pathmap/pathmap";
 
 /**
  * Props for the UserWorkouts component.
@@ -33,7 +34,7 @@ const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
 
 	return (
 		<NavLayout
-			header={<div>{strings.UserWorkoutList.addWorkoutButton}</div>}
+			header={<div>{strings.UserWorkoutsList.header}</div>}
 			content={
 				<div className="flex flex-grow flex-col gap-4 m-2">
 					<div className="grid grid-cols-1 xs:grid-cols-2 gap-2">
@@ -58,24 +59,24 @@ const UserWorkoutsList: FC<UserWorkoutsListProps> = ({}) => {
 							router.push("/fitness/user-workouts/new-workout");
 						}}
 					>
-						{strings.UserWorkoutList.addWorkoutButton}
+						{strings.UserWorkoutsList.addWorkoutButton}
 					</Button>
 					<Modal openModal={isModalOpen} closeModalCallback={setIsModalOpen}>
 						{workoutSelected && workoutSelected.exercises && (
 							<Card className="flex flex-col gap-4">
 								<Button
 									onClick={() => {
-										router.push("/fitness/log-workout/live?workout=" + JSON.stringify(workoutSelected));
+										router.push(`${liveWorkoutPagePath}?workout=${JSON.stringify(workoutSelected)}`);
 									}}
 								>
-									{strings.UserWorkoutList.startButton}
+									{strings.UserWorkoutsList.startButton}
 								</Button>
 								<Button
 									onClick={() => {
-										router.push("/fitness/user-workouts/update-workout?workout=" + JSON.stringify(workoutSelected));
+										router.push(`${updateWorkoutPagePath}?workout=${JSON.stringify(workoutSelected)}`);
 									}}
 								>
-									{strings.UserWorkoutList.editButton}
+									{strings.UserWorkoutsList.editButton}
 								</Button>
 								{workoutSelected.name}
 								{workoutSelected.exercises.map((exercise: any, index: number) => {

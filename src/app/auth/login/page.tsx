@@ -21,8 +21,10 @@ import { useFormik } from "formik";
 import { LoginFormValidationSchema } from "@/src/utils/yup/LoginFormValidationSchema";
 import { accountPagePath, rootPagePath, signupPagePath } from "src/pathmap/pathmap";
 import { FaChevronLeft } from "react-icons/fa";
+import { useLocalizedStrings } from "@/src/utils/localisation/localisation";
 
 const LoginPage: FC = () => {
+	const strings = useLocalizedStrings();
 	const [error, setError] = useState<string | null>(null);
 
 	const router = useRouter();
@@ -60,7 +62,7 @@ const LoginPage: FC = () => {
 				<FaChevronLeft />
 			</Link>
 			<form className="flex flex-col gap-2" onSubmit={formik.handleSubmit}>
-				<h1>Email</h1>
+				<h1>{strings.loginPage.email}</h1>
 				<Input
 					className={`bg-base-200 ${formik.touched.email && formik.errors.email ? "input-error" : ""}`}
 					type="text"
@@ -69,7 +71,7 @@ const LoginPage: FC = () => {
 					value={formik.values.email}
 				/>
 				{formik.touched.email && formik.errors.email && <div className="text-red-600">{formik.errors.email}</div>}
-				<h1>Password</h1>
+				<h1>{strings.loginPage.password}</h1>
 				<Input
 					className={`bg-base-200 ${formik.touched.password && formik.errors.password ? "input-error" : ""}`}
 					type="password"
@@ -79,17 +81,17 @@ const LoginPage: FC = () => {
 				/>
 				{formik.touched.password && formik.errors.password && <div className="text-red-600">{formik.errors.password}</div>}
 				<Button className="mt-2" type="submit">
-					Sign in
+					{strings.loginPage.signIn}
 				</Button>
 				{error && <div className="text-red-600">{error}</div>}
-				<div className="divider">OR</div>
+				<div className="divider uppercase">{strings.loginPage.orDivider}</div>
 				<Button
 					onClick={() => {
 						router.push(signupPagePath);
 					}}
 					type="button"
 				>
-					Sign up
+					{strings.loginPage.signUp}
 				</Button>
 			</form>
 		</div>

@@ -2,24 +2,12 @@
 import { useSelector } from "react-redux";
 import store, { RootState } from "@/src/utils/redux/store";
 import { setLanguage } from "@/src/utils/redux/slices/Language/LanguageSlice";
+import { localStrings } from "@/src/utils/localisation/stringKeys";
 
-// Context for localization files
 const localeContext = require.context("@/src/utils/localisation/locals", false, /^\.\/.*\.json$/);
 
-const strings: any = localeContext.keys().reduce((locales: { [key: string]: any }, file) => {
+const strings: { [key: string]: localStrings } = localeContext.keys().reduce((locales: { [key: string]: localStrings }, file) => {
 	const locale = localeContext(file);
-
-	if (Object.keys(locales).length > 0) {
-		const referenceLocale = locales[Object.keys(locales)[0]];
-		const keysInReference = Object.keys(referenceLocale);
-		const keysInCurrent = Object.keys(locale[Object.keys(locale)[0]]);
-		const missingKeys = keysInReference.filter((key) => !keysInCurrent.includes(key));
-
-		if (missingKeys.length > 0) {
-			console.error(`Locale file: ${file} is missing keys: ${missingKeys.join(", ")}`);
-		}
-	}
-
 	return { ...locales, ...locale };
 }, {});
 

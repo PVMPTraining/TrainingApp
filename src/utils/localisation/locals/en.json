@@ -26,7 +26,15 @@
 			"exercisesButton": "Exercises",
 			"workoutsButton": "Workouts",
 			"logWorkoutButton": "Log-Workout",
-			"toolsButton": "Tools"
+			"toolsButton": "Tools",
+			"logWorkoutModal": {
+				"header": "Log Workout From:",
+				"buttons": {
+					"newWorkout": "New Workout",
+					"fromLogged": "From a logged workout",
+					"fromWorkout": "From My Workout"
+				}
+			}
 		},
 		"languageSelector": {
 			"english": "English",
@@ -38,6 +46,39 @@
 			"addWorkoutButton": "Add New Workout",
 			"startButton": "Start",
 			"editButton": "Edit"
+		},
+		"loginPage": {
+			"email": "Email",
+			"password": "Password",
+			"signIn": "Sign In",
+			"signUp": "Sign Up",
+			"orDivider": "Or"
+		},
+		"signupPage": {
+			"email": "Email",
+			"password": "Password",
+			"signIn": "Sign In",
+			"signUp": "Sign Up",
+			"orDivider": "Or"
+		},
+		"authPage": {
+			"title": "Welcome!",
+			"subtitle": "Proceed below to access the best sports app ever created on planet Earth!.",
+			"login": "login",
+			"signup": "signup"
+		},
+		"exercises": {
+			"exercisesHeader": "Exercises"
+		},
+		"logWorkoutEditor": {
+			"header": "Editor"
+		},
+		"LiveWorkoutStartNewModal": {
+			"header": "Start New Workout",
+			"inputPlaceholder": "Workout Name",
+			"buttons": {
+				"start": "Start"
+			}
 		}
 	}
 }

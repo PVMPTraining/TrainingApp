@@ -10,8 +10,11 @@ import { FilterType } from "@/src/components/Filter/Filters";
 import NavLayout from "@/src/layouts/NavLayout";
 import { SearchBarWithFilter } from "@/src/components/SearchBar/SeacrhBarWithFilter";
 import { useFetchExerciseTypes, useFetchMandatoryEquipments } from "@/src/utils/hooks/supabaseDataTypes/supabaseDataTypeHooks";
+import { useLocalizedStrings } from "@/src/utils/localisation/localisation";
 
 const ExercisesPage: FC = () => {
+	const strings = useLocalizedStrings();
+
 	const { isLoading, exercises } = useFetchExercsiseDatabase();
 	const { isLoading: isLoadingExerciseTypes, data: ExerciseTypes } = useFetchExerciseTypes();
 	const { isLoading: isLoadingMandatoryEquipment, data: MandatoryEquipment } = useFetchMandatoryEquipments();
@@ -30,7 +33,7 @@ const ExercisesPage: FC = () => {
 
 	return (
 		<NavLayout
-			header={<div>Exercises</div>}
+			header={<div>{strings.exercises.exercisesHeader}</div>}
 			content={
 				<div className="flex flex-col flex-grow justify-center gap-4 m-2">
 					<div>
