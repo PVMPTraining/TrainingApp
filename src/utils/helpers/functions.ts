@@ -11,3 +11,7 @@ export const enumStringArray = (e: { [key: string]: any }): string[] => {
 export const formatStringToLowerCaseSpacesToUnderscores = (str: string): string => {
 	return str.toLowerCase().replace(/\s/g, "_");
 };
+
+export const concatClassName = (...args: (string | undefined | null)[]): string => {
+	return args.filter((arg) => arg).join(" ");
+};
