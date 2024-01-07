@@ -1,3 +1,4 @@
+import { concatClassName } from "@/src/utils/helpers/functions";
 import React, { FC, InputHTMLAttributes, Ref } from "react";
 
 /**
@@ -14,5 +15,5 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
  * @returns The input element.
  */
 export const Input: FC<InputProps> = ({ className, innerRef, ...props }) => {
-	return <input className={["input w-full", className].join(" ")} ref={innerRef} {...props} />;
+	return <input className={concatClassName("input w-full", className)} ref={innerRef} {...props} />;
 };
