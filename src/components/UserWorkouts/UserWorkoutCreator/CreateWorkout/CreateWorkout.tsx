@@ -62,7 +62,6 @@ const CreateWorkoutForm: FC<CreateWorkoutProps> = ({ supabaseCallback, initialVa
 								</div>
 							</div>
 						</div>
-
 						<FieldArray name="exercises">
 							{({ push, remove }) => (
 								<>
