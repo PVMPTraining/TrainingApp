@@ -1,6 +1,6 @@
 "use client";
 import { useFetchUserFoodSearchHistory } from "@/src/utils/hooks/useFetchUserFoodSearchHistory";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { Button } from "../../UI/Button/Button";
 
 import { MdDelete } from "react-icons/md";
@@ -15,6 +15,7 @@ import {
 	setChosenFoodCategory,
 	setKeywordValue
 } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
+import { Select } from "../../UI/Select/Select";
 
 type DateTimeOptions = {
 	day: "2-digit" | "numeric";
@@ -57,9 +58,13 @@ const UserFoodSearchHistory: FC<UserFoodSearchHistoryProps> = ({}) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const { isLoading, keywordValue, fetchError, isSearched, lastSearchedBrandKeywordValue, lastSearchedCoreKeywordValue, brandFoodData, chosenFoodCategory } =
 		useSelector((state: RootState) => state.foodFetch);
-	const { keywordHistory, productHistory } = useFetchUserFoodSearchHistory();
+
+	const { keywordHistory, productHistory, historyFetchIsLoading } = useFetchUserFoodSearchHistory();
 
 	const [historyCategory, setHistoryCategory] = useState("keyword");
+
+	const [productHistorySortType, setProductHistorySortType] = useState("newest");
+	const [keywordHistorySortType, setKeywordHistorySortType] = useState("newest");
 
 	const fetchWithHistoryKeywordAndCategoryHandler = async (category: string, keyword: string) => {
 		if (keyword.trim() === "") return;
@@ -86,10 +91,39 @@ const UserFoodSearchHistory: FC<UserFoodSearchHistoryProps> = ({}) => {
 		setHistoryCategory(category);
 	};
 
+	const memoizedKeywordHistory = useMemo(() => {
+		const sortedKeywordHistory =
+			keywordHistorySortType === "alphabetical"
+				? keywordHistory.sort((a, b) => a.keyword.toLowerCase().localeCompare(b.keyword.toLowerCase()))
+				: keywordHistorySortType === "reverseAlphabetical"
+				? keywordHistory.sort((a, b) => b.keyword.toLowerCase().localeCompare(a.keyword.toLowerCase()))
+				: keywordHistorySortType === "newest"
+				? keywordHistory.sort((a, b) => b.timestamp - a.timestamp)
+				: keywordHistory.sort((a, b) => a.timestamp - b.timestamp);
+
+		return sortedKeywordHistory;
+	}, [keywordHistorySortType, keywordHistory]);
+
+	const memoizedProductHistory = useMemo(() => {
+		const sortedProductHistory =
+			productHistorySortType === "alphabetical"
+				? productHistory.sort((a, b) => a.productName.toLowerCase().localeCompare(b.productName.toLowerCase()))
+				: productHistorySortType === "reverseAlphabetical"
+				? productHistory.sort((a, b) => b.productName.toLowerCase().localeCompare(a.productName.toLowerCase()))
+				: productHistorySortType === "newest"
+				? productHistory.sort((a, b) => b.timestamp - a.timestamp)
+				: productHistory.sort((a, b) => a.timestamp - b.timestamp);
+
+		return sortedProductHistory;
+	}, [productHistorySortType, productHistory]);
+
 	return (
 		<>
-			{isSearched ? null : isLoading ? null : (
-				<div className="flex flex-col w-full">
+			{historyFetchIsLoading ? (
+				<p>History is loading...</p>
+			) : isSearched ? null : isLoading ? null : (
+				<div className="flex flex-col w-full gap-y-2 p-1">
+					<p className="text-xl font-semibold">Search history</p>
 					<div className="flex items-center justify-around mb-2">
 						<Button
 							onClick={() => categoryChangeHandler("keyword")}
@@ -104,9 +138,41 @@ const UserFoodSearchHistory: FC<UserFoodSearchHistoryProps> = ({}) => {
 							Product history
 						</Button>
 					</div>
+					<select
+						className="select select-ghost w-full max-w-xs"
+						value={historyCategory === "keyword" ? keywordHistorySortType : productHistorySortType}
+						onChange={(e) => {
+							if (historyCategory === "keyword") {
+								setKeywordHistorySortType(e.target.value);
+							} else {
+								setProductHistorySortType(e.target.value);
+							}
+						}}
+					>
+						<option value="newest">Newest</option>
+						<option value="oldest">Oldest</option>
+						<option value="alphabetical">A-Z</option>
+						<option value="reverseAlphabetical">Z-A</option>
+						{/* {historyCategory === "keyword" && (
+							<optgroup label="Keyword Options">
+								<option value="newest">New to Old</option>
+								<option value="oldest">Old to New</option>
+								<option>A-Z</option>
+								<option>Z-A</option>
+							</optgroup>
+						)}
+						{historyCategory === "product" && (
+							<optgroup label="Product Options">
+								<option value="newest">New to Old</option>
+								<option value="oldest">Old to New</option>
+								<option>A-Z</option>
+								<option>Z-A</option>
+							</optgroup>
+						)} */}
+					</select>
 					{historyCategory === "keyword" ? (
 						<div className="flex flex-col items-center gap-3">
-							{keywordHistory.map((item) => (
+							{memoizedKeywordHistory.map((item) => (
 								<div className="w-[320px] flex items-center gap-3 justify-between">
 									<div className="flex items-center gap-3">
 										<button onClick={async () => DeleteKeywordFromUserHistory((await GetUserID()) as string, item)}>
@@ -127,14 +193,14 @@ const UserFoodSearchHistory: FC<UserFoodSearchHistoryProps> = ({}) => {
 						</div>
 					) : (
 						<div className="flex flex-col items-center gap-3">
-							{productHistory.map((item) => (
+							{memoizedProductHistory.map((item) => (
 								<div className="w-[320px] flex items-center gap-3 justify-between">
 									<div className="flex items-center gap-3">
 										<button onClick={async () => DeleteProductFromUserHistory((await GetUserID()) as string, item)}>
 											<MdDelete className="text-2xl" />
 										</button>
 										<div className="max-w-[250px] break-words tracking-tighter">
-											<p>Keyword: {item.productName}</p>
+											<p>Product: {item.productName}</p>
 											{/* asdasdasdasdqwdqwdqwdqwdqwwqdqwqwdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd */}
 											<p>Category: {item.category.charAt(0).toUpperCase() + item.category.slice(1)}</p>
 											<time className="text-sm tracking-tighter">Search time: {timestampToDateHandler(item.timestamp)} </time>

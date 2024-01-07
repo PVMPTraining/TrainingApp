@@ -1,31 +1,38 @@
 import { useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
+import { RealtimePostgresChangesPayload, createClient } from "@supabase/supabase-js";
 
 import { GetUserKeywordHistory, GetUserID, GetUserProductHistory } from "src/utils/helpers/supabase";
 import { Log, LogLevel } from "src/utils/helpers/debugLog";
 import { KeywordHistoryData, ProductHistoryData } from "@/src/types/supabase/foodSearchData";
 
+type Payload = {
+	new: {
+		foodSearch_product_history: ProductHistoryData;
+		foodSearch_keyword_history: KeywordHistoryData;
+	};
+};
+
 // Separate client for realtime subscriptions
 const realtime = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
 
 export const useFetchUserFoodSearchHistory = () => {
-	const [isLoading, setIsLoading] = useState(true);
+	const [historyFetchIsLoading, setHistoryFetchIsLoading] = useState(true);
 	const [keywordHistory, setKeywordHistory] = useState<KeywordHistoryData>([]);
 	const [productHistory, setProductHistory] = useState<ProductHistoryData>([]);
 
 	useEffect(() => {
 		const fetchKeywordHistory = async () => {
-			setIsLoading(true);
+			setHistoryFetchIsLoading(true);
 			const history = await GetUserKeywordHistory((await GetUserID()) as string);
 			setKeywordHistory(history);
-			setIsLoading(false);
+			setHistoryFetchIsLoading(false);
 		};
 
 		const fetchProductHistory = async () => {
-			setIsLoading(true);
+			setHistoryFetchIsLoading(true);
 			const history = await GetUserProductHistory((await GetUserID()) as string);
 			setProductHistory(history);
-			setIsLoading(false);
+			setHistoryFetchIsLoading(false);
 		};
 
 		fetchKeywordHistory();
@@ -54,5 +61,5 @@ export const useFetchUserFoodSearchHistory = () => {
 		};
 	}, []);
 
-	return { isLoading, keywordHistory, productHistory };
+	return { historyFetchIsLoading, keywordHistory, productHistory };
 };

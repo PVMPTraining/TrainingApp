@@ -3,10 +3,10 @@ import { setChosenCoreFood } from "@/src/utils/redux/slices/foodFetch/foodFetchS
 import { AppDispatch } from "@/src/utils/redux/store";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { FoodSearchResultTypes } from "@/src/types/types";
+import { CoreFoodSearchResultTypes } from "@/src/types/types";
 
 interface CoreFoodDetailCardProps {
-	food: FoodSearchResultTypes;
+	food: CoreFoodSearchResultTypes;
 }
 
 const CoreFoodDetailCard: FC<CoreFoodDetailCardProps> = ({ food }) => {
