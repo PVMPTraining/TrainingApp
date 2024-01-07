@@ -3,6 +3,7 @@
 import { Button } from "@/src/components/UI/Button/Button";
 import { Card, CardBody } from "@/src/components/UI/Card/Card";
 import NavLayout from "@/src/layouts/NavLayout";
+import { liveWorkoutPagePath } from "@/src/pathmap/pathmap";
 import { Workout, timedWorkout, timedWorkoutToWorkout } from "@/src/types/fitnessTypes";
 import useFetchLoggedUserWorkouts from "@/src/utils/hooks/useFetchLoggedUserWorkouts";
 import { useRouter } from "next/navigation";
@@ -29,7 +30,7 @@ const WorkoutHistoryPage: FC = () => {
 									</div>
 									<Button
 										onClick={() => {
-											router.push("/fitness/log-workout/live?workout=" + JSON.stringify(timedWorkoutToWorkout(workout)));
+											router.push(`${liveWorkoutPagePath}?workout=${JSON.stringify(timedWorkoutToWorkout(workout))}`);
 										}}
 									>
 										Repeat
