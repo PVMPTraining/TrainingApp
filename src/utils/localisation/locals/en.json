@@ -15,20 +15,29 @@
 		"accountPage": {
 			"account": "Account",
 			"settings": "Settings",
-			"logout": "Logout"
+			"logout": "Logout",
+			"languageSelection": "Language Selection"
 		},
 		"recipes": {
-			"filterOptions": {
-				"dietType": {
-					"keto": "Keto",
-					"pescatarian": "Pescatarian",
-					"kosher": "Kosher",
-					"paleo": "Paleo",
-					"halal": "Halal",
-					"vegan": "Vegan",
-					"vegetarian": "Vegetarian"
-				}
-			}
+			"recipesHeader": "Recipes"
+		},
+		"fitness": {
+			"fitnessHeader": "Fitness",
+			"exercisesButton": "Exercises",
+			"workoutsButton": "Workouts",
+			"logWorkoutButton": "Log-Workout",
+			"toolsButton": "Tools"
+		},
+		"languageSelector": {
+			"english": "English",
+			"french": "Français",
+			"italian": "Italiano"
+		},
+		"UserWorkoutsList": {
+			"header": "Workouts",
+			"addWorkoutButton": "Add New Workout",
+			"startButton": "Start",
+			"editButton": "Edit"
 		}
 	}
 }

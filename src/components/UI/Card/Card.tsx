@@ -1,9 +1,11 @@
+import { concatClassName } from "@/src/utils/helpers/functions";
+import exp from "constants";
 import { FC, ButtonHTMLAttributes, ReactNode, HTMLAttributes } from "react";
 
 /**
  * Props for the Card component.
  */
-interface CardProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface CardProps extends HTMLAttributes<HTMLElement> {
 	children: ReactNode;
 }
 
@@ -25,9 +27,17 @@ export const Card: FC<CardProps> = ({ className, children, ...props }) => {
 	};
 
 	return (
-		<div className={["card", className].join(" ")} {...(props as HTMLAttributes<HTMLDivElement>)}>
+		<div className={concatClassName("card", className)} {...props}>
 			{children}
 		</div>
+	);
+};
+
+export const CardCompact: FC<CardProps> = ({ className, children, ...props }) => {
+	return (
+		<Card className={concatClassName("card-compact", className)} {...props}>
+			{children}
+		</Card>
 	);
 };
 
@@ -37,7 +47,7 @@ interface CardBodyProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const CardBody: FC<CardBodyProps> = ({ className, children, ...props }) => {
 	return (
-		<div className={["card-body", className].join(" ")} {...(props as HTMLAttributes<HTMLDivElement>)}>
+		<div className={concatClassName("card-body", className)} {...(props as HTMLAttributes<HTMLDivElement>)}>
 			{children}
 		</div>
 	);

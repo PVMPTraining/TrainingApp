@@ -30,7 +30,7 @@ const AccountPage = () => {
 			content={
 				<div className="flex-grow flex flex-col m-4">
 					<div>{userID}</div>
-					<LabelsDropdown topLeftLabel="Language Selection" input={<LanguageSelector />} />
+					<LabelsDropdown topLeftLabel={strings.accountPage.languageSelection} input={<LanguageSelector />} />
 					<Button className="bg-error" onClick={handleSignOut}>
 						<span className="text-lg">{strings.accountPage.logout}</span>
 					</Button>

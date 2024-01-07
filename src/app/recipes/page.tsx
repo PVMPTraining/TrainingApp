@@ -37,8 +37,12 @@ import {
 	useFetchSkillLevels,
 	useFetchSpecialFeatures
 } from "@/src/utils/hooks/supabaseDataTypes/supabaseDataTypeHooks";
+import { useLocalizedStrings } from "@/src/utils/localisation/localisation";
+import { string } from "yup";
 
 const RecepiesPage: FC = () => {
+	const strings = useLocalizedStrings();
+
 	const partialBlur: React.CSSProperties = {
 		position: "absolute",
 		top: -10,
@@ -103,7 +107,7 @@ const RecepiesPage: FC = () => {
 
 	return (
 		<NavLayout
-			header={<div>Recipes</div>}
+			header={<div>{strings.recipes.recipesHeader}</div>}
 			content={
 				<div className="flex-grow flex flex-col gap-4 m-4">
 					<SearchBarWithFilter

@@ -1,3 +1,4 @@
+import { concatClassName } from "@/src/utils/helpers/functions";
 import { FC, ButtonHTMLAttributes, ReactNode } from "react";
 
 /**
@@ -16,11 +17,19 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  * @param {ReactNode} props.children - The content of the button.
  * @returns {JSX.Element} The rendered Button component.
  */
-export const Button: FC<ButtonProps> = ({ className, children, ...props }) => {
+export const Button: FC<ButtonProps> = ({ className, children, ...props }: ButtonProps): JSX.Element => {
 	return (
-		<button className={["btn text-white", className].join(" ")} {...props}>
+		<button className={concatClassName("btn text-white", className)} {...props}>
 			{children}
 		</button>
+	);
+};
+
+export const ButtonSmall: FC<ButtonProps> = ({ className, children, ...props }: ButtonProps): JSX.Element => {
+	return (
+		<Button className={concatClassName("btn-sm", className)} {...props}>
+			{children}
+		</Button>
 	);
 };
 
@@ -31,9 +40,9 @@ export const Button: FC<ButtonProps> = ({ className, children, ...props }) => {
  * @param {ButtonProps} props - The button props.
  * @returns {JSX.Element} - The rendered circular button.
  */
-export const ButtonCircle: FC<ButtonProps> = ({ className, children, ...props }) => {
+export const ButtonCircle: FC<ButtonProps> = ({ className, children, ...props }: ButtonProps): JSX.Element => {
 	return (
-		<Button className={["btn-circle", className].join(" ")} {...props}>
+		<Button className={concatClassName("btn-circle", className)} {...props}>
 			{children}
 		</Button>
 	);

@@ -15,7 +15,14 @@
 		"accountPage": {
 			"account": "Account",
 			"settings": "Impostazioni",
-			"logout": "Esci"
+			"logout": "Esci",
+			"languageSelection": "Lingue disponibili"
+		},
+		"recipes": {},
+		"languageSelector": {
+			"english": "English",
+			"french": "Français",
+			"italian": "Italiano"
 		}
 	}
 }
