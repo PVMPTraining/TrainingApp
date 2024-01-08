@@ -17,3 +17,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 export const Input: FC<InputProps> = ({ className, innerRef, ...props }) => {
 	return <input className={concatClassName("input w-full", className)} ref={innerRef} {...props} />;
 };
+
+export const InputLarge: FC<InputProps> = ({ className, innerRef, ...props }) => (
+	<Input className={concatClassName("input-lg", className)} innerRef={innerRef} {...props} />
+);
