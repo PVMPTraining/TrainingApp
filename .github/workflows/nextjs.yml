@@ -25,4 +25,4 @@ jobs:
         run: npm i
 
       - name: Build with Next.js
-        run: next build
+        run: npm run build
