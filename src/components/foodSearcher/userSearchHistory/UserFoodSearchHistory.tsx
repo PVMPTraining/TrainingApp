@@ -172,8 +172,8 @@ const UserFoodSearchHistory: FC<UserFoodSearchHistoryProps> = ({}) => {
 					</select>
 					{historyCategory === "keyword" ? (
 						<div className="flex flex-col items-center gap-3">
-							{memoizedKeywordHistory.map((item) => (
-								<div className="w-[320px] flex items-center gap-3 justify-between">
+							{memoizedKeywordHistory.map((item, i) => (
+								<div key={i} className="w-[320px] flex items-center gap-3 justify-between">
 									<div className="flex items-center gap-3">
 										<button onClick={async () => DeleteKeywordFromUserHistory((await GetUserID()) as string, item)}>
 											<MdDelete className="text-2xl" />
@@ -193,8 +193,8 @@ const UserFoodSearchHistory: FC<UserFoodSearchHistoryProps> = ({}) => {
 						</div>
 					) : (
 						<div className="flex flex-col items-center gap-3">
-							{memoizedProductHistory.map((item) => (
-								<div className="w-[320px] flex items-center gap-3 justify-between">
+							{memoizedProductHistory.map((item, i) => (
+								<div key={i} className="w-[320px] flex items-center gap-3 justify-between">
 									<div className="flex items-center gap-3">
 										<button onClick={async () => DeleteProductFromUserHistory((await GetUserID()) as string, item)}>
 											<MdDelete className="text-2xl" />

@@ -5,7 +5,7 @@ import { FC } from "react";
 // Next
 import NavLayout from "@/src/layouts/NavLayout";
 import { CardBody } from "@/src/components/UI/Card/Card";
-import { Button } from "@/src/components/UI/Button/Button";
+import { Button, ButtonCircle } from "@/src/components/UI/Button/Button";
 import { useRouter } from "next/navigation";
 import { recipesPagePath, workoutsPagePath } from "@/src/pathmap/pathmap";
 import { useLocalizedStrings } from "@/src/utils/localisation/localisation"; // replace with the path to your localization module
@@ -77,6 +77,10 @@ const HomePage: FC = () => {
 								<span className="text-xl text-shadow-lg shadow-black">{strings.homePage.workoutPrograms}</span>
 							</CardBody>
 						</Button>
+					</div>
+					<div>
+						<ButtonCircle>PT</ButtonCircle>
+						<ButtonCircle>D</ButtonCircle>
 					</div>
 					<div>
 						<h1 className="text-2xl font-bold mx-2">{strings.homePage.trackers}</h1>

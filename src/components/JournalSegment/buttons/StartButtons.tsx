@@ -12,8 +12,8 @@ const StartButtons: FC<StepButtonsProps> = ({ setIsJournalStarted }) => {
 
 	return (
 		<div className="flex w-full justify-between">
-			<Button onClick={() => router.back()}>I'll complete it later</Button>
-			<Button onClick={() => setIsJournalStarted(true)}>Let's go!</Button>
+			<Button onClick={() => router.back()}>I&apos;ll complete it later</Button>
+			<Button onClick={() => setIsJournalStarted(true)}>Let&apos;s go!</Button>
 		</div>
 	);
 };

@@ -92,22 +92,22 @@ const FitnessToolsPage: FC = () => {
 						<button className="self-end text-xl bg-white rounded-full w-7 h-7 font-bold text-black" onClick={() => setIsInformModalOpen(false)}>
 							X
 						</button>
-						<p>Remember, the calculator's results are just a starting point. It is always important to listen to your BODY.</p>
+						<p>Remember, the calculator&apos;s results are just a starting point. It is always important to listen to your BODY.</p>
 						<p>
 							*The results of this calculator are only estimates and may not be accurate for everyone. Your actual 1RM may be higher or lower than
 							the calculator predicts.
 						</p>
 						<p>
 							The calculator does not take into account your individual factors, such as training experience, muscle fiber composition, and
-							technique. These factors can significantly impact the accuracy of the calculator's predictions.
+							technique. These factors can significantly impact the accuracy of the calculator&apos;s predictions.
 						</p>
 						<p>
-							The calculator's results are most accurate for compound exercises, such as squats, deadlifts, presses, and rows. For isolation
-							exercises or exercises with unique movement patterns, the calculator's results may be less reliable.
+							The calculator&apos;s results are most accurate for compound exercises, such as squats, deadlifts, presses, and rows. For isolation
+							exercises or exercises with unique movement patterns, the calculator&apos;s results may be less reliable.
 						</p>
 						<p>
-							The calculator's results are most accurate for individuals with moderate levels of strength training experience. For beginners or
-							individuals with very high levels of strength training experience, the calculator's results may be less accurate.
+							The calculator&apos;s results are most accurate for individuals with moderate levels of strength training experience. For beginners
+							or individuals with very high levels of strength training experience, the calculator&apos;s results may be less accurate.
 						</p>
 					</div>
 				) : null}

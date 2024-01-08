@@ -115,8 +115,14 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 	// Workout temp state
 	const [isFinalSet, setIsFinalSet] = useState<boolean>(false);
 
+	const [triggerActionQuede, setTriggerAction] = useState<workoutAction>(workoutAction.NONE);
+
+	const triggerAction = (triggeredAction: workoutAction) => {
+		setTriggerAction(triggeredAction);
+	};
+
 	// Action List
-	let availabelAcitons: workoutAction[] = [];
+	let availabelAcitons = useRef<workoutAction[]>([]);
 
 	const setActiveExercise = (e: React.SetStateAction<timedExercise>) => {
 		console.log(activeExercise);
@@ -152,13 +158,13 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 	useEffect(() => {
 		switch (currentWorkoutState) {
 			case workoutState.NOT_STARTED:
-				availabelAcitons = [workoutAction.START];
+				availabelAcitons.current = [workoutAction.START];
 				break;
 			case workoutState.STARTED:
-				availabelAcitons = [];
+				availabelAcitons.current = [];
 				break;
 			case workoutState.EXERCISE:
-				availabelAcitons = [
+				availabelAcitons.current = [
 					workoutAction.SKIP_EXERCISE,
 					workoutAction.SKIP_SET,
 					workoutAction.FINISH_SET,
@@ -167,10 +173,10 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 				];
 				break;
 			case workoutState.REST:
-				availabelAcitons = [workoutAction.FINISH_REST, workoutAction.ADD_SET, workoutAction.ADD_EXERCISE, workoutAction.OPEN_FULL_VIEW];
+				availabelAcitons.current = [workoutAction.FINISH_REST, workoutAction.ADD_SET, workoutAction.ADD_EXERCISE, workoutAction.OPEN_FULL_VIEW];
 				break;
 			case workoutState.FULL_VIEW:
-				availabelAcitons = [workoutAction.CLOSE_FULL_VIEW];
+				availabelAcitons.current = [workoutAction.CLOSE_FULL_VIEW];
 				break;
 			case workoutState.PAUSED:
 				break;
@@ -193,12 +199,12 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 		}
 	}, [restTimer]);
 
-	const triggerAction = (triggeredAction: workoutAction) => {
-		if (!availabelAcitons.includes(triggeredAction)) {
+	useEffect(() => {
+		if (!availabelAcitons.current.includes(triggerActionQuede)) {
 			return;
 		}
 
-		switch (triggeredAction) {
+		switch (triggerActionQuede) {
 			case workoutAction.NONE:
 				{
 				}
@@ -381,7 +387,7 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 				}
 				break;
 		}
-	};
+	}, [triggerActionQuede]);
 
 	useEffect(() => {
 		const incrementTimer = (timerStateSetter: (value: number | ((prevValue: number) => number)) => void) => {

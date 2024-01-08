@@ -29,13 +29,13 @@ export const useFetchSupabaseDataTypes = (table: string, column: string) => {
 	const local = getLocal();
 
 	useEffect(() => {
-		const fetchData = async () => {
+		const FetchData = async () => {
 			const localizedData = await useFetchAndLocalize(table, column, local);
 			setData(localizedData);
 			setIsLoading(false);
 		};
 
-		fetchData();
+		FetchData();
 	}, [table, column, local]);
 
 	return { isLoading, data };

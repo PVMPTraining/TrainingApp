@@ -460,7 +460,7 @@ const CalorieCalculator: FC<CalorieCalculatorProps> = ({}) => {
 								<label className="label flex-col gap-2">
 									<span className="text-white self-start">Select your goal</span>
 									<span className="text-white self-start text-xs">
-										It's selected <strong>maintain</strong> as default
+										It&apos;s selected <strong>maintain</strong> as default
 									</span>
 									{/* <span className="label-text-alt">Alt label</span> */}
 								</label>

@@ -5,10 +5,10 @@
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
-		"start": "next start",
+		"start": "npx serve@latest out",
 		"lint": "next lint",
 		"ionic:build": "npm run build",
-		"ionic:serve": "npm run start",
+		"ionic:serve": "npx serve@latest out",
 		"format": "prettier --write ."
 	},
 	"dependencies": {

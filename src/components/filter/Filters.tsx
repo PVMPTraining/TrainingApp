@@ -76,6 +76,7 @@ export const Filters: FC<FiltersProps> = ({ listToFilter, filterOptions, filterC
 			return listToFilter;
 		}
 
+		// eslint-disable-next-line react-hooks/rules-of-hooks
 		const filteredList = useFilters(listToFilter, filterOptionStates[i], filterOptions[i].dataKey);
 		return filter(filteredList, filterOptionStates, i + 1);
 	};

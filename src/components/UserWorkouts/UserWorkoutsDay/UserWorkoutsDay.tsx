@@ -39,7 +39,7 @@ export const UserWorkoutsDay: FC<UserWorkoutsDayProps> = ({ className, date, ...
 									<>
 										{selectedDateWorkouts.map((workout: timedWorkout, index: Key | null | undefined) => {
 											return (
-												<CardCompact className="bg-base-300">
+												<CardCompact key={index} className="bg-base-300">
 													<CardBody>
 														<div className="flex justify-between" key={index}>
 															<div>
@@ -65,7 +65,7 @@ export const UserWorkoutsDay: FC<UserWorkoutsDayProps> = ({ className, date, ...
 								) : (
 									<Card className="bg-base-200">
 										<CardBody>
-											<div>No workouts logged today! It's time for a new one</div>
+											<div>No workouts logged today! It&apos;s time for a new one</div>
 										</CardBody>
 									</Card>
 								)}
