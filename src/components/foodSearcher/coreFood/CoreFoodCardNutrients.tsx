@@ -27,7 +27,7 @@ const nutrientFilterAndFindHandler = (food: CoreFoodSearchResultTypes, nutrientN
 			food.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes(nutrientName)).find((protein) => protein.unitName === unit)?.value! <= 0
 				? "-"
 				: food.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes(nutrientName)).find((protein) => protein.unitName === unit)?.value +
-				  " gram";
+					" gram";
 
 		return value;
 	}
