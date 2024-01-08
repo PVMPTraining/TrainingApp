@@ -4,6 +4,11 @@ import { CoreFoodSearchResultTypes } from "@/src/types/types";
 import { FaAngleDoubleRight, FaAngleDown } from "react-icons/fa";
 import Link from "next/link";
 import { Button } from "../../UI/Button/Button";
+import { AddProductToUserHistory, GetUserID } from "@/src/utils/helpers/supabase";
+import { setChosenCoreFood } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/src/utils/redux/store";
+import { useRouter } from "next/navigation";
 
 const nutrientFilterAndFindHandler = (food: CoreFoodSearchResultTypes, nutrientName: string, unit: string) => {
 	if (nutrientName === "Energy") {
@@ -22,7 +27,7 @@ const nutrientFilterAndFindHandler = (food: CoreFoodSearchResultTypes, nutrientN
 			food.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes(nutrientName)).find((protein) => protein.unitName === unit)?.value! <= 0
 				? "-"
 				: food.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes(nutrientName)).find((protein) => protein.unitName === unit)?.value +
-					" gram";
+				  " gram";
 
 		return value;
 	}
@@ -33,6 +38,8 @@ type CoreFoodCardNutrimentsProps = {
 };
 
 const CoreFoodCardNutriments: FC<CoreFoodCardNutrimentsProps> = ({ food }) => {
+	const router = useRouter();
+	const dispatch = useDispatch<AppDispatch>();
 	const [otherNutritionInformationClicked, setOtherNutritionInformationClicked] = useState(false);
 
 	return (
@@ -62,20 +69,20 @@ const CoreFoodCardNutriments: FC<CoreFoodCardNutrimentsProps> = ({ food }) => {
 					</div>
 				) : null}
 				<div className="flex justify-between w-full mt-5">
-					<Link
-						href={`/nutrition/tools/${food.fdcId}`}
+					<button
 						className="text-black flex items-center gap-2"
-						// onClick={async () => {
-						// 	dispatch(setChosenCoreFood(food));
-						// 	await AddProductToUserHistory((await GetUserID()) as string, {
-						// 		productName: food.description,
-						// 		category: "core",
-						// 		timestamp: Date.now()
-						// 	});
-						// }}
+						onClick={async () => {
+							dispatch(setChosenCoreFood(food));
+							await AddProductToUserHistory((await GetUserID()) as string, {
+								productName: food.description,
+								category: "core",
+								timestamp: Date.now()
+							});
+							router.push("/nutrition/tools/foodDetail");
+						}}
 					>
 						See all details <FaAngleDoubleRight />
-					</Link>
+					</button>
 					<button className="tracking-tighter font-semibold">Add to diary</button>
 				</div>
 			</div>

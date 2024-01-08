@@ -1,11 +1,16 @@
 import { Dispatch, FC, SetStateAction } from "react";
 import { Button } from "../UI/Button/Button";
+import { useJournalLogic } from "@/src/utils/hooks/useJournalLogic";
 
 type IntroductionProps = {
-	setIsJournalStarted: Dispatch<SetStateAction<boolean>>;
+	// setIsJournalStarted: Dispatch<SetStateAction<boolean>>;
 };
 
-const Introduction: FC<IntroductionProps> = ({ setIsJournalStarted }) => {
+const Introduction: FC<IntroductionProps> = ({}) => {
+	const { setIsJournalStarted, isJournalStarted } = useJournalLogic();
+
+	console.log(isJournalStarted);
+
 	return (
 		<div className="flex flex-col gap-5">
 			<p>So, what's this journal all about?</p>
@@ -23,10 +28,6 @@ const Introduction: FC<IntroductionProps> = ({ setIsJournalStarted }) => {
 				<li>Bla bla</li>
 				<li>Bla bla</li>
 			</ul>
-			<div className="flex w-full justify-between">
-				<Button>I'll complete it later</Button>
-				<Button onClick={() => setIsJournalStarted(true)}>Let's go!</Button>
-			</div>
 		</div>
 	);
 };

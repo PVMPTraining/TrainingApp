@@ -18,7 +18,7 @@ const JournalPage: FC = () => {
 		<NavLayout
 			header={<div>Journal</div>}
 			content={
-				<div className="flex flex-col flex-grow p-4">
+				<div className="flex flex-col flex-grow">
 					<JournalSegmentWrapper />
 				</div>
 			}

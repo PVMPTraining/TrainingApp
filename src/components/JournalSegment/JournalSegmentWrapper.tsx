@@ -1,25 +1,26 @@
+import { FC } from "react";
 import { useJournalLogic } from "@/src/utils/hooks/useJournalLogic";
-import { FC, useState } from "react";
 
 import Introduction from "./Introduction";
-import JournalStepsWrapper from "./JournalStepsWrapper";
+import StepOne from "./steps/StepOne";
+import StepTwo from "./steps/StepTwo";
+
+import StepButtons from "./buttons/StepButtons";
+import StartButtons from "./buttons/StartButtons";
 
 interface JournalSegmentWrapperProps {}
 
 const JournalSegmentWrapper: FC<JournalSegmentWrapperProps> = ({}) => {
-	const [currentStep, setCurrentStep] = useState(1);
-	const [isJournalStarted, setIsJournalStarted] = useState(false);
-
-	// const { currentStep, isJournalStarted, setIsJournalStarted } = useJournalLogic();
-
-	console.log(isJournalStarted);
+	const { currentStep, isJournalStarted, setIsJournalStarted, setCurrentStep } = useJournalLogic();
 
 	return (
-		<div>
+		<div className="p-4 flex flex-col gap-2">
+			<p>Step {currentStep} / 3</p>
+			{isJournalStarted ? currentStep === 1 ? <StepOne /> : <StepTwo /> : <Introduction />}
 			{isJournalStarted ? (
-				<JournalStepsWrapper currentStep={currentStep} setCurrentStep={setCurrentStep} />
+				<StepButtons currentStep={currentStep} setCurrentStep={setCurrentStep} />
 			) : (
-				<Introduction setIsJournalStarted={setIsJournalStarted} />
+				<StartButtons setIsJournalStarted={setIsJournalStarted} />
 			)}
 		</div>
 	);
