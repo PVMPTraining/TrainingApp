@@ -25,13 +25,17 @@ export const Button: FC<ButtonProps> = ({ className, children, ...props }: Butto
 	);
 };
 
-export const ButtonSmall: FC<ButtonProps> = ({ className, children, ...props }: ButtonProps): JSX.Element => {
-	return (
-		<Button className={concatClassName("btn-sm", className)} {...props}>
-			{children}
-		</Button>
-	);
-};
+export const ButtonSmall: FC<ButtonProps> = ({ className, children, ...props }: ButtonProps): JSX.Element => (
+	<Button className={concatClassName("btn-sm", className)} {...props}>
+		{children}
+	</Button>
+);
+
+export const ButtonLarge: FC<ButtonProps> = ({ className, children, ...props }: ButtonProps): JSX.Element => (
+	<Button className={concatClassName("btn-lg", className)} {...props}>
+		{children}
+	</Button>
+);
 
 /**
  * Renders a circular button.

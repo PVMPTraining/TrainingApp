@@ -96,10 +96,10 @@ const UserFoodSearchHistory: FC<UserFoodSearchHistoryProps> = ({}) => {
 			keywordHistorySortType === "alphabetical"
 				? keywordHistory.sort((a, b) => a.keyword.toLowerCase().localeCompare(b.keyword.toLowerCase()))
 				: keywordHistorySortType === "reverseAlphabetical"
-				? keywordHistory.sort((a, b) => b.keyword.toLowerCase().localeCompare(a.keyword.toLowerCase()))
-				: keywordHistorySortType === "newest"
-				? keywordHistory.sort((a, b) => b.timestamp - a.timestamp)
-				: keywordHistory.sort((a, b) => a.timestamp - b.timestamp);
+					? keywordHistory.sort((a, b) => b.keyword.toLowerCase().localeCompare(a.keyword.toLowerCase()))
+					: keywordHistorySortType === "newest"
+						? keywordHistory.sort((a, b) => b.timestamp - a.timestamp)
+						: keywordHistory.sort((a, b) => a.timestamp - b.timestamp);
 
 		return sortedKeywordHistory;
 	}, [keywordHistorySortType, keywordHistory]);
@@ -109,10 +109,10 @@ const UserFoodSearchHistory: FC<UserFoodSearchHistoryProps> = ({}) => {
 			productHistorySortType === "alphabetical"
 				? productHistory.sort((a, b) => a.productName.toLowerCase().localeCompare(b.productName.toLowerCase()))
 				: productHistorySortType === "reverseAlphabetical"
-				? productHistory.sort((a, b) => b.productName.toLowerCase().localeCompare(a.productName.toLowerCase()))
-				: productHistorySortType === "newest"
-				? productHistory.sort((a, b) => b.timestamp - a.timestamp)
-				: productHistory.sort((a, b) => a.timestamp - b.timestamp);
+					? productHistory.sort((a, b) => b.productName.toLowerCase().localeCompare(a.productName.toLowerCase()))
+					: productHistorySortType === "newest"
+						? productHistory.sort((a, b) => b.timestamp - a.timestamp)
+						: productHistory.sort((a, b) => a.timestamp - b.timestamp);
 
 		return sortedProductHistory;
 	}, [productHistorySortType, productHistory]);
