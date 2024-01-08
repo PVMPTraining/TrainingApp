@@ -39,5 +39,5 @@ next-env.d.ts
 .vscode
 
 #ionic
-/android
-/ios
+/android/*
+/ios/*

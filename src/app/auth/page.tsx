@@ -5,9 +5,15 @@ import { FC } from "react";
 import Link from "next/link";
 import { loginPagePath, signupPagePath } from "@/src/pathmap/pathmap";
 import { useLocalizedStrings } from "@/src/utils/localisation/localisation";
+import { Capacitor } from "@capacitor/core";
+import { StatusBar } from "@capacitor/status-bar";
+import config from "@/tailwind.config";
 
 const AuthPage: FC = () => {
 	const strings = useLocalizedStrings();
+	if (Capacitor.isPluginAvailable("StatusBar")) {
+		StatusBar.setBackgroundColor({ color: config.daisyui.themes[0].dark["base-100"] });
+	}
 
 	return (
 		<>

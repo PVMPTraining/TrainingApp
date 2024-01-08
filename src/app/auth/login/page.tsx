@@ -23,7 +23,15 @@ import { accountPagePath, rootPagePath, signupPagePath } from "src/pathmap/pathm
 import { FaChevronLeft } from "react-icons/fa";
 import { useLocalizedStrings } from "@/src/utils/localisation/localisation";
 
+import { Capacitor } from "@capacitor/core";
+import { StatusBar } from "@capacitor/status-bar";
+import config from "@/tailwind.config";
+
 const LoginPage: FC = () => {
+	if (Capacitor.isPluginAvailable("StatusBar")) {
+		StatusBar.setBackgroundColor({ color: config.daisyui.themes[0].dark["base-100"] });
+	}
+
 	const strings = useLocalizedStrings();
 	const [error, setError] = useState<string | null>(null);
 
