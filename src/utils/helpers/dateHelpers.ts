@@ -6,6 +6,8 @@ export const formatLongDate = (date: Date): string => {
 	return `${getDayWithSuffix(date.getDate())} of ${date.toLocaleString("default", { month: "long" })} ${date.getFullYear()}`;
 };
 
+export const padTime = (time: number, length = 2) => String(time).padStart(length, "0");
+
 export const formatTime = ({
 	hours = 0,
 	minutes = 0,
@@ -17,7 +19,6 @@ export const formatTime = ({
 	seconds?: number;
 	milliseconds?: number;
 }) => {
-	const padTime = (time: number, length = 2) => String(time).padStart(length, "0");
 	return `${padTime(hours)}:${padTime(minutes)}:${padTime(seconds)}.${padTime(milliseconds)}`;
 };
 
