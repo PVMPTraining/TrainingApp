@@ -1,7 +1,7 @@
 "use client";
 
 // React
-import React, { FC, useState, useEffect, Key, HTMLAttributes } from "react";
+import React, { FC, useState, useEffect, Key, HTMLAttributes, useRef } from "react";
 
 // React Icons
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
@@ -11,7 +11,7 @@ import { Workout, timedExercise, timedSets, timedWorkout } from "@/src/types/fit
 import { ExerciseData } from "@/src/types/supabase/exerciseData";
 
 // Helpers
-import { msCountToTime, formatTime } from "@/src/utils/helpers/dateHelpers";
+import { msCountToTime, formatTime, padTime } from "@/src/utils/helpers/dateHelpers";
 import { AddLoggedWorkout, GetUserID } from "@/src/utils/helpers/supabase";
 import { useFetchExercsiseDatabase } from "@/src/utils/hooks/useFetchExercsieDatabase";
 import { Log, LogLevel } from "@/src/utils/helpers/debugLog";
@@ -178,10 +178,18 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 		}
 	}, [availabelAcitons]);
 
+	const hasPlayedAudio = useRef(false);
+
 	useEffect(() => {
-		const audio = new Audio("/rest_end.mp3");
-		if (currentWorkoutState === workoutState.REST && activeExercise.sets[activeSetIndex].rest + 1 === restTimer) {
+		if (currentWorkoutState === workoutState.REST && activeExercise.sets[activeSetIndex].rest === Math.floor(restTimer / 100) && !hasPlayedAudio.current) {
+			const audio = new Audio("/rest_end.mp3");
 			audio.play();
+			hasPlayedAudio.current = true;
+		}
+
+		// Reset the flag when the conditions are not met
+		if (currentWorkoutState !== workoutState.REST || activeExercise.sets[activeSetIndex].rest !== Math.floor(restTimer / 100)) {
+			hasPlayedAudio.current = false;
 		}
 	}, [restTimer]);
 
@@ -259,6 +267,21 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 					setActiveExercise(updatedWorkout.exercises[activeExerciseIndex] as timedExercise);
 				}
 				break;
+			case workoutAction.ADD_EXERCISE: {
+				const updatedWorkout = workout;
+				updatedWorkout.exercises.push({
+					name: "",
+					sets: [
+						{
+							reps: 0,
+							weight: 0,
+							rest: 0
+						}
+					],
+					rest: 0
+				});
+				setWorkout(updatedWorkout);
+			}
 			case workoutAction.FINISH_REST:
 				{
 					setSetTimer(0);
@@ -509,6 +532,12 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 											className="w-full"
 											options={exercises.map((exercise: ExerciseData) => exercise.name)}
 											selectedCallback={(selectedExerciseName) => {
+												if (i === activeExerciseIndex) {
+													setActiveExercise((prevExercise: timedExercise) => ({
+														...prevExercise,
+														name: selectedExerciseName
+													}));
+												}
 												setWorkout((prevWorkout: Workout) => {
 													const updatedExercises = [...prevWorkout.exercises];
 													updatedExercises[i as number].name = selectedExerciseName;
@@ -579,14 +608,16 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 					<div className="flex-grow flex flex-col justify-center">
 						<Button
 							onClick={() => triggerAction(workoutAction.FINISH_REST)}
-							className={"flex-grow flex flex-col" + (activeExercise.sets[activeSetIndex].rest < restTimer ? " bg-error" : " bg-base-100")}
+							className={"flex-grow flex flex-col" + (activeExercise.sets[activeSetIndex].rest < restTimer / 100 ? " bg-error" : " bg-base-100")}
 						>
 							{activeSetIndex < activeExercise.sets.length - 1 && <div>Set {activeSetIndex + 1} Rest</div>}
 							{activeSetIndex === activeExercise.sets.length - 1 && <div>Exercise {activeExerciseIndex + 1} Rest</div>}
-							<span className="countdown font-mono text-6xl">
-								<span style={{ "--value": msCountToTime(restTimer).minutes } as React.CSSProperties}></span>:
-								<span style={{ "--value": msCountToTime(restTimer).seconds } as React.CSSProperties}></span>
-							</span>
+							<div className="flex w-full justify-center">
+								<span className="text-6xl w-64 text-start">
+									{padTime(msCountToTime(restTimer).minutes)}:{padTime(msCountToTime(restTimer).seconds)}:
+									{msCountToTime(restTimer).milliseconds}
+								</span>
+							</div>
 							<div>Touch the sceen to end rest</div>
 						</Button>
 						{activeSetIndex === activeExercise.sets.length - 1 && (
@@ -604,10 +635,10 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 									className="btn-lg bg-base-200"
 									onClick={(e) => {
 										e.stopPropagation();
-										triggerAction(workoutAction.ADD_SET);
+										triggerAction(workoutAction.ADD_EXERCISE);
 									}}
 								>
-									+ One More Exercise
+									+ Add Exercise
 								</Button>
 							</div>
 						)}
@@ -627,6 +658,11 @@ export const LiveWorkout: FC<LiveWorkoutProps> = ({ workoutProp }) => {
 											...prevExercise,
 											name: s
 										}));
+										setWorkout((prevWorkout: Workout) => {
+											const updatedExercises = [...prevWorkout.exercises];
+											updatedExercises[activeExerciseIndex].name = s;
+											return { ...prevWorkout, exercises: updatedExercises };
+										});
 									}}
 									value={activeExercise.name}
 								/>
