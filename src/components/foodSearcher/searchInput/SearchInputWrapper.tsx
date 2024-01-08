@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import SearchInput from "@/src/components/FoodSearcher/SearchInput/SearchInput";
 import CategoryButtons from "@/src/components/FoodSearcher/CategoryButtons/CategoryButtons";
 import ResultsPaginate from "@/src/components/FoodSearcher/ResultsPaginate/ResultsPaginate";
+import { useScrollPosition } from "@/src/utils/hooks/useScrollPosition";
 
 interface SearchInputWrapperProps {}
 
@@ -11,14 +12,14 @@ const SearchInputWrapper: FC<SearchInputWrapperProps> = ({}) => {
 	const { selectedBrandFoodData, isLoading, isSearched, brandFoodData, coreFoodData, filteredBrandFoodData } = useSelector(
 		(state: RootState) => state.foodFetch
 	);
-	// const { scrollDirection, setIsModalOpen } = useScrollPosition();
+	const { scrollDirection, setIsModalOpen } = useScrollPosition();
 
 	return (
 		<div
-			// className={`${
-			// 	scrollDirection === "up" && !selectedBrandFoodData?._id ? "sticky top-14 z-50 bg-slate-700 rounded-b-xl animate-fade-down" : "flex flex-col"
-			// } w-full gap-5 p-1`}
-			className={`${!selectedBrandFoodData?._id ? "sticky top-14 z-50 bg-slate-700 rounded-b-xl animate-fade-down" : "flex flex-col"} w-full gap-5 p-1`}
+			className={`${
+				scrollDirection === "up" && !selectedBrandFoodData?._id ? "sticky top-14 z-50 bg-slate-700 rounded-b-xl animate-fade-down" : "flex flex-col"
+			} w-full gap-5 p-1`}
+			// className={`${!selectedBrandFoodData?._id ? "sticky top-14 z-50 bg-slate-700 rounded-b-xl animate-fade-down" : "flex flex-col"} w-full gap-5 p-1`}
 		>
 			<div className="flex flex-col items-center pb-2">
 				<SearchInput />

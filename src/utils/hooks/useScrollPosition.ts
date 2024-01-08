@@ -32,7 +32,7 @@ export const useScrollPosition = () => {
 		// Cleanup function to remove the event listener when the component unmounts
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
-			clearTimeout(directionChangeTimeout);
+			clearTimeout(directionChangeTimeout as ReturnType<typeof setTimeout>);
 		};
 	}, [prevScrollPosition, isModalOpen]);
 

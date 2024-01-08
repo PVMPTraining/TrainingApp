@@ -48,7 +48,7 @@ export const useFetchUserFoodSearchHistory = () => {
 					schema: "public",
 					table: "users"
 				},
-				(payload) => {
+				(payload: { [key: string]: any }) => {
 					console.log(payload);
 					setProductHistory(payload.new.foodSearch_product_history);
 					setKeywordHistory(payload.new.foodSearch_keyword_history);
