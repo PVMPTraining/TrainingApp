@@ -61,8 +61,6 @@ const BrandFoodCard: FC<BrandFoodCardProps> = ({ food }) => {
 		dispatch(setChosenBrandFood(food));
 	};
 
-	console.log(selectedBrandFoodData);
-
 	return (
 		<div
 			key={food._id}

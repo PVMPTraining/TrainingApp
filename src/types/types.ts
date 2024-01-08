@@ -26,7 +26,7 @@ export interface Database {
 	};
 }
 
-type FoodAggregationsTypes = {
+type CoreFoodAggregationsTypes = {
 	dataType: {
 		Branded: number;
 		Foundation: number;
@@ -35,7 +35,7 @@ type FoodAggregationsTypes = {
 	};
 };
 
-type FoodSearchCriteriaTypes = {
+type CoreFoodSearchCriteriaTypes = {
 	dataType: string[];
 	foodTypes: string[];
 	query: string;
@@ -48,7 +48,7 @@ type FoodSearchCriteriaTypes = {
 	sortOrder: string;
 };
 
-type FoodNutrientTypes = {
+type CoreFoodNutrientTypes = {
 	dataPoints: number;
 	derivationCode: string;
 	derivationDescription: string;
@@ -69,7 +69,7 @@ type FoodNutrientTypes = {
 	value: number;
 };
 
-export type FoodSearchResultTypes = {
+export type CoreFoodSearchResultTypes = {
 	additionalDescriptions: string;
 	allHighlightFields: string;
 	commonNames: string;
@@ -81,7 +81,7 @@ export type FoodSearchResultTypes = {
 	foodAttributes: any[];
 	foodCategory: string;
 	foodMeasures: any[];
-	foodNutrients: FoodNutrientTypes[];
+	foodNutrients: CoreFoodNutrientTypes[];
 	foodVersionIds: any[];
 	microbes: any[];
 	mostRecentAcquisitionDate: string;
@@ -90,11 +90,11 @@ export type FoodSearchResultTypes = {
 	score: number;
 };
 
-export type FoodFetchDataTypes = {
-	aggregations: FoodAggregationsTypes;
+export type CoreFoodFetchDataTypes = {
+	aggregations: CoreFoodAggregationsTypes;
 	currentPage: number;
-	foodSearchCriteria: FoodSearchCriteriaTypes;
-	foods: FoodSearchResultTypes[];
+	foodSearchCriteria: CoreFoodSearchCriteriaTypes;
+	foods: CoreFoodSearchResultTypes[];
 	pageList: number[];
 	totalHits: number;
 	totalPages: number;

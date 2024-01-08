@@ -10,15 +10,19 @@ const CoreFoodWrapper: FC<CoreFoodWrapperProps> = ({}) => {
 	const { isLoading, coreFoodData, isSearched } = useSelector((state: RootState) => state.foodFetch);
 
 	return (
-		<div className="flex gap-2 gap-y-10 mt-5 relative flex-wrap justify-center">
-			{isSearched && coreFoodData ? (
-				coreFoodData.foods.length >= 1 ? (
-					coreFoodData.foods.map((food) => <CoreFoodCard key={food.fdcId} food={food} />)
-				) : (
+		<>
+			{isSearched && coreFoodData !== null && coreFoodData.foods.length >= 1 ? (
+				<div className="flex flex-col gap-2 gap-y-10 mt-5 relative justify-center">
+					{coreFoodData.foods.map((food) => (
+						<CoreFoodCard key={food.fdcId} food={food} />
+					))}
+				</div>
+			) : isSearched && coreFoodData !== null && coreFoodData.foods.length < 1 ? (
+				<div className="flex flex-col gap-2 gap-y-10 mt-5 relative justify-center">
 					<p className="text-center">There is no result to show for this page try another page or another keyword</p>
-				)
+				</div>
 			) : null}
-		</div>
+		</>
 	);
 };
 

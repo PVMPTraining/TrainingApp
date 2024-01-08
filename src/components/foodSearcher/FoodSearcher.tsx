@@ -15,7 +15,7 @@ interface FoodSearcherProps {}
 
 const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 	// const dispatch = useDispatch<AppDispatch>();
-	const { isLoading, keywordValue, fetchError, isSearched, brandFoodData, chosenFoodCategory } = useSelector((state: RootState) => state.foodFetch);
+	const { isLoading, keywordValue, fetchError, isSearched, brandFoodData, coreFoodData } = useSelector((state: RootState) => state.foodFetch);
 
 	// const [activePage, setActivePage] = useState(1);
 
@@ -63,16 +63,13 @@ const FoodSearcher: FC<FoodSearcherProps> = ({}) => {
 	return (
 		<div className="flex flex-col relative items-center w-full">
 			<SearchInputWrapper />
-			{isLoading ? (
+			{isLoading && !isSearched ? (
 				<div className="self-center text-xl font-bold flex items-center gap-2 mt-2">
 					<FaSpinner className="animate-spin text-4xl" /> Searching...
 				</div>
-			) : (
-				<>
-					<CoreFoodWrapper />
-					<BrandFoodWrapper />
-				</>
-			)}
+			) : null}
+			<BrandFoodWrapper />
+			<CoreFoodWrapper />
 			<UserFoodSearchHistory />
 		</div>
 	);

@@ -4,12 +4,13 @@ import { Button } from "@/src/components/UI/Button/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/src/utils/redux/store";
 import CoreFoodDetailCard from "@/src/components/FoodSearcher/CoreFood/CoreFoodDetailCard";
-import { FoodSearchResultTypes } from "@/src/types/types";
+import { CoreFoodSearchResultTypes } from "@/src/types/types";
 import { setChosenCoreFood } from "@/src/utils/redux/slices/foodFetch/foodFetchSlice";
 import { AddProductToUserHistory, GetUserID } from "@/src/utils/helpers/supabase";
+import CoreFoodCardNutriments from "./CoreFoodCardNutrients";
 
 interface CoreFoodCardProps {
-	food: FoodSearchResultTypes;
+	food: CoreFoodSearchResultTypes;
 }
 
 const CoreFoodCard: FC<CoreFoodCardProps> = ({ food }) => {
@@ -18,7 +19,7 @@ const CoreFoodCard: FC<CoreFoodCardProps> = ({ food }) => {
 		(state: RootState) => state.foodFetch
 	);
 
-	const selectCoreFoodHandler = (food: FoodSearchResultTypes) => {
+	const selectCoreFoodHandler = (food: CoreFoodSearchResultTypes) => {
 		dispatch(setChosenCoreFood(food));
 	};
 
@@ -26,56 +27,14 @@ const CoreFoodCard: FC<CoreFoodCardProps> = ({ food }) => {
 
 	return (
 		<div
-			key={food.description}
-			className="bg-black text-white p-2 rounded-md flex gap-2 justify-between relative w-[165px]"
+			className="text-white p-2 rounded-md flex gap-2 justify-between relative border-b-2 px-3"
 			onClick={() => {
 				selectCoreFoodHandler(food);
 			}}
 		>
-			<div className="flex flex-col justify-between gap-2 h-full">
-				<p className="text-xl">{food.description}</p>
-				<div className="space-y-2">
-					<p className="text-base text-gray-300">Portion 100g</p>
-					<p>
-						Calorie:{" "}
-						{food.foodNutrients
-							?.filter(
-								(nutrient) =>
-									nutrient.nutrientName.includes("Energy") ||
-									(nutrient.nutrientName.includes("Energy") && nutrient.nutrientName.includes("General"))
-							)
-							.find((energy) => energy.unitName === "KCAL")?.value ?? 0}{" "}
-						kcal
-					</p>
-					<p>
-						Protein:{" "}
-						{food.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Protein")).find((protein) => protein.unitName === "G")
-							?.value! >= 0
-							? food.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Protein")).find((protein) => protein.unitName === "G")
-									?.value
-							: 0}{" "}
-						gram
-					</p>
-					<p>
-						Carbohydrate:{" "}
-						{food.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Carbohydrate")).find((carb) => carb.unitName === "G")
-							?.value! >= 0
-							? food.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Carbohydrate")).find((carb) => carb.unitName === "G")
-									?.value
-							: 0}{" "}
-						gram
-					</p>
-					<p>
-						Fat:{" "}
-						{food.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Total lipid")).find((carb) => carb.unitName === "G")?.value! >=
-						0
-							? food.foodNutrients.filter((nutrient) => nutrient.nutrientName.includes("Total lipid")).find((carb) => carb.unitName === "G")
-									?.value
-							: 0}{" "}
-						gram
-					</p>
-				</div>
-				<div className="flex flex-col items-center gap-2">
+			<div className="flex flex-col justify-between gap-2 w-full h-full">
+				<CoreFoodCardNutriments food={food} />
+				{/* <div className="flex flex-col items-center gap-2">
 					<Link
 						href={`/nutrition/tools/${food.fdcId}`}
 						className="bg-white text-black self-center btn"
@@ -91,9 +50,8 @@ const CoreFoodCard: FC<CoreFoodCardProps> = ({ food }) => {
 						See all details
 					</Link>
 					<Button>Add to diary</Button>
-				</div>
+				</div> */}
 			</div>
-			{/* {selectedCoreFoodData?.fdcId === food.fdcId && <CoreFoodDetailCard food={food} />} */}
 		</div>
 	);
 };

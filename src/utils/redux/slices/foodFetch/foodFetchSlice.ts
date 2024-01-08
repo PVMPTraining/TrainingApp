@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { BrandFoodFetchDataTypes, BrandFoodSearchResultTypes, FoodFetchDataTypes, FoodSearchResultTypes } from "@/src/types/types";
+import { BrandFoodFetchDataTypes, BrandFoodSearchResultTypes, CoreFoodFetchDataTypes, CoreFoodSearchResultTypes } from "@/src/types/types";
 
 import axios from "axios";
 
@@ -11,17 +11,18 @@ type FoodStateTypes = {
 	lastSearchedBrandKeywordValue: string;
 	chosenFoodCategory: string;
 	activePaginatePage: number;
-	coreFoodData: FoodFetchDataTypes | null;
+	coreFoodData: CoreFoodFetchDataTypes | null;
 	brandFoodData: BrandFoodFetchDataTypes | null;
+	filteredBrandFoodData: BrandFoodSearchResultTypes[] | null;
 	selectedBrandFoodData: BrandFoodSearchResultTypes | null;
-	selectedCoreFoodData: FoodSearchResultTypes | null;
+	selectedCoreFoodData: CoreFoodSearchResultTypes | null;
 	fetchError: string | undefined;
 	isSearched: boolean;
 };
 
 // Need to add core foods to page number
 
-export const fetchCoreFood = createAsyncThunk<FoodFetchDataTypes, { keywordValue: string; page: number }, { state: { foodFetch: FoodStateTypes } }>(
+export const fetchCoreFood = createAsyncThunk<CoreFoodFetchDataTypes, { keywordValue: string; page: number }, { state: { foodFetch: FoodStateTypes } }>(
 	"food/fetchCoreFood",
 	async ({ keywordValue, page }, thunkAPI) => {
 		// const { lastKeywordValue, foodData } = thunkAPI.getState().foodFetch;
@@ -57,6 +58,7 @@ const foodSlice = createSlice({
 		activePaginatePage: 0,
 		coreFoodData: null,
 		brandFoodData: null,
+		filteredBrandFoodData: null,
 		selectedCoreFoodData: null,
 		selectedBrandFoodData: null,
 		fetchError: ""
@@ -85,6 +87,9 @@ const foodSlice = createSlice({
 				state.coreFoodData = null;
 				state.isSearched = false;
 			}
+		},
+		setFilteredBrandFoodData: (state, action) => {
+			state.filteredBrandFoodData = action.payload;
 		},
 		setLastKeywordReset: (state, action) => {
 			(state.lastSearchedBrandKeywordValue = ""), (state.lastSearchedCoreKeywordValue = "");
@@ -149,6 +154,7 @@ const foodSlice = createSlice({
 	}
 });
 
-export const { setKeywordValue, setChosenCoreFood, setChosenBrandFood, setChosenFoodCategory, setActivePaginatePage } = foodSlice.actions;
+export const { setKeywordValue, setChosenCoreFood, setChosenBrandFood, setChosenFoodCategory, setActivePaginatePage, setFilteredBrandFoodData } =
+	foodSlice.actions;
 
 export default foodSlice.reducer;
