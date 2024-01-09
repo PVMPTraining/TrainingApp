@@ -90,7 +90,7 @@ export const DebugOverlay: FC<DebugOverlayProps> = ({ className, ...props }) => 
 
 	return (
 		<>
-			{process.env.NODE_ENV !== "production" && (
+			{process.env.NODE_ENV === "production" && (
 				<div
 					onMouseDown={onMouseDown}
 					onTouchStart={onTouchStart}
