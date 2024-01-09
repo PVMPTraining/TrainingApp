@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build": "next build",
+		"build": "node versionUpdate.js && next build",
 		"start": "npx serve@latest out",
 		"lint": "next lint",
 		"ionic:build": "npm run build",
