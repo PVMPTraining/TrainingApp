@@ -14,7 +14,8 @@ const config: Config = {
 			}
 		},
 		screens: {
-			xs: "360px"
+			xs: "360px",
+			"2xs": "410px"
 		}
 	},
 	daisyui: {

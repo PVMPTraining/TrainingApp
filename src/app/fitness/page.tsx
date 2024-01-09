@@ -84,7 +84,7 @@ const FitnessPage: FC = () => {
 						<Section header={`Workouts for ${formatLongDate(selectedDate)}`}>
 							<UserWorkoutsDay date={selectedDate}></UserWorkoutsDay>
 						</Section>
-						<div className="grid grid-cols-1 xs:grid-cols-2 mt-auto">
+						<div className="grid grid-cols-1 2xs:grid-cols-2 mt-auto">
 							{fitnessPageButtons.map((button, i) => {
 								return (
 									<Button
